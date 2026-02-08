@@ -4,7 +4,7 @@
 
 #include "Backend.h"
 
-Backend::Backend(QObject *parent) : QObject(parent) {
+Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0) {
     signalGenerator = new SignalGenerator(this);
     connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
     SignalParameter s_parameter;
@@ -20,6 +20,19 @@ QVector<double> Backend::getSamples() const {
     return  _samples;
 }
 
+double Backend::getMaxVoltage() const {
+    return  _maxVoltage;
+}
+
+void Backend::setMaxVoltage(const QVector<double>& voltageSamples) {
+    for (int i = 0; i< voltageSamples.size() ;i++) {
+        if (voltageSamples[i] > _maxVoltage) {
+            _maxVoltage = voltageSamples[i];
+            emit MaxVoltageChanged();
+        }
+    }
+}
+
 void Backend::dataAvailable(const QVector<double>& data) {
 
     if(data.size() < 50) {
@@ -33,4 +46,5 @@ void Backend::dataAvailable(const QVector<double>& data) {
     }
     _samples = data.toVector();
     emit SamplesChanged();
+    setMaxVoltage(_samples);
 }

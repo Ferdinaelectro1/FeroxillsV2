@@ -51,7 +51,7 @@ Item {
                 fillColor: "transparent"
                 PathPolyline {
                     id: ch1Polyline
-                    path: []  // vide par défaut
+                    path: []  // vide par default
                 }
             }
             // Quand les données C++ changent → QML met à jour

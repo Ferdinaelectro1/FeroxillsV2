@@ -30,7 +30,7 @@ Item {
                 anchors.margins: 10
                     Text {
                         id: channel1_text
-                        text: qsTr("CH1: 2V/div");
+                        text: qsTr("U = 0 V");
                         //color: "#B0B0B0"
                         color: "blue"
                         font.pixelSize: 20
@@ -51,6 +51,7 @@ Item {
                 }
             }
         }
+
     FontLoader
     {
         id: paper_sractch
@@ -62,16 +63,10 @@ Item {
         source: "font/SPORT_GAME_PERSONAL_USE_ONLY!.ttf"
     }
 
-    property real voltage : 0
-
-    Timer
-    {
-        interval: 500
-        running: true
-        repeat: true
-        onTriggered: {
-            voltage += 0.1;
-            channel1_text.text = "CH1: " +voltage.toFixed(2)+ "V/div";
+    Connections {
+        target: backend
+        function onMaxVoltageChanged () {
+            channel1_text.text = "U = "+Number(backend.maxVoltage.toFixed(2))+" V";
         }
     }
 }
