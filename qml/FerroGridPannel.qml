@@ -54,6 +54,32 @@ Item {
                     path: []  // vide par default
                 }
             }
+            ShapePath {
+                strokeWidth : 2
+                strokeColor : "#0FF000"
+                fillColor : "transparent"
+                PathPolyline {
+                    property real y : 0
+                    id : horizontalCursor
+                    path: [Qt.point(0,y),Qt.point(ch1Path.width,y)]
+                }
+            }
+
+            MouseArea {
+                property bool isClic  : false
+                anchors.fill: parent
+                hoverEnabled: true
+                onPositionChanged : {
+                    if(isClic) {
+                        console.log("x:", mouse.x, "y:", mouse.y)
+                        horizontalCursor.y = mouse.y
+                    }
+                }
+                onClicked : {
+                    console.log("CLické ########",isClic)
+                    isClic = !isClic
+                }
+            }
             // Quand les données C++ changent → QML met à jour
             Connections {
                 target: backend

@@ -50,7 +50,7 @@ Item {
                     font.bold: true
                 }
             }
-        }
+    }
 
     FontLoader
     {
@@ -70,4 +70,3 @@ Item {
         }
     }
 }
-

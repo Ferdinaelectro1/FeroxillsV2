@@ -35,14 +35,14 @@ void Backend::setMaxVoltage(const QVector<double>& voltageSamples) {
 
 void Backend::dataAvailable(const QVector<double>& data) {
 
-    if(data.size() < 50) {
-        qDebug() << "Taille de data reçu : "<<data.size();
-        return;
+    if(data.size() != 512) {
+        qWarning() << "Backend::dataAvailable(): data.size() != 512";
+        exit(1);
     }
     qDebug() << "Taille de data reçu : "<<data.size();
     for(int i = 0; i< 50;i++)
     {
-        qDebug() << "ech n° "<<i<<" = "<<data[i];
+        //qDebug() << "ech n° "<<i<<" = "<<data[i];
     }
     _samples = data.toVector();
     emit SamplesChanged();
