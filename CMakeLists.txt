@@ -10,6 +10,8 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appFeroxills
     src/main.cpp
+    src/core/FBuffer.cpp
+    src/core/FBuffer.h
 )
 
 qt_add_qml_module(appFeroxills
@@ -17,6 +19,20 @@ qt_add_qml_module(appFeroxills
     VERSION 1.0
     QML_FILES
         qml/Main.qml
+        SOURCES src/core/FBuffer.h
+        QML_FILES
+        QML_FILES
+        QML_FILES qml/FerroGridPannel.qml
+        QML_FILES qml/FerroHeaderPannel.qml
+        QML_FILES qml/FerroRightPannel.qml
+        QML_FILES qml/FerroFooterPannel.qml
+        RESOURCES
+           qml/font/SAKUNA.ttf
+           qml/font/Paper_Scratch.otf
+           qml/font/SPORT_GAME_PERSONAL_USE_ONLY!.ttf
+           QML_FILES qml/FerroComboxMenu.qml
+           SOURCES src/core/signalgenerator.h src/core/signalgenerator.cpp
+           RESOURCES qml/temp_cmakelists
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

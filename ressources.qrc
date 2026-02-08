@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>font/Paper_Scratch.otf</file>
+        <file>font/SAKUNA.ttf</file>
+    </qresource>
+</RCC>
