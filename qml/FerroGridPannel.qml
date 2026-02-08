@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Shapes 6.5
+
 Item {
     implicitHeight: 300
     implicitWidth: 300
@@ -55,24 +56,25 @@ Item {
             }
             // Quand les données C++ changent → QML met à jour
             Connections {
-                target: oscilloData
+                target: backend
 
-                function onRequestQmlRefresh() {
+                /*function onRefreshQml() {
+                    console.log("passé qml");
                     ch1Path.update()
-                }
+                }*/
 
-                function onReadEchChanged() {
+                function onSamplesChanged() {
                     var pts = []
 
                     let w = ch1Path.width
                     let h = ch1Path.height
 
-                    for (var i = 0; i < oscilloData.readEch.length; i++) {
+                    for (var i = 0; i < backend.samples.length; i++) {
 
                         // Normalisation : transforme 0–5V en -1 → +1
-                        let valNorm = (oscilloData.readEch[i] - 2.5) / 2.5
+                        let valNorm = (backend.samples[i] - 2.5) / 2.5
 
-                        let x = (i / (oscilloData.readEch.length - 1)) * w
+                        let x = (i / (backend.samples.length - 1)) * w
                         let y = h/2 - valNorm * (h/2)
 
                         pts.push(Qt.point(x, y))

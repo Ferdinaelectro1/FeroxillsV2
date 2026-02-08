@@ -1,7 +1,6 @@
 #ifndef SIGNALGENERATOR_H
 #define SIGNALGENERATOR_H
 
-#include <QObject>
 #include <QVector>
 #include <QTimer>
 #include <QDebug>
