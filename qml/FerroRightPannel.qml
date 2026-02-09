@@ -15,48 +15,34 @@ Item {
             anchors.margins: 20
             spacing: 15
 
-            Repeater {
-                model: ["CH1", "CH2", "Math", "FFT", "Cursor", "Measure"]
-                delegate: Rectangle {
+            Rectangle {
+                    property bool isRun : false
                     width: parent.width
                     height: 45
-                    color: "#272830"
+                    color: isRun ? "red" : "#37b837"
                     radius: 6
                     border.color: "#3A3A42"
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: console.log("Click " + modelData)
+                        onClicked: {
+                            console.log("Click ")
+                            parent.isRun  = !parent.isRun
+                        }
                     }
 
                     Text {
                         anchors.centerIn: parent
-                        text: modelData
-                        color: "white"
-                        font.pixelSize: 18
+                        text: parent.isRun ? "Stop" : "Run"
+                        color: "#eae5e5"
+                        font.pixelSize: 30
+                        font.bold: true
                     }
-                }
             }
 
             FerroComboxMenu {
                 width: parent.width
             }
             //combo box
-            /*GroupBox {
-                title: "Paramètres"
-                //anchors.centerIn: parent
-                width: parent.width
-                height: 60
-
-                Column {
-                    spacing: 10
-                    anchors.fill: parent
-
-                    CheckBox { text: "Option 1" }
-                    CheckBox { text: "Option 2" }
-                    Slider { width: parent.width }
-                    Button { text: "Appliquer" }
-                }
-            }*/
         }
     }
 }
