@@ -73,7 +73,7 @@ void SignalGenerator::sendEchantillons()
             break;
         }
 
-        m_echantillons.push_back(value+m_current_signal_parameter.voltage); //v + vMax , pour emmener la courbe vers des alternances possitives seulement
+        m_echantillons.push_back(value);
         m_t++; // temps global avance
     }
 }

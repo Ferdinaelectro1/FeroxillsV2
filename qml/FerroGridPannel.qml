@@ -56,56 +56,30 @@ Item {
             }
             ShapePath {
                 strokeWidth : 2
-                strokeColor : "#0FF000"
+                strokeColor : "#FFFFFF"
                 fillColor : "transparent"
                 PathPolyline {
-                    property real y : 0
-                    id : horizontalCursor
-                    path: [Qt.point(0,y),Qt.point(ch1Path.width,y)]
+                    id : cursorHorizontal
+                    path: [Qt.point(0,ch1Path.height / 2),Qt.point(ch1Path.width,ch1Path.height / 2)]
                 }
             }
 
-            MouseArea {
-                property bool isClic  : false
-                anchors.fill: parent
-                hoverEnabled: true
-                onPositionChanged : {
-                    if(isClic) {
-                        console.log("x:", mouse.x, "y:", mouse.y)
-                        horizontalCursor.y = mouse.y
-                    }
-                }
-                onClicked : {
-                    console.log("CLické ########",isClic)
-                    isClic = !isClic
-                }
-            }
             // Quand les données C++ changent → QML met à jour
             Connections {
                 target: backend
-
-                /*function onRefreshQml() {
-                    console.log("passé qml");
-                    ch1Path.update()
-                }*/
-
                 function onSamplesChanged() {
                     var pts = []
-
                     let w = ch1Path.width
                     let h = ch1Path.height
-
                     for (var i = 0; i < backend.samples.length; i++) {
 
-                        // Normalisation : transforme 0–5V en -1 → +1
-                        let valNorm = (backend.samples[i] - 2.5) / 2.5
-
+                        // Normalisation : transforme [-5V,5V] en [-1,+1]
+                        let valNorm = (backend.samples[i]) / 5
                         let x = (i / (backend.samples.length - 1)) * w
                         let y = h/2 - valNorm * (h/2)
 
                         pts.push(Qt.point(x, y))
                     }
-
                     ch1Polyline.path = pts
                 }
 
