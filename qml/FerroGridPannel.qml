@@ -43,6 +43,7 @@ Item {
 
         // exemple vague CH1
         Shape {
+            antialiasing: false
             id: ch1Path
             anchors.fill: parent
             ShapePath {

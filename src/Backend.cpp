@@ -9,9 +9,9 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0) {
     connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
     SignalParameter s_parameter;
     s_parameter.frequency = 150;
-    s_parameter.voltage = 2.5;
+    s_parameter.voltage = 4;
     s_parameter.phase = 0;
-    s_parameter.type = SignalType::SINUS;
+    s_parameter.type = SignalType::RAMPE;
     signalGenerator->setSignalParameter(s_parameter);
     signalGenerator->start();
 }

@@ -62,15 +62,33 @@ void SignalGenerator::sendEchantillons()
 
         double value = 0.0;
         switch (m_current_signal_parameter.type) {
-        case SignalType::SINUS:
-            value =
-                m_current_signal_parameter.voltage *
-                std::sin(2.0 * M_PI *
+            case SignalType::SINUS:
+                value =
+                    m_current_signal_parameter.voltage *
+                        std::sin(2.0 * M_PI *
                              m_current_signal_parameter.frequency * t +
                          m_current_signal_parameter.phase);
-            break;
-        default:
-            break;
+                break;
+            case SignalType::CONTINU:
+                value = m_current_signal_parameter.voltage;
+                break;
+            case SignalType::CARRE:
+                value = (std::sin(2.0 * M_PI *
+                         m_current_signal_parameter.frequency * t +
+                         m_current_signal_parameter.phase)  >= 0) ? m_current_signal_parameter.voltage : -m_current_signal_parameter.voltage;
+                break;
+            case SignalType::TRIANGLE :
+                value = 2 * m_current_signal_parameter.voltage / M_PI* std::asin(sin(2.0 * M_PI *
+                         m_current_signal_parameter.frequency * t +
+                         m_current_signal_parameter.phase));
+                break;
+            case SignalType::RAMPE:
+                value = 2*m_current_signal_parameter.voltage * (
+                    (t/(1.0/m_current_signal_parameter.frequency)) - floor(t/(1.0/m_current_signal_parameter.frequency) + 0.5)
+                    );
+                break;
+            default:
+                break;
         }
 
         m_echantillons.push_back(value);

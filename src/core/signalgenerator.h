@@ -12,6 +12,7 @@ enum class SignalType{
     CARRE,
     TRIANGLE,
     CONTINU,
+    RAMPE,
     RANDOM
 };
 
