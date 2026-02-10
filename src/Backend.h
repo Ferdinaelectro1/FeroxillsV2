@@ -6,6 +6,7 @@
 #define FEROXILLS_BACKEND_H
 
 #include "core/signalgenerator.h"
+#include "core/FBuffer.h"
 
 class Backend : public QObject
 {
@@ -25,6 +26,7 @@ public:
 private:
     SignalGenerator *signalGenerator;
     QVector<double> _samples;
+
     double _maxVoltage;
 
 public slots:

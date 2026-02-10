@@ -2,10 +2,10 @@
 #include <cstddef>
 
 template<typename T,size_t capacity>
-class RingBuf {
+class FRingBuf {
 
 public:
-    RingBuf();
+    FRingBuf();
     [[nodiscard]] unsigned long size() const;
     void push(T newValue);
     //T read();
@@ -21,19 +21,19 @@ private:
 };
 
 template<typename T, size_t capacity>
-RingBuf<T,capacity>::RingBuf(){
+FRingBuf<T,capacity>::FRingBuf(){
     m_write_index = 0;
     m_read_index = 0;
     m_size = 0;
 }
 
 template<typename T, size_t capacity>
-unsigned long RingBuf<T,capacity>::size() const {
+unsigned long FRingBuf<T,capacity>::size() const {
     return m_size;
 }
 
 template<typename T, size_t capacity>
-void RingBuf<T,capacity>::push(T newValue) {
+void FRingBuf<T,capacity>::push(T newValue) {
     m_data[m_write_index] = newValue;
     //astuce pour aller vite (l'index de write est remise à 0, si plus d'espace)
     m_write_index = (m_write_index + 1) % capacity;
@@ -46,7 +46,7 @@ void RingBuf<T,capacity>::push(T newValue) {
 }
 
 template<typename T, size_t capacity>
-void RingBuf<T,capacity>::getWindow(T* out,size_t windowSize) {
+void FRingBuf<T,capacity>::getWindow(T* out,size_t windowSize) {
     if (windowSize > m_size)
         windowSize = m_size;
     //on paret de l'index de lecture courante pour faire notre lecture
@@ -58,7 +58,7 @@ void RingBuf<T,capacity>::getWindow(T* out,size_t windowSize) {
 }
 
 template<typename T, size_t capacity>
-void RingBuf<T,capacity>::advanceRead(size_t n) {
+void FRingBuf<T,capacity>::advanceRead(size_t n) {
     if (n > m_size)
         n = m_size;
     m_read_index = (m_read_index + n) % capacity;
@@ -66,7 +66,7 @@ void RingBuf<T,capacity>::advanceRead(size_t n) {
 }
 
 template<typename T, size_t capacity>
-void RingBuf<T,capacity>::clear() {
+void FRingBuf<T,capacity>::clear() {
     m_read_index = 0;
     m_write_index = 0;
     m_size = 0;
