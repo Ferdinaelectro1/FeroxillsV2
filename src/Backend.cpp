@@ -13,11 +13,16 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0) {
     s_parameter.phase = 0;
     s_parameter.type = SignalType::SINUS;
     signalGenerator->setSignalParameter(s_parameter);
-    signalGenerator->start();
+    signalGenerator->start(1000);
+    _timer = new QTimer(this);
+    connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut);
+    _timer->setInterval(50);
+    _timer->start();
 }
 
-QVector<double> Backend::getSamples() const {
-    return  _samples;
+QVector<double> Backend::getDisplaySamples() const {
+    QVector<double> vec(_displaySamples, _displaySamples + 512);
+    return  vec;
 }
 
 double Backend::getMaxVoltage() const {
@@ -39,12 +44,21 @@ void Backend::dataAvailable(const QVector<double>& data) {
         qWarning() << "Backend::dataAvailable(): data.size() != 512";
         exit(1);
     }
-    qDebug() << "Taille de data reçu : "<<data.size();
-    for(int i = 0; i< 50;i++)
-    {
-        //qDebug() << "ech n° "<<i<<" = "<<data[i];
-    }
+
     _samples = data.toVector();
-    emit SamplesChanged();
+
+    if (_samplesRingBuf.freeSpace() ) {
+        for (const double ech : _samples)
+            _samplesRingBuf.push(ech);
+    }
+    else {
+        qWarning() << "Plus d'espaces disponible pour pousser ce echantillons";
+    }
     setMaxVoltage(_samples);
+}
+
+void Backend::onTimeOut() {
+    _samplesRingBuf.advanceRead(5);//on avance de 10 element
+    _samplesRingBuf.getWindow(_displaySamples,512); //on met les nouveaux données dans le buffer d'affichage
+    emit SamplesChanged();
 }

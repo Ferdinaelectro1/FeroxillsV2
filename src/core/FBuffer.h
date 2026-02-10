@@ -7,6 +7,7 @@ class FRingBuf {
 public:
     FRingBuf();
     [[nodiscard]] unsigned long size() const;
+    [[nodiscard]] size_t freeSpace() const { return capacity - m_size; }
     void push(T newValue);
     //T read();
     void advanceRead(size_t n); //avancer la fenetre d'un pas donné
@@ -39,9 +40,6 @@ void FRingBuf<T,capacity>::push(T newValue) {
     m_write_index = (m_write_index + 1) % capacity;
     if(m_size < capacity){
         ++ m_size;
-    }
-    else {
-        m_read_index = (m_read_index + 1) % capacity;
     }
 }
 
