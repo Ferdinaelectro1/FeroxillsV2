@@ -9,6 +9,9 @@
 #include "core/FBuffer.h"
 #include <QTimer>
 
+#include "ui/DisplayContext.h"
+#include "ui/mode/Continu.h"
+
 class Backend : public QObject
 {
     Q_OBJECT
@@ -31,6 +34,7 @@ private:
     double _displaySamples[512] = {0};
     double _maxVoltage;
     QTimer *_timer;
+    DisplayContext _display_context;
 
 public slots:
     void onTimeOut();

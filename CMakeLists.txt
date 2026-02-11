@@ -14,6 +14,14 @@ qt_add_executable(appFeroxills
     src/core/FBuffer.h
         src/Backend.cpp
         src/Backend.h
+        src/ui/DisplayMode.h
+        src/ui/mode/Continu.cpp
+        src/ui/mode/Continu.h
+        src/ui/mode/Trigger.cpp
+        src/ui/mode/Trigger.h
+        src/ui/mode/Auto.cpp
+        src/ui/mode/Auto.h
+        src/ui/DisplayContext.h
 )
 
 qt_add_qml_module(appFeroxills

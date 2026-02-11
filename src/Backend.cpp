@@ -4,8 +4,11 @@
 
 #include "Backend.h"
 
+#include "ui/mode/Trigger.h"
+
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0) {
     signalGenerator = new SignalGenerator(this);
+    _display_context.setCurrentMode(std::make_unique<ContinuMode>());
     connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
     SignalParameter s_parameter;
     s_parameter.frequency = 150;
@@ -39,7 +42,7 @@ void Backend::setMaxVoltage(const QVector<double>& voltageSamples) {
 }
 
 void Backend::dataAvailable(const QVector<double>& data) {
-
+    static int p  = 0;
     if(data.size() != 512) {
         qWarning() << "Backend::dataAvailable(): data.size() != 512";
         exit(1);
@@ -47,6 +50,8 @@ void Backend::dataAvailable(const QVector<double>& data) {
 
     _samples = data.toVector();
 
+    //qDebug() << "Données reçu" << p;
+    p++;
     if (_samplesRingBuf.freeSpace() ) {
         for (const double ech : _samples)
             _samplesRingBuf.push(ech);
@@ -60,5 +65,6 @@ void Backend::dataAvailable(const QVector<double>& data) {
 void Backend::onTimeOut() {
     _samplesRingBuf.advanceRead(5);//on avance de 10 element
     _samplesRingBuf.getWindow(_displaySamples,512); //on met les nouveaux données dans le buffer d'affichage
+    _display_context.processDisplaySamples(_displaySamples,512);//on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
     emit SamplesChanged();
 }

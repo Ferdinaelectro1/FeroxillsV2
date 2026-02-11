@@ -1,4 +1,5 @@
 #include "signalgenerator.h"
+#include <QRandomGenerator>
 
 SignalGenerator::SignalGenerator(QObject *parent)
     : QObject{parent}
@@ -87,6 +88,10 @@ void SignalGenerator::sendEchantillons()
                     (t/(1.0/m_current_signal_parameter.frequency)) - floor(t/(1.0/m_current_signal_parameter.frequency) + 0.5)
                     );
                 break;
+            case SignalType::RANDOM: {
+                double N = 1.0;
+                value = m_current_signal_parameter.voltage* (QRandomGenerator::global()->generateDouble() * 2.0 - 1.0) * N;
+            }
             default:
                 break;
         }
