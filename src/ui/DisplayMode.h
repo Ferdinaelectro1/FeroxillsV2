@@ -5,20 +5,20 @@
 #ifndef FEROXILLS_DISPLAYMODE_H
 #define FEROXILLS_DISPLAYMODE_H
 
-#include  <cstddef>
+#include <qobject.h>
 
-enum class DisplayMode {
-    AUTO,
-    CONTINU,
-    TRIGGER,
-    UNKNOW
-};
-
-class FDisplayMode {
+class FDisplayMode : public QObject {
+    Q_OBJECT
     public:
-      virtual  ~FDisplayMode() = default;
+      ~FDisplayMode() override = default;
       virtual void processDisplaySamples(double *displaySamples, size_t size) = 0;
-
+    enum DisplayMode {
+        AUTO,
+        CONTINU,
+        TRIGGER,
+        UNKNOW
+    };
+    Q_ENUM(DisplayMode)
 };
 
 #endif //FEROXILLS_DISPLAYMODE_H

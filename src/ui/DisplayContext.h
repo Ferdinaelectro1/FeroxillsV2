@@ -8,16 +8,39 @@
 #include <memory>
 
 #include "DisplayMode.h"
+#include "mode/Auto.h"
+#include "mode/Continu.h"
+#include "mode/Trigger.h"
 
-class DisplayContext {
-
+class DisplayContext : public QObject {
+    Q_OBJECT
 public:
-    DisplayContext(std::unique_ptr<FDisplayMode> initMode = nullptr) : _current_mode(std::move(initMode)) {}
-    ~DisplayContext() = default;
+    explicit DisplayContext(QObject *parent = nullptr,std::unique_ptr<FDisplayMode> initMode = nullptr) : _current_mode(std::move(initMode))
+    ,QObject(parent) { }
+    ~DisplayContext() override = default;
 
-    void setCurrentMode(std::unique_ptr<FDisplayMode> new_mode) {
+     void setCurrentMode(std::unique_ptr<FDisplayMode> new_mode) {
         _current_mode = std::move(new_mode);
     }
+
+     Q_INVOKABLE void setNewMode(const FDisplayMode::DisplayMode new_mode) {
+         switch (new_mode) {
+             case FDisplayMode::AUTO :
+                 setCurrentMode(std::make_unique<AutoMode>());
+                 break;
+             case FDisplayMode::CONTINU :
+                 setCurrentMode(std::make_unique<ContinuMode>());
+                 break;
+             case FDisplayMode::TRIGGER :
+                 setCurrentMode(std::make_unique<TriggerMode>());
+                 break;
+             default:
+                 qWarning() << "Assignation du nouveau mode échoué";
+                 break;
+         }
+         qDebug() << "Nouveau mode" << new_mode;
+    }
+
 
     void processDisplaySamples(double *displaySamples, const size_t size) const {
         if (_current_mode) {

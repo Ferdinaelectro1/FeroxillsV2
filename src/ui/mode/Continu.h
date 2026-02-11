@@ -10,7 +10,7 @@
 
 #include  "../DisplayMode.h"
 
-class ContinuMode  : public  FDisplayMode {
+class ContinuMode final : public  FDisplayMode {
     public:
       void processDisplaySamples(double *displaySamples, size_t size) override {
           qDebug() << "ContinuMode";

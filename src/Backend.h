@@ -10,18 +10,20 @@
 #include <QTimer>
 
 #include "ui/DisplayContext.h"
-#include "ui/mode/Continu.h"
 
-class Backend : public QObject
+class Backend final : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVector<double> samples READ getDisplaySamples NOTIFY SamplesChanged)
     Q_PROPERTY(double maxVoltage READ getMaxVoltage NOTIFY MaxVoltageChanged)
+    Q_PROPERTY(DisplayContext * display_context READ getDisplayContext CONSTANT)
 public:
     explicit Backend(QObject *parent = nullptr);
-    QVector<double> getDisplaySamples() const;
-    double getMaxVoltage() const;
+    [[nodiscard]] QVector<double> getDisplaySamples() const;
+    [[nodiscard]] double getMaxVoltage() const;
     void setMaxVoltage(const QVector<double>& voltageSamples);
+    [[nodiscard]] DisplayContext* getDisplayContext() { return &_display_context; }
+
 
     signals:
         void SamplesChanged();

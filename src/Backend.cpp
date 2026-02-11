@@ -6,9 +6,8 @@
 
 #include "ui/mode/Trigger.h"
 
-Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0) {
+Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     signalGenerator = new SignalGenerator(this);
-    _display_context.setCurrentMode(std::make_unique<ContinuMode>());
     connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
     SignalParameter s_parameter;
     s_parameter.frequency = 150;

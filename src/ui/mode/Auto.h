@@ -8,7 +8,7 @@
 #include "../DisplayMode.h"
 #include <QDebug>
 
-class AutoMode  : public  FDisplayMode {
+class AutoMode final : public  FDisplayMode {
 public:
     void processDisplaySamples(double *displaySamples, size_t size) override {
         qDebug() << "AutoMode";

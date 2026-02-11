@@ -9,7 +9,7 @@
 #include "../DisplayMode.h"
 #include <QDebug>
 
-class TriggerMode  : public  FDisplayMode {
+class TriggerMode final : public  FDisplayMode {
 public:
     void processDisplaySamples(double *displaySamples, size_t size) override {
         qDebug() << "TriggerMode";

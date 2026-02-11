@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
+    qmlRegisterUncreatableType<FDisplayMode>("Feroxills.DisplayMode", 1, 0, "FDisplayMode", "Enum only");
+
 
     Backend *backend = new Backend(&app);
     engine.rootContext()->setContextProperty("backend", backend);
