@@ -12,9 +12,11 @@ Item {
         border.color: "#2E2E34"
         anchors.fill: parent
         Column {
+            id : column_id
             anchors.fill: parent
             anchors.margins: 20
             spacing: 15
+            property int selectedIndex : -1
 
             Rectangle {
                     property bool isRun : false
@@ -39,7 +41,9 @@ Item {
                         font.bold: true
                     }
             }
+
             Repeater {
+                id : repeater
                 model : [
                     { name : "Roll",mode : FDisplayMode.CONTINU , enabled : true } ,
                     { name : "Trigger",mode : FDisplayMode.TRIGGER , enabled : true } ,
@@ -50,7 +54,7 @@ Item {
                     height: 45
                     border.color: "#3A3A42"
                     radius: 6
-                    color: "#0000FF"
+                    color: repeater.itemAt(index).enabled ? "#0000FF" : "#9a9af1"
                     Text {
                         anchors.centerIn: parent
                         text: modelData.name
@@ -60,10 +64,20 @@ Item {
                     }
                     MouseArea {
                         anchors.fill : parent
+                        enabled : repeater.itemAt(index).enabled
                         onClicked : {
                             console.log("Bouton pressé  : ",modelData.name)
                             console.log("Mode  : ",modelData.mode)
                             backend.display_context.setNewMode(modelData.mode)
+                            column_id.selectedIndex = index
+                            //on active tout les bouttons d'abord
+                            for (let i = 0; i < repeater.count; i++) {
+                                if(index === i) continue;
+                                let this_index = repeater.itemAt(i);
+                                this_index.enabled = true;
+                            }
+                            //puis on desactive le bouton actuel cliqué
+                            repeater.itemAt(index).enabled = false;
                         }
                     }
                 }
