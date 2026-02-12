@@ -40,6 +40,14 @@ void Backend::setMaxVoltage(const QVector<double>& voltageSamples) {
     }
 }
 
+bool Backend::get_run() const {
+    return  _run;
+}
+
+void Backend::setRun(const bool run) {
+    _run = run;
+}
+
 void Backend::dataAvailable(const QVector<double>& data) {
     static int p  = 0;
     if(data.size() != 512) {
@@ -62,8 +70,10 @@ void Backend::dataAvailable(const QVector<double>& data) {
 }
 
 void Backend::onTimeOut() {
-    _samplesRingBuf.advanceRead(5);//on avance de 10 element
-    _samplesRingBuf.getWindow(_displaySamples,512); //on met les nouveaux données dans le buffer d'affichage
-    _display_context.processDisplaySamples(_displaySamples,512);//on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
-    emit SamplesChanged();
+    if (_run) {
+        _samplesRingBuf.advanceRead(5);//on avance de 5 element
+        _samplesRingBuf.getWindow(_displaySamples,512); //on met les nouveaux données dans le buffer d'affichage
+        _display_context.processDisplaySamples(_displaySamples,512);//on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
+        emit SamplesChanged();
+    }
 }

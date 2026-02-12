@@ -12,14 +12,12 @@ Item {
         border.color: "#2E2E34"
         anchors.fill: parent
         Column {
-            id : column_id
             anchors.fill: parent
             anchors.margins: 20
             spacing: 15
-            property int selectedIndex : -1
 
             Rectangle {
-                    property bool isRun : false
+                    property bool isRun : backend.run
                     width: parent.width
                     height: 45
                     color: isRun ? "red" : "#37b837"
@@ -30,6 +28,7 @@ Item {
                         onClicked: {
                             console.log("Click ")
                             parent.isRun  = !parent.isRun
+                            backend.run = parent.isRun
                         }
                     }
 
@@ -71,7 +70,6 @@ Item {
                             console.log("Bouton pressé  : ",modelData.name)
                             console.log("Mode  : ",modelData.mode)
                             backend.display_context.setNewMode(modelData.mode)
-                            column_id.selectedIndex = index
                             //on active tout les bouttons d'abord
                             for (let i = 0; i < repeater.count; i++) {
                                 if(index === i) continue;
