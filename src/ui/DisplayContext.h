@@ -12,16 +12,21 @@
 #include "mode/Continu.h"
 #include "mode/Trigger.h"
 
-class DisplayContext : public QObject {
+class DisplayContext final : public QObject {
     Q_OBJECT
 public:
-    explicit DisplayContext(QObject *parent = nullptr,std::unique_ptr<FDisplayMode> initMode = nullptr) : _current_mode(std::move(initMode))
-    ,QObject(parent) { }
+    explicit DisplayContext(QObject *parent = nullptr,std::unique_ptr<FDisplayMode> initMode = nullptr) : QObject(parent), _current_mode(std::move(initMode))
+     { }
     ~DisplayContext() override = default;
 
      void setCurrentMode(std::unique_ptr<FDisplayMode> new_mode) {
         _current_mode = std::move(new_mode);
     }
+
+    Q_INVOKABLE [[nodiscard]] FDisplayMode::DisplayMode getCurrentMode() const {
+         qDebug() << "Mode courant avec "<< _current_mode->getModeType();
+         return  _current_mode->getModeType();
+     }
 
      Q_INVOKABLE void setNewMode(const FDisplayMode::DisplayMode new_mode) {
          switch (new_mode) {

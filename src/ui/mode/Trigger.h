@@ -14,6 +14,9 @@ public:
     void processDisplaySamples(double *displaySamples, size_t size) override {
         qDebug() << "TriggerMode";
     }
+    [[nodiscard]] DisplayMode  getModeType() const  override {
+        return TRIGGER;
+    }
 };
 
 

@@ -15,6 +15,9 @@ class ContinuMode final : public  FDisplayMode {
       void processDisplaySamples(double *displaySamples, size_t size) override {
           qDebug() << "ContinuMode";
       }
+      [[nodiscard]] DisplayMode  getModeType() const  override {
+          return CONTINU;
+      }
 };
 
 

@@ -44,17 +44,19 @@ Item {
 
             Repeater {
                 id : repeater
+                // on récupère depuis c++ le mode de display initiale et on initial les états de boutton de qml avec ça.
                 model : [
-                    { name : "Roll",mode : FDisplayMode.CONTINU , enabled : true } ,
-                    { name : "Trigger",mode : FDisplayMode.TRIGGER , enabled : true } ,
-                    { name : "Auto",mode : FDisplayMode.AUTO , enabled : true }
+                    { name : "Roll",mode : FDisplayMode.CONTINU} ,
+                    { name : "Trigger",mode : FDisplayMode.TRIGGER } ,
+                    { name : "Auto",mode : FDisplayMode.AUTO }
                 ]
                 Rectangle {
+                    property bool btnEnabled: !(backend.display_context.getCurrentMode() === modelData.mode)
                     width: parent.width
                     height: 45
                     border.color: "#3A3A42"
                     radius: 6
-                    color: repeater.itemAt(index).enabled ? "#0000FF" : "#9a9af1"
+                    color: btnEnabled ? "#0000FF" : "#9a9af1"
                     Text {
                         anchors.centerIn: parent
                         text: modelData.name
@@ -64,7 +66,7 @@ Item {
                     }
                     MouseArea {
                         anchors.fill : parent
-                        enabled : repeater.itemAt(index).enabled
+                        enabled : btnEnabled
                         onClicked : {
                             console.log("Bouton pressé  : ",modelData.name)
                             console.log("Mode  : ",modelData.mode)
@@ -74,10 +76,10 @@ Item {
                             for (let i = 0; i < repeater.count; i++) {
                                 if(index === i) continue;
                                 let this_index = repeater.itemAt(i);
-                                this_index.enabled = true;
+                                this_index.btnEnabled = true;
                             }
                             //puis on desactive le bouton actuel cliqué
-                            repeater.itemAt(index).enabled = false;
+                            parent.btnEnabled = false;
                         }
                     }
                 }

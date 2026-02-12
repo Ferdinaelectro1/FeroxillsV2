@@ -13,6 +13,9 @@ public:
     void processDisplaySamples(double *displaySamples, size_t size) override {
         qDebug() << "AutoMode";
     }
+    [[nodiscard]] DisplayMode  getModeType() const  override {
+        return AUTO;
+    }
 };
 
 

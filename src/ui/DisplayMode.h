@@ -18,6 +18,7 @@ class FDisplayMode : public QObject {
         TRIGGER,
         UNKNOW
     };
+    [[nodiscard]] virtual DisplayMode getModeType() const = 0;
     Q_ENUM(DisplayMode)
 };
 
