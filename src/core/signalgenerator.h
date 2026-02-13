@@ -13,7 +13,8 @@ enum class SignalType{
     TRIANGLE,
     CONTINU,
     RAMPE,
-    RANDOM
+    RANDOM,
+    ZERO
 };
 
 struct SignalParameter

@@ -46,15 +46,7 @@ Item {
             antialiasing: false
             id: ch1Path
             anchors.fill: parent
-            ShapePath {
-                strokeWidth: 3
-                strokeColor: "#F7D40A" // jaune Rigol CH1
-                fillColor: "transparent"
-                PathPolyline {
-                    id: ch1Polyline
-                    path: []  // vide par default
-                }
-            }
+            //Ligne centrale du zero
             ShapePath {
                 strokeWidth : 2
                 strokeColor : "#FFFFFF"
@@ -62,6 +54,16 @@ Item {
                 PathPolyline {
                     id : cursorHorizontal
                     path: [Qt.point(0,ch1Path.height / 2),Qt.point(ch1Path.width,ch1Path.height / 2)]
+                }
+            }
+
+            ShapePath {
+                strokeWidth: 3
+                strokeColor: "#F7D40A" // jaune Rigol CH1
+                fillColor: "transparent"
+                PathPolyline {
+                    id: ch1Polyline
+                    path: []  // vide par default
                 }
             }
 

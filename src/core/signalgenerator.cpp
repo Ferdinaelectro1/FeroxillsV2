@@ -92,6 +92,9 @@ void SignalGenerator::sendEchantillons()
                 double N = 1.0;
                 value = m_current_signal_parameter.voltage* (QRandomGenerator::global()->generateDouble() * 2.0 - 1.0) * N;
             }
+            case SignalType::ZERO :
+                value = 0;
+                break;
             default:
                 break;
         }
