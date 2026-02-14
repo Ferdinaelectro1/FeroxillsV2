@@ -22,6 +22,8 @@ qt_add_executable(appFeroxills
         src/ui/mode/Auto.cpp
         src/ui/mode/Auto.h
         src/ui/DisplayContext.h
+        src/core/analyser/SamplesAnalyser.cpp
+        src/core/analyser/SamplesAnalyser.h
 )
 
 qt_add_qml_module(appFeroxills

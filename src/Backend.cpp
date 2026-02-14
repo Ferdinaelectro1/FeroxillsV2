@@ -4,8 +4,6 @@
 
 #include "Backend.h"
 
-#include "ui/mode/Trigger.h"
-
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     signalGenerator = new SignalGenerator(this);
     connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
@@ -17,7 +15,7 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     signalGenerator->setSignalParameter(s_parameter);
     signalGenerator->start(1000);
     _timer = new QTimer(this);
-    connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut);
+    connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut); //timer d'affichage de chaque frame (on peut regler le fps ici)
     _timer->setInterval(50);
     _timer->start();
 }
@@ -49,7 +47,6 @@ void Backend::setRun(const bool run) {
 }
 
 void Backend::dataAvailable(const QVector<double>& data) {
-    static int p  = 0;
     if(data.size() != 512) {
         qWarning() << "Backend::dataAvailable(): data.size() != 512";
         exit(1);
@@ -58,7 +55,6 @@ void Backend::dataAvailable(const QVector<double>& data) {
     _samples = data.toVector();
 
     //qDebug() << "Données reçu" << p;
-    p++;
     if (_samplesRingBuf.freeSpace() ) {
         for (const double ech : _samples)
             _samplesRingBuf.push(ech);
