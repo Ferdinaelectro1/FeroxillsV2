@@ -4,6 +4,18 @@
 
 #include "Backend.h"
 
+static void printSamplesParameter(const SamplesParameter& param) {
+    constexpr double ech_freq = (1.0/44100.0);
+    qDebug() << "*******Paramèters*******";
+    qDebug() << "**Voltage Max = "<< param.voltage_max;
+    qDebug() << "**Voltage Min = "<< param.voltage_min;
+    qDebug() << "**First rising pos = "<<param._first_rising_pos;
+    qDebug() << "**Second rising pos = "<<param._second_rising_pos;
+    qDebug() << "**Period Samples = " << param.periodSamples;
+    qDebug() << "**Period = "<<param.periodSamples * ech_freq;
+    qDebug() << "**Frequence = "<<1/(param.periodSamples * ech_freq);
+}
+
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     signalGenerator = new SignalGenerator(this);
     connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
@@ -66,9 +78,18 @@ void Backend::dataAvailable(const QVector<double>& data) {
 }
 
 void Backend::onTimeOut() {
+    static bool analyse = false;
+    static unsigned long count = 0;
     if (_run) {
         _samplesRingBuf.advanceRead(5);//on avance de 5 element
-        _samplesRingBuf.getWindow(_displaySamples,512); //on met les nouveaux données dans le buffer d'affichage
+        _samplesRingBuf.getWindow(_displaySamples,512); //on met les 512 nouveaux données issues du ringBuffer dans le buffer d'affichage
+        count++;
+        if (!analyse && count > 200) {
+            const QVector<double> vec(_displaySamples, _displaySamples + 512);
+            const SamplesParameter param = _analyser.getSamplesParameter(vec);
+            printSamplesParameter(param);
+            analyse = true;
+        }
         _display_context.processDisplaySamples(_displaySamples,512);//on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
         emit SamplesChanged();
     }

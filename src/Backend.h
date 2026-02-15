@@ -10,6 +10,7 @@
 #include <QTimer>
 
 #include "ui/DisplayContext.h"
+#include "core/analyser/SamplesAnalyser.h"
 
 class Backend final : public QObject
 {
@@ -17,7 +18,7 @@ class Backend final : public QObject
     Q_PROPERTY(QVector<double> samples READ getDisplaySamples NOTIFY SamplesChanged)
     Q_PROPERTY(double maxVoltage READ getMaxVoltage NOTIFY MaxVoltageChanged)
     Q_PROPERTY(DisplayContext * display_context READ getDisplayContext CONSTANT)
-    Q_PROPERTY(bool run READ get_run WRITE setRun)
+    Q_PROPERTY(bool run READ get_run WRITE setRun NOTIFY runChanged)
 public:
     explicit Backend(QObject *parent = nullptr);
     [[nodiscard]] QVector<double> getDisplaySamples() const;
@@ -27,10 +28,10 @@ public:
     [[nodiscard]] bool get_run() const;
     void setRun(bool run);
 
-
     signals:
         void SamplesChanged();
         void MaxVoltageChanged();
+        void runChanged();
 
 private:
     SignalGenerator *signalGenerator;
@@ -41,6 +42,7 @@ private:
     QTimer *_timer;
     DisplayContext _display_context;
     bool _run = true;
+    SamplesAnalyser _analyser;
 
 public slots:
     void onTimeOut();
