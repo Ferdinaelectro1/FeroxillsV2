@@ -29,7 +29,7 @@ std::pair<double, double> SamplesAnalyser::getMinMaxVoltage() const {
     return {MinVoltage, MaxVoltage};
 }
 
-double SamplesAnalyser::getPeriodSamples() const {
+unsigned long SamplesAnalyser::getPeriodSamples() const {
     if (_samplesParameter._first_rising_pos == _samplesParameter._second_rising_pos) {
         return 0.0;
     }

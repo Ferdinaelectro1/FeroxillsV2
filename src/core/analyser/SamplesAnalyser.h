@@ -10,7 +10,7 @@
 struct SamplesParameter {
     double voltage_max;
     double voltage_min;
-    double periodSamples;
+    unsigned long periodSamples;
     unsigned long _first_rising_pos;
     unsigned long _second_rising_pos;
 };
@@ -23,7 +23,7 @@ public:
 private:
     //Methodes
     [[nodiscard]] std::pair<double,double> getMinMaxVoltage() const;
-    [[nodiscard]] double getPeriodSamples() const;
+    [[nodiscard]] unsigned long getPeriodSamples() const;
     [[nodiscard]] std::pair<unsigned long,unsigned long> getTwoRisingPos() const;
     //Attributs
     SamplesParameter _samplesParameter;
