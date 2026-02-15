@@ -15,6 +15,8 @@ SamplesAnalyser::SamplesAnalyser() : _samplesParameter {0,0,0,0,0},_hysteresis(0
     _samplesParameter._first_rising_pos = firstRisingPos;
     _samplesParameter._second_rising_pos = secondRisingPos;
     _samplesParameter.periodSamples = getPeriodSamples(); //déterminer les front avant de detecter la période
+    if (!secondRisingPos || (firstRisingPos == secondRisingPos)) _samplesParameter.isPeriodic = false;
+    else _samplesParameter.isPeriodic = true;
     return _samplesParameter;
 }
 

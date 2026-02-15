@@ -13,6 +13,7 @@ struct SamplesParameter {
     unsigned long periodSamples;
     unsigned long _first_rising_pos;
     unsigned long _second_rising_pos;
+    bool isPeriodic;
 };
 
 class SamplesAnalyser {

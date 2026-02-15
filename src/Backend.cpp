@@ -87,7 +87,10 @@ void Backend::onTimeOut() {
         if (!analyse && count > 200) {
             const QVector<double> vec(_displaySamples, _displaySamples + 512);
             const SamplesParameter param = _analyser.getSamplesParameter(vec);
-            printSamplesParameter(param);
+            if (param.isPeriodic)
+              printSamplesParameter(param);
+            else
+                qWarning() << "Ce signal n'est pas un signal periodic";
             analyse = true;
         }
         _display_context.processDisplaySamples(_displaySamples,512);//on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
