@@ -85,8 +85,8 @@ void Backend::onTimeOut() {
         _samplesRingBuf.getWindow(_displaySamples,512); //on met les 512 nouveaux données issues du ringBuffer dans le buffer d'affichage
         count++;
         if (!analyse && count > 200) {
-            const QVector<double> vec(_displaySamples, _displaySamples + 512);
-            const SamplesParameter param = _analyser.getSamplesParameter(vec);
+            const QVector<double> analyseVec = _samplesRingBuf.getWindowForAnalys(512);
+            const SamplesParameter param = _analyser.getSamplesParameter(analyseVec);
             if (param.isPeriodic)
               printSamplesParameter(param);
             else
