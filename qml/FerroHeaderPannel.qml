@@ -16,7 +16,7 @@ Item {
             spacing: 20
 
             Text {
-                text: "RIGOL DS1104Z"
+                text: "FEROXILLS V1"
                 //color: "#EAEAEA"
                 color: "yellow"
                 font.pixelSize: 40
