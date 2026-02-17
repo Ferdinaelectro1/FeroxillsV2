@@ -1,5 +1,6 @@
 #pragma once
 #include <QVector>
+#include <QDebug>
 
 template<typename T,size_t capacity>
 class FRingBuf {
@@ -12,11 +13,12 @@ public:
     //T read();
     void advanceRead(size_t n); //avancer la fenetre d'un pas donné
     void getWindow(T* out,size_t windowSize);
-    [[nodiscard]] QVector<T> getWindowForAnalys(size_t win_size);
+    [[nodiscard]] QVector<T> getRecentWindows(size_t win_size);
+    void getWindowFromIndex(unsigned long index, T* out,size_t windowSize);
     void clear();
 
 private:
-    T m_data[capacity];
+    T m_data[capacity] = {0};
     unsigned long m_read_index;
     unsigned long m_write_index;
     unsigned long m_size;
@@ -79,7 +81,7 @@ void FRingBuf<T,capacity>::clear() {
  * des echantillons passés
  */
 template<typename T, size_t capacity>
-QVector<T> FRingBuf<T,capacity>::getWindowForAnalys(size_t win_size) {
+QVector<T> FRingBuf<T,capacity>::getRecentWindows(size_t win_size) {
     QVector<T> out;
     if (win_size == 0) return  out;
     if (win_size > m_size) win_size = m_size; //limite la taille de la fenetre demandé par l'analyseur
@@ -102,4 +104,16 @@ QVector<T> FRingBuf<T,capacity>::getWindowForAnalys(size_t win_size) {
     for (size_t i = 0; i < remaining; ++i)
         out.push_back(m_data[i]);
     return  out;
+}
+
+//À solidifier  plus tard
+template<typename T, size_t capacity>
+void FRingBuf<T,capacity>::getWindowFromIndex(const unsigned long index, T* out,const size_t windowSize) {
+    //la taille demandé est trop énorme
+    assert(out != nullptr);
+    assert(index + windowSize <= capacity);
+    for (unsigned long i = 0; i < windowSize; ++i) {
+        out[i] = m_data[i + index];
+        qDebug() << " <- "<<out[i];
+    }
 }

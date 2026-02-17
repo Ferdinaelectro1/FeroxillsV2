@@ -81,11 +81,26 @@ void Backend::onTimeOut() {
     static bool analyse = false;
     static unsigned long count = 0;
     if (_run) {
-        _samplesRingBuf.advanceRead(5);//on avance de 5 element
-        _samplesRingBuf.getWindow(_displaySamples,512); //on met les 512 nouveaux données issues du ringBuffer dans le buffer d'affichage
+        //récupération de la fenetre de 2000 element les plus récents pour la recherche du trigger.
+        if (_samplesRingBuf.size() > 2000) {
+            const QVector<double> researchBuffer = _samplesRingBuf.getRecentWindows(2000);
+            auto firstRisingPos =  _analyser.getFirstRisingPos(researchBuffer);
+            if (firstRisingPos.has_value()) {
+                const unsigned long realFirstRinsingPosIndex  = (10000 - 2000) + firstRisingPos.has_value();
+                _samplesRingBuf.getWindowFromIndex(realFirstRinsingPosIndex,_displaySamples,512);
+                emit SamplesChanged();
+                //qDebug() << "Index du front : "<<firstRisingPos;
+            }else {
+                qWarning() << "[ERROR] :  Aucun index de front montant trouvé";
+            }
+        }
+        //récupération de l'index du premier trigger
+        //Récupération de 512 éléments en partant de l'index du premier trigger dans le ring
+        //_samplesRingBuf.advanceRead(5);//on avance de 5 element
+        //_samplesRingBuf.getWindow(_displaySamples,512); //on met les 512 nouveaux données issues du ringBuffer dans le buffer d'affichage
         count++;
         if (!analyse && count > 200) {
-            const QVector<double> analyseVec = _samplesRingBuf.getWindowForAnalys(512);
+            const QVector<double> analyseVec = _samplesRingBuf.getRecentWindows(512);
             const SamplesParameter param = _analyser.getSamplesParameter(analyseVec);
             if (param.isPeriodic)
               printSamplesParameter(param);
@@ -93,7 +108,6 @@ void Backend::onTimeOut() {
                 qWarning() << "Ce signal n'est pas un signal periodic";
             analyse = true;
         }
-        _display_context.processDisplaySamples(_displaySamples,512);//on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
-        emit SamplesChanged();
+        //_display_context.processDisplaySamples(_displaySamples,512);//on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
     }
 }
