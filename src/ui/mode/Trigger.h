@@ -11,7 +11,7 @@
 
 class TriggerMode final : public  FDisplayMode {
 public:
-    void processDisplaySamples(double *displaySamples, size_t size) override {
+    void processDisplaySamples(FRingBuf<double,10000> *ringBuf,double *displaySamples, size_t display_win_size) override {
         qDebug() << "TriggerMode";
     }
     [[nodiscard]] DisplayMode  getModeType() const  override {

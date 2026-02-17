@@ -114,6 +114,5 @@ void FRingBuf<T,capacity>::getWindowFromIndex(const unsigned long index, T* out,
     assert(index + windowSize <= capacity);
     for (unsigned long i = 0; i < windowSize; ++i) {
         out[i] = m_data[i + index];
-        qDebug() << " <- "<<out[i];
     }
 }

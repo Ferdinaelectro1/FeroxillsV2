@@ -5,16 +5,11 @@
 #ifndef FEROXILLS_CONTINU_H
 #define FEROXILLS_CONTINU_H
 
-#include <qlogging.h>
-#include <QDebug>
-
 #include  "../DisplayMode.h"
 
 class ContinuMode final : public  FDisplayMode {
     public:
-      void processDisplaySamples(double *displaySamples, size_t size) override {
-          qDebug() << "ContinuMode";
-      }
+      void processDisplaySamples(FRingBuf<double,10000> *ringBuf, double *displaySamples, size_t display_win_size) override;
       [[nodiscard]] DisplayMode  getModeType() const  override {
           return CONTINU;
       }

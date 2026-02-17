@@ -10,9 +10,7 @@
 
 class AutoMode final : public  FDisplayMode {
 public:
-    void processDisplaySamples(double *displaySamples, size_t size) override {
-        qDebug() << "AutoMode";
-    }
+    void processDisplaySamples(FRingBuf<double,10000> *ringBuf, double *displaySamples, size_t display_win_size) override;
     [[nodiscard]] DisplayMode  getModeType() const  override {
         return AUTO;
     }

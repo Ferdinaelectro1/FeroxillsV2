@@ -47,9 +47,9 @@ public:
     }
 
 
-    void processDisplaySamples(double *displaySamples, const size_t size) const {
+    void processDisplaySamples(FRingBuf<double,10000> *ringBuf, double *displaySamples, size_t display_win_size) const {
         if (_current_mode) {
-            _current_mode->processDisplaySamples(displaySamples, size);
+            _current_mode->processDisplaySamples(ringBuf,displaySamples, display_win_size);
         }
         else {
             qWarning() << "Aucun système de traitement trouvé";

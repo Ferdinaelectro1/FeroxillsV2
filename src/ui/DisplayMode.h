@@ -6,12 +6,13 @@
 #define FEROXILLS_DISPLAYMODE_H
 
 #include <qobject.h>
+#include "../core/FBuffer.h"
 
 class FDisplayMode : public QObject {
     Q_OBJECT
     public:
       ~FDisplayMode() override = default;
-      virtual void processDisplaySamples(double *displaySamples, size_t size) = 0;
+      virtual void processDisplaySamples(FRingBuf<double,10000> *ringBuf, double *displaySamples, size_t display_win_size) = 0;
     enum DisplayMode {
         AUTO,
         CONTINU,
