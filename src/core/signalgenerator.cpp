@@ -29,7 +29,7 @@ void SignalGenerator::setSignalParameter(const SignalParameter& parameter)
     m_current_signal_parameter = parameter;
 }
 
-SignalParameter SignalGenerator::getSignalParameter()
+SignalParameter SignalGenerator::getSignalParameter() const
 {
     return m_current_signal_parameter;
 }
@@ -78,6 +78,19 @@ void SignalGenerator::sendEchantillons()
                          m_current_signal_parameter.frequency * t +
                          m_current_signal_parameter.phase)  >= 0) ? m_current_signal_parameter.voltage : -m_current_signal_parameter.voltage;
                 break;
+            case SignalType::PWM:
+            {
+                const double phase = std::fmod(
+                    m_current_signal_parameter.frequency * t +
+                    m_current_signal_parameter.phase / (2.0 * M_PI),
+                    1.0
+                );
+
+                value = (phase < m_current_signal_parameter.duty)
+                        ? m_current_signal_parameter.voltage
+                        : -m_current_signal_parameter.voltage;
+            }
+                break;
             case SignalType::TRIANGLE :
                 value = 2 * m_current_signal_parameter.voltage / M_PI* std::asin(sin(2.0 * M_PI *
                          m_current_signal_parameter.frequency * t +
@@ -89,7 +102,7 @@ void SignalGenerator::sendEchantillons()
                     );
                 break;
             case SignalType::RANDOM: {
-                double N = 1.0;
+                constexpr double N = 1.0;
                 value = m_current_signal_parameter.voltage* (QRandomGenerator::global()->generateDouble() * 2.0 - 1.0) * N;
             }
             case SignalType::ZERO :
@@ -104,3 +117,6 @@ void SignalGenerator::sendEchantillons()
     }
 }
 
+void SignalGenerator::setDuty(const double duty) {
+    m_current_signal_parameter.duty = duty;
+}

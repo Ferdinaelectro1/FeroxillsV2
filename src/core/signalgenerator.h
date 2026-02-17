@@ -14,6 +14,7 @@ enum class SignalType{
     CONTINU,
     RAMPE,
     RANDOM,
+    PWM,
     ZERO
 };
 
@@ -23,6 +24,7 @@ struct SignalParameter
     double voltage = 1.0;
     double phase = 0.0;
     double frequency = 10.0;
+    double duty = 0.7;
 };
 
 class SignalGenerator : public QObject
@@ -34,7 +36,8 @@ public:
     void stop(); //arrêter l'envoie des signaux
     void setSignalParameter(const SignalParameter& type);
     void setSendingIntervalle(int intervalle);
-    SignalParameter getSignalParameter();
+    [[nodiscard]] SignalParameter getSignalParameter() const;
+    void setDuty(double duty);
 
 signals:
     void dataReady(const QVector<double>& );

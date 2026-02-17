@@ -23,9 +23,9 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     s_parameter.frequency = 150;
     s_parameter.voltage = 4;
     s_parameter.phase = 0;
-    s_parameter.type = SignalType::SINUS;
+    s_parameter.type = SignalType::PWM;
     signalGenerator->setSignalParameter(s_parameter);
-    signalGenerator->start(1000);
+    signalGenerator->start(100);
     _timer = new QTimer(this);
     connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut); //timer d'affichage de chaque frame (on peut regler le fps ici)
     _timer->setInterval(50);
@@ -91,4 +91,12 @@ void Backend::onTimeOut() {
         _display_context.processDisplaySamples(&_samplesRingBuf,_displaySamples,512);
         emit SamplesChanged();
     }
+}
+
+double Backend::getDutyCycle() const {
+    return signalGenerator->getSignalParameter().duty;
+}
+
+void Backend::setDutyCycle(const double duty) const {
+    signalGenerator->setDuty(duty);
 }

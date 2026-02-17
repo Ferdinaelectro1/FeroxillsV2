@@ -19,6 +19,7 @@ class Backend final : public QObject
     Q_PROPERTY(double maxVoltage READ getMaxVoltage NOTIFY MaxVoltageChanged)
     Q_PROPERTY(DisplayContext * display_context READ getDisplayContext CONSTANT)
     Q_PROPERTY(bool run READ get_run WRITE setRun NOTIFY runChanged)
+    Q_PROPERTY(double dutyCycle READ getDutyCycle WRITE setDutyCycle NOTIFY dutyCycleChanged)
 public:
     explicit Backend(QObject *parent = nullptr);
     [[nodiscard]] QVector<double> getDisplaySamples() const;
@@ -26,12 +27,15 @@ public:
     void setMaxVoltage(const QVector<double>& voltageSamples);
     [[nodiscard]] DisplayContext* getDisplayContext() { return &_display_context; }
     [[nodiscard]] bool get_run() const;
+    [[nodiscard]] double getDutyCycle() const;
+    void setDutyCycle(double duty) const;
     void setRun(bool run);
 
     signals:
         void SamplesChanged();
         void MaxVoltageChanged();
         void runChanged();
+        void dutyCycleChanged();
 
 private:
     SignalGenerator *signalGenerator;

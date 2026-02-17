@@ -86,6 +86,16 @@ Item {
             FerroComboxMenu {
                 width: parent.width
             }
+            Slider {
+                from : 0.0
+                to : 1.0
+                value : backend.dutyCycle
+                stepSize : 0.01
+                width : parent.width
+                onValueChanged : {
+                    backend.dutyCycle = value
+                }
+            }
             //combo box
         }
     }
