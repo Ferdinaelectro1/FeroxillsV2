@@ -121,3 +121,7 @@ void SignalGenerator::sendEchantillons()
 void SignalGenerator::setDuty(const double duty) {
     m_current_signal_parameter.duty = duty;
 }
+
+void SignalGenerator::setVoltage(const double voltage) {
+    m_current_signal_parameter.voltage = voltage;
+}

@@ -38,6 +38,7 @@ public:
     void setSendingIntervalle(int intervalle);
     [[nodiscard]] SignalParameter getSignalParameter() const;
     void setDuty(double duty);
+    void setVoltage(double voltage);
 
 signals:
     void dataReady(const QVector<double>& );

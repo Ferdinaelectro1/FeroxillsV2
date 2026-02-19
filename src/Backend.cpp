@@ -97,6 +97,14 @@ double Backend::getDutyCycle() const {
     return signalGenerator->getSignalParameter().duty;
 }
 
+double Backend::getVoltage() const {
+    return  signalGenerator->getSignalParameter().voltage;
+}
+
 void Backend::setDutyCycle(const double duty) const {
     signalGenerator->setDuty(duty);
+}
+
+void Backend::setVoltage(const double voltage) const {
+    signalGenerator->setVoltage(voltage);
 }

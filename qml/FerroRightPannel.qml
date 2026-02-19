@@ -96,6 +96,16 @@ Item {
                     backend.dutyCycle = value
                 }
             }
+            Slider {
+                from : 0.0
+                to : 5.0
+                value : backend.voltage
+                stepSize : 0.01
+                width : parent.width
+                onValueChanged : {
+                    backend.voltage = value
+                }
+            }
             //combo box
         }
     }
