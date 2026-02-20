@@ -58,6 +58,16 @@ Item {
             }
 
             ShapePath {
+                strokeWidth : 2
+                strokeColor : "#FFFFFF"
+                fillColor : "transparent"
+                PathPolyline {
+                    id : cursorVertical
+                    path: [Qt.point(ch1Path.width / 2,0),Qt.point(ch1Path.width / 2,ch1Path.height)]
+                }
+            }
+
+            ShapePath {
                 strokeWidth: 3
                 strokeColor: "#F7D40A" // jaune Rigol CH1
                 fillColor: "transparent"
