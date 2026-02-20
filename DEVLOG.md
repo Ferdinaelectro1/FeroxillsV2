@@ -12,3 +12,11 @@
 ### Demain
 - Implémenté la ligne de graduiation verticale qui va servir de repère pour les divisions verticales
 - Implémenté la possibilité de régler la fréquence du signal de test depuis l'interface qml
+
+## 20 Février 2025
+
+### Ce que j'ai fait 
+- Implémentation de la ligne de repère vertical Y dans l'interface graphique
+
+### Demain
+- Implémenté la possibilité de régler la fréquence du signal de test depuis l'interface qml
