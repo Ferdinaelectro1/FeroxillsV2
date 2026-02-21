@@ -1,6 +1,9 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 import Feroxills.DisplayMode 1.0
+import "components/"
 
 Item {
     id: root1
@@ -83,30 +86,68 @@ Item {
                 }
             }
 
-            FerroComboxMenu {
+            GroupBox {
+                title: "Paramètres du signal"
                 width: parent.width
-            }
-            Slider {
-                from : 0.0
-                to : 1.0
-                value : backend.dutyCycle
-                stepSize : 0.01
-                width : parent.width
-                onValueChanged : {
-                    backend.dutyCycle = value
+                label: Label {
+                    text: parent.title
+                    color: "#00b4d8"           // couleur du titre
+                    font.bold: true
+                    font.pixelSize: 13
+                    font.letterSpacing: 1.5   // espacement des lettres (effet stylé)
+                    leftPadding: 10
+                }
+                background: Rectangle {
+                    color: "transparent"       // fond transparent
+                    radius: 8                  // coins arrondis
+                    border.color: "#00b4d8"    // couleur de la bordure
+                    border.width: 1.5
+                    opacity: 0.8
+                }
+                ColumnLayout {
+                    anchors.fill : parent
+                    spacing : 10
+                    Slider {
+                        from : 0.0
+                        to : 1.0
+                        value : backend.dutyCycle
+                        stepSize : 0.01
+                        width : parent.width
+                        onValueChanged : {
+                            backend.dutyCycle = value
+                        }
+                    }
+                    Slider {
+                        from : 0.0
+                        to : 5.0
+                        value : backend.voltage
+                        stepSize : 0.01
+                        width : parent.width
+                        onValueChanged : {
+                            backend.voltage = value
+                        }
+                    }
+                    Slider {
+                        from : 0.0
+                        to : 1000.0
+                        value : backend.frequency
+                        stepSize : 10.0
+                        width : parent.width
+                        onValueChanged : {
+                            backend.frequency = value
+                        }
+                    }
                 }
             }
-            Slider {
-                from : 0.0
-                to : 5.0
-                value : backend.voltage
-                stepSize : 0.01
+            FerroSlider {
                 width : parent.width
-                onValueChanged : {
-                    backend.voltage = value
-                }
+                label: "Fréquence"
+                unit: "Hz"
+                from: 0
+                to: 1000
+                value: 500
+                accentColor: "#00b4d8"
             }
-            //combo box
-        }
+        }//combo box
     }
 }

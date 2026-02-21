@@ -59,7 +59,7 @@ void SignalGenerator::sendEchantillons()
     const double dt = 1.0 / sampleRate;
 
     for (int i = 0; i < 512; ++i) {
-        double t = m_t * dt;
+        const double t = m_t * dt;
 
         double value = 0.0;
         switch (m_current_signal_parameter.type) {
@@ -124,4 +124,8 @@ void SignalGenerator::setDuty(const double duty) {
 
 void SignalGenerator::setVoltage(const double voltage) {
     m_current_signal_parameter.voltage = voltage;
+}
+
+void SignalGenerator::setFrequency(const double frequency) {
+    m_current_signal_parameter.frequency = frequency;
 }

@@ -38,6 +38,7 @@ qt_add_qml_module(appFeroxills
         QML_FILES qml/FerroHeaderPannel.qml
         QML_FILES qml/FerroRightPannel.qml
         QML_FILES qml/FerroFooterPannel.qml
+        QML_FILES qml/components/FerroSlider.qml
         RESOURCES
            qml/font/SAKUNA.ttf
            qml/font/Paper_Scratch.otf

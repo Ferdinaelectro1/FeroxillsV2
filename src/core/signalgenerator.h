@@ -39,6 +39,7 @@ public:
     [[nodiscard]] SignalParameter getSignalParameter() const;
     void setDuty(double duty);
     void setVoltage(double voltage);
+    void setFrequency(double frequency);
 
 signals:
     void dataReady(const QVector<double>& );

@@ -21,6 +21,7 @@ class Backend final : public QObject
     Q_PROPERTY(bool run READ get_run WRITE setRun NOTIFY runChanged)
     Q_PROPERTY(double dutyCycle READ getDutyCycle WRITE setDutyCycle NOTIFY dutyCycleChanged)
     Q_PROPERTY(double voltage READ getVoltage WRITE setVoltage NOTIFY voltageChanged)
+    Q_PROPERTY(double frequency READ getFrequency WRITE setFrequency NOTIFY frequencyChanged)
 public:
     explicit Backend(QObject *parent = nullptr);
     [[nodiscard]] QVector<double> getDisplaySamples() const;
@@ -30,8 +31,10 @@ public:
     [[nodiscard]] bool get_run() const;
     [[nodiscard]] double getDutyCycle() const;
     [[nodiscard]] double getVoltage() const;
+    [[nodiscard]] double getFrequency() const;
     void setDutyCycle(double duty) const;
     void setVoltage(double voltage) const;
+    void setFrequency(double frequency) const;
     void setRun(bool run);
 
     signals:
@@ -40,6 +43,7 @@ public:
         void runChanged();
         void dutyCycleChanged();
         void voltageChanged();
+        void frequencyChanged();
 
 private:
     SignalGenerator *signalGenerator;

@@ -23,7 +23,7 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     s_parameter.frequency = 150;
     s_parameter.voltage = 4;
     s_parameter.phase = 0;
-    s_parameter.type = SignalType::PWM;
+    s_parameter.type = SignalType::SINUS;
     signalGenerator->setSignalParameter(s_parameter);
     signalGenerator->start(100);
     _timer = new QTimer(this);
@@ -101,10 +101,18 @@ double Backend::getVoltage() const {
     return  signalGenerator->getSignalParameter().voltage;
 }
 
+double Backend::getFrequency() const {
+    return signalGenerator->getSignalParameter().frequency;
+}
+
 void Backend::setDutyCycle(const double duty) const {
     signalGenerator->setDuty(duty);
 }
 
 void Backend::setVoltage(const double voltage) const {
     signalGenerator->setVoltage(voltage);
+}
+
+void Backend::setFrequency(const double frequency) const {
+    signalGenerator->setFrequency(frequency);
 }
