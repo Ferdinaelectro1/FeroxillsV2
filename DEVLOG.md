@@ -20,3 +20,13 @@
 
 ### Demain
 - Implémenté la possibilité de régler la fréquence du signal de test depuis l'interface qml
+
+## 21 Février 2025
+
+### Ce que j'ai fait
+- Implémentation de la possibilité de régler la fréquence du signal de test depuis l'interface qml
+- Amélioration de certaines parties de l'interface qml
+- Création d'un dossier qui va habriter les composants custom utile à l'interface qml
+
+### Demain
+- Nommer le rôle de chaque slider permettant de régler les paramètres du générateur de signal de texte sur l'interface qml
