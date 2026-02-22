@@ -30,3 +30,11 @@
 
 ### Demain
 - Nommer le rôle de chaque slider permettant de régler les paramètres du générateur de signal de texte sur l'interface qml
+
+## 22 Février 2025
+
+### Ce que j'ai fait
+- Nommage du rôle de chaque slider permettant de régler les paramètres du générateur de signal de texte sur l'interface qml
+
+### Demain
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
