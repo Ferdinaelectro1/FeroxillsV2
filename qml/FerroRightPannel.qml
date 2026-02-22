@@ -107,46 +107,46 @@ Item {
                 ColumnLayout {
                     anchors.fill : parent
                     spacing : 10
-                    Slider {
+                    FerroSlider {
+                        label: "Duty"
+                        unit: ""
+                        accentColor: "#00b4d8"
                         from : 0.0
                         to : 1.0
                         value : backend.dutyCycle
                         stepSize : 0.01
                         width : parent.width
-                        onValueChanged : {
-                            backend.dutyCycle = value
+                        onCurrentValueChanged : {
+                            backend.dutyCycle = currentValue
                         }
                     }
-                    Slider {
+                    FerroSlider {
+                        label: "Voltage"
+                        unit: "V"
+                        accentColor: "#00b4d8"
                         from : 0.0
                         to : 5.0
                         value : backend.voltage
                         stepSize : 0.01
                         width : parent.width
-                        onValueChanged : {
-                            backend.voltage = value
+                        onCurrentValueChanged : {
+                            backend.voltage = currentValue
                         }
                     }
-                    Slider {
+                    FerroSlider {
+                        label: "Fréquence"
+                        unit: "Hz"
+                        accentColor: "#00b4d8"
                         from : 0.0
                         to : 1000.0
                         value : backend.frequency
                         stepSize : 10.0
                         width : parent.width
-                        onValueChanged : {
-                            backend.frequency = value
+                        onCurrentValueChanged : {
+                            backend.frequency = currentValue
                         }
                     }
                 }
-            }
-            FerroSlider {
-                width : parent.width
-                label: "Fréquence"
-                unit: "Hz"
-                from: 0
-                to: 1000
-                value: 500
-                accentColor: "#00b4d8"
             }
         }//combo box
     }

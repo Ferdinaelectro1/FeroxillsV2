@@ -33,7 +33,7 @@ Item {
     readonly property real currentValue: internalSlider.value
 
     // ── Taille par défaut ─────────────────────
-    implicitWidth:  320
+    implicitWidth:  190
     implicitHeight: mainColumn.implicitHeight + 24
 
     // ─────────────────────────────────────────
@@ -42,100 +42,24 @@ Item {
     GroupBox {
         id: groupBox
         anchors.fill: parent
-        topPadding:   36   // ← espace réservé pour le titre, évite le chevauchement
-        leftPadding:  12
+        /*leftPadding:  12
         rightPadding: 12
-        bottomPadding: 12
+        bottomPadding: 12*/
 
         // ── Titre custom ──────────────────────
-        label: Item {
-            width:  groupBox.width
-            height: 24
-
-            RowLayout {
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 6
-
-                Rectangle {
-                    width:  7
-                    height: 7
-                    radius: 2
-                    color:  root.accentColor
-                }
-
-                Text {
+        label:
+            Text {
                     text:               root.label
                     color:              root.accentColor
                     font.pixelSize:     12
                     font.bold:          true
                     font.letterSpacing: 1.2
-                }
-            }
-        }
-
-        // ── Bordure custom ────────────────────
-        background: Rectangle {
-            color:        "transparent"
-            radius:       10
-            border.color: Qt.rgba(
-                root.accentColor.r,
-                root.accentColor.g,
-                root.accentColor.b,
-                0.45
-            )
-            border.width: 1
         }
 
         // ── Contenu principal ─────────────────
         ColumnLayout {
             id:           mainColumn
             anchors.fill: parent
-            spacing:      12   // espace fixe et constant entre chaque bloc
-
-            // ── Bloc 1 : valeur + unité + % ──
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: 8
-
-                // Badge valeur
-                Rectangle {
-                    implicitWidth:  68
-                    implicitHeight: 26
-                    radius:         6
-                    color:          Qt.rgba(
-                        root.accentColor.r,
-                        root.accentColor.g,
-                        root.accentColor.b,
-                        0.13
-                    )
-                    border.color:   Qt.rgba(
-                        root.accentColor.r,
-                        root.accentColor.g,
-                        root.accentColor.b,
-                        0.4
-                    )
-                    border.width:   1
-
-                    Text {
-                        anchors.centerIn: parent
-                        text:             internalSlider.value.toFixed(root.decimals)
-                        color:            root.accentColor
-                        font.pixelSize:   12
-                        font.bold:        true
-                    }
-                }
-
-                // Unité à côté du badge
-                Text {
-                    text:             root.unit
-                    color:            Qt.lighter(root.accentColor, 1.3)
-                    font.pixelSize:   11
-                    font.bold:        true
-                    Layout.alignment: Qt.AlignVCenter
-                }
-
-                Item { Layout.fillWidth: true }
-            }
 
             // ── Bloc 2 : Slider seul ─────────
             Slider {
@@ -193,8 +117,8 @@ Item {
                     // Halo au clic
                     Rectangle {
                         anchors.centerIn: parent
-                        width:   parent.width + 8
-                        height:  parent.width + 8
+                        width:   parent.width + 4
+                        height:  parent.width + 4
                         radius:  width / 2
                         color:   Qt.rgba(
                             root.accentColor.r,
@@ -210,8 +134,8 @@ Item {
                     // Cercle principal
                     Rectangle {
                         anchors.centerIn: parent
-                        width:   parent.width
-                        height:  parent.height
+                        width:   parent.width - 2
+                        height:  parent.height - 2
                         radius:  width / 2
                         color:   internalSlider.pressed
                             ? Qt.lighter(root.accentColor, 1.2)
@@ -222,9 +146,9 @@ Item {
                         // Point central
                         Rectangle {
                             anchors.centerIn: parent
-                            width:   6
-                            height:  6
-                            radius:  3
+                            width:   3
+                            height:  3
+                            radius:  1.5
                             color:   "white"
                             opacity: 0.7
                         }
