@@ -59,10 +59,9 @@ std::pair<unsigned long, unsigned long> SamplesAnalyser::getTwoRisingPos() const
 }
 
 //Récupère la position du premier front montant dans un buffer qu'on lui fournit
-std::optional<unsigned long> SamplesAnalyser::getFirstRisingPos(const QVector<double>& buffer) {
-    constexpr double hysteresis = 0.0;
+std::optional<unsigned long> SamplesAnalyser::getFirstRisingPos(const QVector<double>& buffer,const double hysteresis) {
     for (int i = 0; i < buffer.size() - 1; ++i) {
-        if (buffer[i] < -hysteresis && buffer[i+1] > hysteresis) {
+        if (buffer[i] <= hysteresis && buffer[i+1] > hysteresis) {
             return  i;
         }
     }

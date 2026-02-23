@@ -106,8 +106,16 @@ void SignalGenerator::sendEchantillons()
                 value = m_current_signal_parameter.voltage* (QRandomGenerator::global()->generateDouble() * 2.0 - 1.0) * N;
                 break;
             }
+            case SignalType::RISING_PULSE:
+                if (t >= m_current_signal_parameter.rising_time && t < m_current_signal_parameter.rising_time + 7*dt) {
+                    value = m_current_signal_parameter.voltage;
+                }
+                else {
+                    value = 0.0;
+                }
+                break;
             case SignalType::ZERO :
-                value = 0;
+                value = 0.0;
                 break;
             default:
                 break;

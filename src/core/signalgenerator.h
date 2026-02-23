@@ -15,6 +15,7 @@ enum class SignalType{
     RAMPE,
     RANDOM,
     PWM,
+    RISING_PULSE,
     ZERO
 };
 
@@ -25,6 +26,7 @@ struct SignalParameter
     double phase = 0.0;
     double frequency = 10.0;
     double duty = 0.7;
+    double rising_time = 0.5;
 };
 
 class SignalGenerator : public QObject
