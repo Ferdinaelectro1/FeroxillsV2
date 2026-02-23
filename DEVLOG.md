@@ -38,3 +38,14 @@
 
 ### Demain
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
+
+
+## 23 Février 2025
+
+### Ce que j'ai fait
+- Génération d'une pulsation à un instant t depuis de le générateur de signal pour simuler un évènement qui survient sur signal.
+- Détection et affichage lorsqu'un trigger est détecter , en mode affichage trigger
+
+### Demain
+- Implémenter un pop pup permettant au user , de saisir la valeur du trigger de déclanchement en mode d'affichage trigger
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
