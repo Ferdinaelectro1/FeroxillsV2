@@ -49,3 +49,13 @@
 ### Demain
 - Implémenter un pop pup permettant au user , de saisir la valeur du trigger de déclanchement en mode d'affichage trigger
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
+
+## 24 Février 2025
+
+### Ce que j'ai fait
+- Implémenté un pop pup permettant au user , de saisir la valeur du trigger de déclanchement en mode d'affichage trigger
+- Implémenter une classe EventBus permettant de faire communiquer n'importe quel classe avec l'interface qml sans forcément créer d'ojet dans le backend
+
+### Demain
+- Optimiser le projet
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
