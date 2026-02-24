@@ -44,6 +44,7 @@ public:
         void dutyCycleChanged();
         void voltageChanged();
         void frequencyChanged();
+        void triggerModeDisplayInvoked(QObject *triggerDisplayMode);
 
 private:
     SignalGenerator *signalGenerator;

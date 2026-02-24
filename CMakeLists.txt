@@ -24,6 +24,8 @@ qt_add_executable(appFeroxills
         src/ui/DisplayContext.h
         src/core/analyser/SamplesAnalyser.cpp
         src/core/analyser/SamplesAnalyser.h
+        src/core/event/EventBus.cpp
+        src/core/event/EventBus.h
 )
 
 qt_add_qml_module(appFeroxills
@@ -39,6 +41,7 @@ qt_add_qml_module(appFeroxills
         QML_FILES qml/FerroRightPannel.qml
         QML_FILES qml/FerroFooterPannel.qml
         QML_FILES qml/components/FerroSlider.qml
+        QML_FILES qml/components/FerroOneValuePopup.qml
         RESOURCES
            qml/font/SAKUNA.ttf
            qml/font/Paper_Scratch.otf

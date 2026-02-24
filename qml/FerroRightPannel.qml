@@ -7,6 +7,7 @@ import "components/"
 
 Item {
     id: root1
+    property var currentDisplayModeObject: null
     // --- RIGHT PANEL (buttons) ---
     implicitWidth: 250
     implicitHeight: 700
@@ -149,5 +150,21 @@ Item {
                 }
             }
         }//combo box
+    }
+    Connections {
+        target: backend
+        function onTriggerModeDisplayInvoked(triggerDisplayMode)
+        {
+            currentDisplayModeObject = triggerDisplayMode;
+            parametresPopup.open()
+        }
+    }
+    FerroOneValuePopup {
+        id : parametresPopup
+        title : "Trigger Level"
+        onValidate: function(value) {
+            currentDisplayModeObject.setTriggerLevel(value)
+            parametresPopup.close()
+        }
     }
 }

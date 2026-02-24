@@ -3,6 +3,7 @@
 //
 
 #include "Backend.h"
+#include "core/event/EventBus.h"
 
 static void printSamplesParameter(const SamplesParameter& param) {
     constexpr double ech_freq = (1.0/44100.0);
@@ -19,6 +20,8 @@ static void printSamplesParameter(const SamplesParameter& param) {
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     signalGenerator = new SignalGenerator(this);
     connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
+    /*Réémission du signal issues du bus d'event par le backend , pour permettre de récupérer les paramètres du trigger depuis qml*/
+    connect(EventBus::getInstance(),&EventBus::TriggerModeDisplayInvoked,this,&Backend::triggerModeDisplayInvoked);
     SignalParameter s_parameter;
     s_parameter.frequency = 150;
     s_parameter.voltage = 4;

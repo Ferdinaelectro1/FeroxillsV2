@@ -4,7 +4,12 @@
 
 #include "Trigger.h"
 #include "../../core/analyser/SamplesAnalyser.h"
+#include "../../core/event/EventBus.h"
 
+
+TriggerMode::TriggerMode() {
+    emit EventBus::getInstance()->TriggerModeDisplayInvoked(this);
+}
 
 void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
     if (ringBuf->size() < 2000 + display_win_size) return;
@@ -14,7 +19,7 @@ void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double
     // et alors l'index trouvé devient invalide
     const QVector<double> snapshot = ringBuf->getRecentWindows(2000 + display_win_size);
     const QVector<double> researchBuffer = snapshot.mid(0,2000);
-    auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer,4.5);
+    auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer,_triggerLevel);
     if (firstRisingPos.has_value()) {
         const auto idx = firstRisingPos.value();
         //Verification qu'il y a assez d'espace après la position du trigger
@@ -24,6 +29,16 @@ void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double
             }
         }
     }else {
-        qWarning() << "[ERROR] :  Aucun index de front montant trouvé";
+        qWarning() << "[ERROR] :  Aucun trigger trouvé";
     }
 }
+
+void TriggerMode::setTriggerLevel(const double triggerLevel) {
+    qDebug() << "Setting trigger level to " << triggerLevel;
+    _triggerLevel = triggerLevel;
+}
+
+double TriggerMode::getTriggerLevel() const {
+    return  _triggerLevel;
+}
+
