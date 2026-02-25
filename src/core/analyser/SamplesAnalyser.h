@@ -20,7 +20,7 @@ class SamplesAnalyser {
 public:
     SamplesAnalyser();
     [[nodiscard]] SamplesParameter getSamplesParameter(const QVector<double>& samplesWindows);
-    [[nodiscard]] static std::optional<unsigned long> getFirstRisingPos(const QVector<double>& buffer,double hysteresis = 0.0) ;
+    [[nodiscard]] static std::optional<unsigned long> getFirstRisingPos(const QVector<double>& buffer,double trigger = 0.0) ;
 
 private:
     //Methodes

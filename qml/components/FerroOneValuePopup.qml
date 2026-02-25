@@ -5,6 +5,7 @@ import Qt5Compat.GraphicalEffects
 Popup {
     id: root
     property string title : "Settings";
+    property string placeholderText : "value"
     anchors.centerIn: Overlay.overlay
     modal: true
     focus: true
@@ -50,7 +51,7 @@ Popup {
         TextField {
             id: triggerField
             width: parent.width
-            placeholderText: "e.g. 2.5"
+            placeholderText: root.placeholderText
             color: "#dfe1e5"
             font.pixelSize: 20
             selectByMouse: true
