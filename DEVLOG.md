@@ -59,3 +59,12 @@
 ### Demain
 - Optimiser le projet
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
+
+## 25 Février 2025
+
+### Ce que j'ai fait
+- Modification de certains nom de paramètres et ajout d'un paramètres permettant de personnaliser le placeholderText dans notre popup custom
+
+### Demain
+- Positionner le signal détecté en mode trigger au centre de l'écran
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
