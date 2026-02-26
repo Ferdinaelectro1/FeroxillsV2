@@ -68,3 +68,13 @@
 ### Demain
 - Positionner le signal détecté en mode trigger au centre de l'écran
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
+
+## 26 Février 2025
+
+### Ce que j'ai fait
+- Positionnement du trigger au centre de la fenetre quant on est en mode trigger.  
+
+### Demain
+- Récupérer les valeurs dans une marge autours de la position ou le trigger a été trouvé pour afficher ça ,
+pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente

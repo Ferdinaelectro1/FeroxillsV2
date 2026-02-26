@@ -21,11 +21,19 @@ void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double
     const QVector<double> researchBuffer = snapshot.mid(0,2000);
     auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer,_triggerLevel);
     if (firstRisingPos.has_value()) {
+         const unsigned int bufferOffset = display_win_size/2;
+        /* On remplit les 1 /2 premiers valeurs de display_win_size par des 0, pour pouvoir placer par la suite le trigger en partant de là.
+        *  Pour que le trigger soit affiché au centre de l'écran
+        */
+        for (int i = 0; i < bufferOffset; i++) {
+            displaySamplesBuff[i] = 0;
+        }
         const auto idx = firstRisingPos.value();
         //Verification qu'il y a assez d'espace après la position du trigger
         if (idx + static_cast<int>(display_win_size) <= snapshot.size()) {
-            for (unsigned long i = 0; i < display_win_size; i++) {
-                displaySamplesBuff[i] = snapshot[idx + i];
+            for (unsigned long i = bufferOffset - 1; i < display_win_size; i++) {
+                /*On fait ceci (i - (bufferOffset - 1)) pour que on puisse accéder dans le snapshot les données ainsin :  id x+ 0 , ..., n . Pour éviter des mauvais accèes*/
+                displaySamplesBuff[i] = snapshot[idx + (i - (bufferOffset - 1))];
             }
         }
     }else {
