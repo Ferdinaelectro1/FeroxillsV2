@@ -78,3 +78,13 @@
 - Récupérer les valeurs dans une marge autours de la position ou le trigger a été trouvé pour afficher ça ,
 pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
+
+## 27 Février 2025
+
+### Ce que j'ai fait
+- Amélioration du footer de l'interface qml pour le rendre un peut plus jolie.
+
+### Demain
+- Récupérer les valeurs dans une marge autours de la position ou le trigger a été trouvé pour afficher ça ,
+  pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
