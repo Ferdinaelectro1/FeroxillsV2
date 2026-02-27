@@ -14,17 +14,23 @@ Item {
             anchors.margins: 15
             spacing: 25
 
-            Text {
-                text: "TimeBase: 500us/div"
-                color: "#D0D0D0"
-                font.pixelSize: 16
+            Rectangle {
+                anchors.fill : parent
+                color : "#0000FF"
+                Text {
+                    anchors.verticalCenter : parent.verticalCenter
+                    text: "TimeBase: 500us/div"
+                    color: "#D0D0D0"
+                    font.pixelSize: 16
+                    font.bold : true
+                }
             }
 
-            Text {
+            /*Text {
                 text: "Trigger: Edge | Source: CH1 | Level: 1.25V"
                 color: "#949494"
                 font.pixelSize: 16
-            }
+            }*/
         }
     }
 }
