@@ -88,3 +88,13 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 - Récupérer les valeurs dans une marge autours de la position ou le trigger a été trouvé pour afficher ça ,
   pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
+
+## 28 Février 2025
+
+### Ce que j'ai fait
+- Suppresion du code inutile dans FerroFooterPanel.qml
+
+### Demain
+- Récupérer les valeurs dans une marge autours de la position ou le trigger a été trouvé pour afficher ça ,
+  pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente

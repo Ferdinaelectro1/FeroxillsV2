@@ -25,12 +25,6 @@ Item {
                     font.bold : true
                 }
             }
-
-            /*Text {
-                text: "Trigger: Edge | Source: CH1 | Level: 1.25V"
-                color: "#949494"
-                font.pixelSize: 16
-            }*/
         }
     }
 }
