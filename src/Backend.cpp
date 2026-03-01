@@ -45,9 +45,9 @@ double Backend::getMaxVoltage() const {
 }
 
 void Backend::setMaxVoltage(const QVector<double>& voltageSamples) {
-    for (int i = 0; i< voltageSamples.size() ;i++) {
-        if (voltageSamples[i] > _maxVoltage) {
-            _maxVoltage = voltageSamples[i];
+    for (const double voltage :  voltageSamples) {
+        if (voltage > _maxVoltage) {
+            _maxVoltage = voltage;
             emit MaxVoltageChanged();
         }
     }

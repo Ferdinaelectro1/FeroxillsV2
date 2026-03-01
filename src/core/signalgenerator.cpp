@@ -70,6 +70,16 @@ void SignalGenerator::sendEchantillons()
                              m_current_signal_parameter.frequency * t +
                          m_current_signal_parameter.phase);
                 break;
+            case SignalType::AM:
+                value = m_current_signal_parameter.voltage *
+                        std::sin(2.0 * M_PI *
+                             m_current_signal_parameter.frequency * t +
+                         m_current_signal_parameter.phase) ;
+                value =  value *
+                        std::sin(2.0 * M_PI *
+                             m_current_signal_parameter.frequency*30 * t +
+                         m_current_signal_parameter.phase) ;
+                break;
             case SignalType::CONTINU:
                 value = m_current_signal_parameter.voltage;
                 break;

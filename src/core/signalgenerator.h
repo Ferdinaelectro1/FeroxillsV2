@@ -16,6 +16,7 @@ enum class SignalType{
     RANDOM,
     PWM,
     RISING_PULSE,
+    AM,
     ZERO
 };
 

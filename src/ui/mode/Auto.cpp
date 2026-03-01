@@ -23,7 +23,7 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
         const auto idx = firstRisingPos.value();
         //Verification qu'il y a assez d'espace après la position du trigger
         if (idx + static_cast<int>(display_win_size) <= snapshot.size()) {
-            for (unsigned long i = 0; i < display_win_size; i++) {
+            for (unsigned long i = 0; i < display_win_size; ++i) {
                 displaySamplesBuff[i] = snapshot[idx + i];
             }
         }
