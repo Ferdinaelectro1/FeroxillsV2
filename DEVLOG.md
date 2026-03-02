@@ -100,7 +100,7 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
 
 
-## 29 Février 2025
+## 01 Mars 2025
 
 ### Ce que j'ai fait
 - Optimisation de certaines boucles for , et implémentation de la génération d'un signal AM dans le générateur de signal
@@ -110,3 +110,12 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
   pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
 - Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
 - Résoudre le problème du mode auto pour un signal AM
+
+## 02 Mars 2025
+
+### Ce que j'ai fait
+- Amélioration du mode auto en utilisant un trigger calculé afin de pouvoir stabiliser le signal , même pour des signaux périodiques continu.
+
+### Demain
+- (Précédent problème)
+- Implémenter le trigger single-shot et permettre au user de choisir soit le mode single-shot ou pas en mode trigger

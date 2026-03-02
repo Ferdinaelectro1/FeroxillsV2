@@ -18,7 +18,9 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
     // et alors l'index trouvé devient invalide
     const QVector<double> snapshot = ringBuf->getRecentWindows(2000 + display_win_size);
     const QVector<double> researchBuffer = snapshot.mid(0,2000);
-    auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer);
+    const auto [min, max] = SamplesAnalyser::getMinMaxVoltage(researchBuffer);
+    const auto trigger = (min + max) / 2;
+    auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer,trigger);
     if (firstRisingPos.has_value()) {
         const auto idx = firstRisingPos.value();
         //Verification qu'il y a assez d'espace après la position du trigger

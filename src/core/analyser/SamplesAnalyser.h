@@ -21,6 +21,7 @@ public:
     SamplesAnalyser();
     [[nodiscard]] SamplesParameter getSamplesParameter(const QVector<double>& samplesWindows);
     [[nodiscard]] static std::optional<unsigned long> getFirstRisingPos(const QVector<double>& buffer,double trigger = 0.0) ;
+    [[nodiscard]] static  std::pair<double,double> getMinMaxVoltage(const QVector<double>& samples);
 
 private:
     //Methodes

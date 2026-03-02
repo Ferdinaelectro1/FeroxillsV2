@@ -21,21 +21,14 @@ SamplesAnalyser::SamplesAnalyser() : _samplesParameter {0,0,0,0,0},_hysteresis(0
 }
 
 std::pair<double, double> SamplesAnalyser::getMinMaxVoltage() const {
-    if (_samplesWindows.empty()) return  {0.0,0.0};
-    double MaxVoltage = _samplesWindows[0];
-    double MinVoltage = _samplesWindows[0];
-    for (const double _sample : _samplesWindows) {
-        if (_sample > MaxVoltage) MaxVoltage = _sample;
-        if (_sample < MinVoltage) MinVoltage = _sample;
-    }
-    return {MinVoltage, MaxVoltage};
+    return getMinMaxVoltage(_samplesWindows);
 }
 
 unsigned long SamplesAnalyser::getPeriodSamples() const {
     if (_samplesParameter._first_rising_pos == _samplesParameter._second_rising_pos) {
         return 0.0;
     }
-    const double period = _samplesParameter._second_rising_pos - _samplesParameter._first_rising_pos;
+    const unsigned long period = _samplesParameter._second_rising_pos - _samplesParameter._first_rising_pos;
     return period;
 }
 
@@ -66,4 +59,15 @@ std::optional<unsigned long> SamplesAnalyser::getFirstRisingPos(const QVector<do
         }
     }
     return std::nullopt;
+}
+
+std::pair<double, double> SamplesAnalyser::getMinMaxVoltage(const QVector<double> &samples) {
+    if (samples.empty()) return  {0.0,0.0};
+    double MaxVoltage = samples[0];
+    double MinVoltage = samples[0];
+    for (const double _sample : samples) {
+        if (_sample > MaxVoltage) MaxVoltage = _sample;
+        if (_sample < MinVoltage) MinVoltage = _sample;
+    }
+    return {MinVoltage, MaxVoltage};
 }
