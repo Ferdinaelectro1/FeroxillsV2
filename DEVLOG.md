@@ -119,3 +119,12 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 ### Demain
 - (Précédent problème)
 - Implémenter le trigger single-shot et permettre au user de choisir soit le mode single-shot ou pas en mode trigger
+
+## 03 Mars 2025
+
+### Ce que j'ai fait
+- Implémentation d'un logger et d'un logger dans un fichier .dart contenant les coordonnées X et Y de points, permettant de ploter ses points avec GNU Plot afin de détecter d'eventuel erreur sur les signaux .
+
+### Demain
+- (Précédent problème)
+- Tester le logger de points avec GNUplot

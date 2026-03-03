@@ -26,6 +26,8 @@ qt_add_executable(appFeroxills
         src/core/analyser/SamplesAnalyser.h
         src/core/event/EventBus.cpp
         src/core/event/EventBus.h
+        src/core/debug/debug.cpp
+        src/core/debug/debug.h
 )
 
 qt_add_qml_module(appFeroxills
