@@ -14,6 +14,10 @@
 
 class debug {
 public:
+    debug(const debug&) = delete;
+    debug(debug&&) = delete;
+    debug& operator=(const debug&) = delete;
+    debug& operator=(debug&&) = delete;
     static debug& instance();
     void log(const QString& message,const QString& logType) const;
     template<typename Type>
@@ -26,7 +30,7 @@ public:
             const int n = std::min(fX.size(), fY.size());
             for(int i=0; i<n; ++i)
             {
-                out << fX[i] << " " << fY[i] << std::endl;
+                out << fX[i] << " " << fY[i] << "\n";
             }
         }
         else {
@@ -36,10 +40,6 @@ public:
 
 private:
     debug() = default;
-    debug(const debug&) = delete;
-    debug(debug&&) = delete;
-    debug& operator=(const debug&) = delete;
-    debug& operator=(debug&&) = delete;
 };
 
 #endif //FEROXILLS_DEBUG_H

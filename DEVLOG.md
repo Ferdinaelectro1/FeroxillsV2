@@ -128,3 +128,11 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 ### Demain
 - (Précédent problème)
 - Tester le logger de points avec GNUplot
+
+## 04 Mars 2025
+
+### Ce que j'ai fait
+- Correction : suppression de std::endl en para d'un QTextStream et rendu public des constructeurs par défaut supprimé de la classe debug.
+
+### Demain
+- (Précédent problème)
