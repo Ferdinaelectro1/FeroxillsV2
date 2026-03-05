@@ -136,3 +136,12 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 
 ### Demain
 - (Précédent problème)
+
+## 05 Mars 2025
+
+### Ce que j'ai fait
+- [Implémentation] : implémentation d'une classe abstraite ISampleProvider.h servant d'interface pour les classes qui doivent se charger d'acquérir les échantillons issues du matériel.
+
+### Demain
+- (Précédent problème) 
+- Faire hériter la classe SignalGenerator de la classe interface ISamplesProvider
