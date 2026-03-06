@@ -12,6 +12,7 @@ class ISampleProvider : public  QObject {
     public:
     explicit ISampleProvider(QObject *parent = nullptr) : QObject(parent) {};
     virtual void startAcquisition(int interval) = 0;
+    virtual void setAcquisitionInterval(int intervalle) = 0;
     virtual void stopAcquisition() = 0;
     ~ISampleProvider() override = default;
 

@@ -145,3 +145,12 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 ### Demain
 - (Précédent problème) 
 - Faire hériter la classe SignalGenerator de la classe interface ISamplesProvider
+
+## 06 Mars 2025
+
+### Ce que j'ai fait
+- [Implémentation] : implémentation d'une méthode permettant de modifier l'intervalle d'aqquisition des données dans la classe abstraite ISampleProvider.h.
+
+### Demain
+- (Précédent problème)
+- Faire hériter la classe SignalGenerator de la classe interface ISamplesProvider
