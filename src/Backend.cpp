@@ -21,7 +21,7 @@ static void printSamplesParameter(const SamplesParameter& param) {
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     INFO("Launch app");
     signalGenerator = new SignalGenerator(this);
-    connect(signalGenerator,&SignalGenerator::dataReady,this,&Backend::dataAvailable);
+    connect(signalGenerator,&SignalGenerator::samplesAvailable,this,&Backend::dataAvailable);
     /*Réémission du signal issues du bus d'event par le backend , pour permettre de récupérer les paramètres du trigger depuis qml*/
     connect(EventBus::getInstance(),&EventBus::TriggerModeDisplayInvoked,this,&Backend::triggerModeDisplayInvoked);
     SignalParameter s_parameter;
@@ -30,7 +30,7 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     s_parameter.phase = 0;
     s_parameter.type = SignalType::SINUS;
     signalGenerator->setSignalParameter(s_parameter);
-    signalGenerator->start(100);
+    signalGenerator->startAcquisition(100);
     _timer = new QTimer(this);
     connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut); //timer d'affichage de chaque frame (on peut regler le fps ici)
     _timer->setInterval(50);

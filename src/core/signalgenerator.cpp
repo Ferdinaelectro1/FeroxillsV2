@@ -2,7 +2,7 @@
 #include <QRandomGenerator>
 
 SignalGenerator::SignalGenerator(QObject *parent)
-    : QObject{parent}
+    : ISampleProvider(parent)
 {
     m_timer = new QTimer(this);
     m_echantillons.reserve(BUFFER_SIZE);
@@ -13,13 +13,13 @@ SignalGenerator::SignalGenerator(QObject *parent)
     m_t = 0;
 }
 
-void SignalGenerator::start(int intervalle)
+void SignalGenerator::doStartAcquisition(const int intervalle)
 {
     m_timer->setInterval(intervalle);
     m_timer->start();
 }
 
-void SignalGenerator::stop()
+void SignalGenerator::doStopAcquisition()
 {
     m_timer->stop();
 }
@@ -34,7 +34,7 @@ SignalParameter SignalGenerator::getSignalParameter() const
     return m_current_signal_parameter;
 }
 
-void SignalGenerator::setSendingIntervalle(int intervalle)
+void SignalGenerator::setAcquisitionInterval(int intervalle)
 {
     m_timer->stop();
     m_timer->setInterval(intervalle);
@@ -48,7 +48,7 @@ void SignalGenerator::sendEchantillons()
 
     // 2️⃣ envoyer le buffer précédent
     if (!m_send_echantillons.isEmpty()) {
-        emit dataReady(m_send_echantillons);
+        emit samplesAvailable(m_send_echantillons);
     }
 
     // 3️⃣ remplir le nouveau buffer

@@ -154,3 +154,11 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 ### Demain
 - (Précédent problème)
 - Faire hériter la classe SignalGenerator de la classe interface ISamplesProvider
+
+## 07 Mars 2025
+
+### Ce que j'ai fait
+- [Implémentation] : la classe générateur de signal hérite maintenant de la classe ISampleProvider afin d'exposer des API direct via cette interface.
+
+### Demain
+- (Précédent problème)

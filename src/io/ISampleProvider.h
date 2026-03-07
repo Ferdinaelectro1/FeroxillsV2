@@ -11,13 +11,21 @@ class ISampleProvider : public  QObject {
 
     public:
     explicit ISampleProvider(QObject *parent = nullptr) : QObject(parent) {};
-    virtual void startAcquisition(int interval) = 0;
+    void startAcquisition(const int interval = 500) {
+        doStartAcquisition(interval);
+    }
     virtual void setAcquisitionInterval(int intervalle) = 0;
-    virtual void stopAcquisition() = 0;
+    void stopAcquisition() {
+        doStopAcquisition();
+    };
     ~ISampleProvider() override = default;
 
     signals:
     void samplesAvailable(const QVector<double>& );
+
+private:
+    virtual void doStartAcquisition(int interval) = 0;
+    virtual void doStopAcquisition() = 0;
 };
 
 #endif //FEROXILLS_ISAMPLESREADER_H

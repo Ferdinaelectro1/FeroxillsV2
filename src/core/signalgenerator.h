@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QTimer>
 #include <QDebug>
+#include "../io/ISampleProvider.h"
 
 #define BUFFER_SIZE 512
 
@@ -30,27 +31,24 @@ struct SignalParameter
     double rising_time = 0.5;
 };
 
-class SignalGenerator : public QObject
+class SignalGenerator : public ISampleProvider
 {
-    Q_OBJECT
+
 public:
     explicit SignalGenerator(QObject *parent = nullptr);
-    void start(int intervalle = 500);//demarrer l'envoie des signaux par intervalle
-    void stop(); //arrêter l'envoie des signaux
     void setSignalParameter(const SignalParameter& type);
-    void setSendingIntervalle(int intervalle);
+    void setAcquisitionInterval(int intervalle) override;
     [[nodiscard]] SignalParameter getSignalParameter() const;
     void setDuty(double duty);
     void setVoltage(double voltage);
     void setFrequency(double frequency);
 
-signals:
-    void dataReady(const QVector<double>& );
-
 private slots:
     void sendEchantillons();
 
 private:
+    void doStartAcquisition(int intervalle) override;//demarrer l'envoie des signaux par intervalle
+    void doStopAcquisition() override; //arrêter l'envoie des signaux
     QVector<double> m_echantillons;
     QVector<double> m_send_echantillons;
     QTimer* m_timer;
