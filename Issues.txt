@@ -1,0 +1,6 @@
+- Résoudre le problème de l'affichage qui saute en mode continue quand la vitesse d'arrivé des données augmente
+- Résoudre le problème du mode auto pour un signal AM
+- Récupérer les valeurs dans une marge autours de la position ou le trigger a été trouvé pour afficher ça ,
+  pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
+- Implémenter les divisions verticales et horizontales
+- Implémenter dans l'interface qml , des endrois dans le footer ou placer les infos tels que la tension max , la fréquence , la div et autres
