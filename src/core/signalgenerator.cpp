@@ -34,10 +34,10 @@ SignalParameter SignalGenerator::getSignalParameter() const
     return m_current_signal_parameter;
 }
 
-void SignalGenerator::setAcquisitionInterval(int intervalle)
+void SignalGenerator::doSetAcquisitionInterval(const int interval)
 {
     m_timer->stop();
-    m_timer->setInterval(intervalle);
+    m_timer->setInterval(interval);
     m_timer->start();
 }
 

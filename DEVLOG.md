@@ -162,3 +162,9 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 
 ### Demain
 - (Précédent problème)
+
+## 08 Mars 2025
+
+### Ce que j'ai fait
+- [Amélioration] : séparation de la méthode de réception des data vers une api claire dans la classe interface ISampleProvider.h. 
+- [Amélioration] : mise en place d'un fichier Issues.txt dans lequel je note les problèmes pas encore résolu dans le logiciel

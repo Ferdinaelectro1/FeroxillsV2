@@ -37,7 +37,6 @@ class SignalGenerator : public ISampleProvider
 public:
     explicit SignalGenerator(QObject *parent = nullptr);
     void setSignalParameter(const SignalParameter& type);
-    void setAcquisitionInterval(int intervalle) override;
     [[nodiscard]] SignalParameter getSignalParameter() const;
     void setDuty(double duty);
     void setVoltage(double voltage);
@@ -47,6 +46,7 @@ private slots:
     void sendEchantillons();
 
 private:
+    void doSetAcquisitionInterval(int interval) override;
     void doStartAcquisition(int intervalle) override;//demarrer l'envoie des signaux par intervalle
     void doStopAcquisition() override; //arrêter l'envoie des signaux
     QVector<double> m_echantillons;
