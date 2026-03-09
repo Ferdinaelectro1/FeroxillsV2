@@ -168,3 +168,8 @@ pas juste afficher en partant de la position du trigger , mais faudrait pour voi
 ### Ce que j'ai fait
 - [Amélioration] : séparation de la méthode de réception des data vers une api claire dans la classe interface ISampleProvider.h. 
 - [Amélioration] : mise en place d'un fichier Issues.txt dans lequel je note les problèmes pas encore résolu dans le logiciel
+
+## 09 Mars 2025
+
+### Ce que j'ai fait
+- [Amélioration] : ajout d'un issues sur la détection de phase et implémentation dans l'interface de la première detection pas enncore fonctionnel. 
