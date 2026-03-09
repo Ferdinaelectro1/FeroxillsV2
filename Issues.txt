@@ -4,3 +4,4 @@
   pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
 - Implémenter les divisions verticales et horizontales
 - Implémenter dans l'interface qml , des endrois dans le footer ou placer les infos tels que la tension max , la fréquence , la div et autres
+-  Implémenter la phase dans l'affichage des signaux

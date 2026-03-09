@@ -21,6 +21,9 @@ class ISampleProvider : public  QObject {
     void stopAcquisition() {
         doStopAcquisition();
     };
+    float getPhaseHint() {
+        return 0;
+    }
     ~ISampleProvider() override = default;
 
     signals:
