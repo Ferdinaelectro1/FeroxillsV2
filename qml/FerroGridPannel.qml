@@ -11,28 +11,30 @@ Item {
         border.color: "#2D2D33"
         anchors.fill: parent
 
+        readonly property real nombre_total_division : 8
         // grille style oscilloscope
         Canvas {
             anchors.fill: parent
             onPaint: {
-                var ctx = getContext("2d");
+                let ctx = getContext("2d");
                 ctx.fillStyle = "#0F0F13";
                 ctx.fillRect(0,0,width,height);
 
                 ctx.strokeStyle = "#222228";
                 ctx.lineWidth = 1;
-                var step = 40;
+                let verticalStep = height / waveformArea.nombre_total_division;
+                let horizontalStep = 40;
 
-                // lignes verticales
-                for (var x=0; x<width; x+=step) {
+                // lignes horizontales
+                for (let x=0; x<width; x+=horizontalStep) {
                     ctx.beginPath();
                     ctx.moveTo(x,0);
                     ctx.lineTo(x,height);
                     ctx.stroke();
                 }
 
-                // lignes horizontales
-                for (var y=0; y<height; y+=step) {
+                // lignes verticales
+                for (let y=0; y<height; y+=verticalStep) {
                     ctx.beginPath();
                     ctx.moveTo(0,y);
                     ctx.lineTo(width,y);
@@ -84,10 +86,12 @@ Item {
                     var pts = []
                     let w = ch1Path.width
                     let h = ch1Path.height
-                    for (var i = 0; i < backend.samples.length; i++) {
+                    for (let i = 0; i < backend.samples.length; i++) {
 
+                        let vPerDiv = 4 // 1V/div
+                        let range = vPerDiv * waveformArea.nombre_total_division / 2
                         // Normalisation : transforme [-5V,5V] en [-1,+1]
-                        let valNorm = (backend.samples[i]) / 5
+                        let valNorm = (backend.samples[i]) / range
                         let x = (i / (backend.samples.length - 1)) * w
                         let y = h/2 - valNorm * (h/2)
 
