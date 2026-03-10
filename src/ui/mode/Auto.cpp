@@ -34,6 +34,6 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
         qWarning() << "[ERROR] :  Aucun index de front montant trouvé";
     }
     const double marge_of_voltage = max - min;
-    const auto vPerDiv = static_cast<float>(marge_of_voltage/8.0);
-    emit EventBus::getInstance()->Suggest_volt_PerDiv(vPerDiv);
+    const auto vPerDiv = static_cast<float>(marge_of_voltage/DIVISION_TOTAL) ;//
+    emit EventBus::getInstance()->Suggest_volt_PerDiv(SamplesAnalyser::getVerticalAdaptedScale(vPerDiv));
 }

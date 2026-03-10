@@ -71,3 +71,10 @@ std::pair<double, double> SamplesAnalyser::getMinMaxVoltage(const QVector<double
     }
     return {MinVoltage, MaxVoltage};
 }
+
+float SamplesAnalyser::getVerticalAdaptedScale(const float calculatedScale) {
+    for (const float scale : verticalScale) {
+        if (calculatedScale <= scale) return scale;
+    }
+    return calculatedScale;
+}
