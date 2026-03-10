@@ -4,4 +4,9 @@
   pas juste afficher en partant de la position du trigger , mais faudrait pour voir récupérer les valeurs autour de la positio de ce trigger en mode trigger.
 - Implémenter les divisions verticales et horizontales
 - Implémenter dans l'interface qml , des endrois dans le footer ou placer les infos tels que la tension max , la fréquence , la div et autres
--  Implémenter la phase dans l'affichage des signaux
+-  Implémenter la possibilité d'estimer le déphasage entre 2 signaux , en fesant la différrences du temps que leurs différents trigger a été trouvé (mais on ne touche pas ça encore car
+pas encore de double canal
+- Implémenter la possibilté de double canaux
+- Implémenter la possibilité de décaler de façon horizontale un signal
+- Émettre un signal qui indique quand les valeurs du signal change en mode auto , afin de redessiner rapidement le signal  depuis le simulateur de signaux
+- Mettre le générateur de signaux dans un autre thread séparé du thread principale
