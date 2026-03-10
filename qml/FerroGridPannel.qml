@@ -12,6 +12,7 @@ Item {
         anchors.fill: parent
 
         readonly property real nombre_total_division : 8
+        property real vPerDiv : 4;
         // grille style oscilloscope
         Canvas {
             anchors.fill: parent
@@ -82,14 +83,19 @@ Item {
             // Quand les données C++ changent → QML met à jour
             Connections {
                 target: backend
+
+                function  onSuggestVoltPerDiv(newValue) {
+                    console.log("NewValue = ",newValue);
+                    waveformArea.vPerDiv = newValue;
+                }
                 function onSamplesChanged() {
                     var pts = []
                     let w = ch1Path.width
                     let h = ch1Path.height
                     for (let i = 0; i < backend.samples.length; i++) {
 
-                        let vPerDiv = 4 // 1V/div
-                        let range = vPerDiv * waveformArea.nombre_total_division / 2
+                        //let vPerDiv = 4 // 1V/div
+                        let range = waveformArea.vPerDiv * waveformArea.nombre_total_division / 2
                         // Normalisation : transforme [-5V,5V] en [-1,+1]
                         let valNorm = (backend.samples[i]) / range
                         let x = (i / (backend.samples.length - 1)) * w

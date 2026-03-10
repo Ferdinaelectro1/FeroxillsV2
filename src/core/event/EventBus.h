@@ -18,6 +18,7 @@ public:
 
 signals:
     void TriggerModeDisplayInvoked(QObject *triggerDisplayMode);
+    void Suggest_volt_PerDiv(float newVoltPerDiv);
 
 private:
     EventBus() = default;

@@ -45,6 +45,7 @@ public:
         void voltageChanged();
         void frequencyChanged();
         void triggerModeDisplayInvoked(QObject *triggerDisplayMode);
+        void suggestVoltPerDiv(float );
 
 private:
     SignalGenerator *signalGenerator;

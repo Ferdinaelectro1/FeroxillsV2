@@ -4,6 +4,7 @@
 
 #include "Auto.h"
 #include "../../core/analyser/SamplesAnalyser.h"
+#include "src/core/event/EventBus.h"
 
 /**
  *récupération de la fenetre de 2000 element les plus récents pour la recherche du trigger.
@@ -32,4 +33,7 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
     }else {
         qWarning() << "[ERROR] :  Aucun index de front montant trouvé";
     }
+    const double marge_of_voltage = max - min;
+    const auto vPerDiv = static_cast<float>(marge_of_voltage/8.0);
+    emit EventBus::getInstance()->Suggest_volt_PerDiv(vPerDiv);
 }
