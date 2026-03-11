@@ -11,8 +11,10 @@ Item {
         border.color: "#2D2D33"
         anchors.fill: parent
 
-        readonly property real nombre_total_division : 8
+        readonly property real nombre_total_division_vertical : 8
+        readonly property real nombre_total_division_horizontal : 10
         property real vPerDiv : 4;
+        property real msPerDiv : 0.02
         // grille style oscilloscope
         Canvas {
             anchors.fill: parent
@@ -23,8 +25,8 @@ Item {
 
                 ctx.strokeStyle = "#222228";
                 ctx.lineWidth = 1;
-                let verticalStep = height / waveformArea.nombre_total_division;
-                let horizontalStep = 40;
+                let verticalStep = height / waveformArea.nombre_total_division_vertical;
+                let horizontalStep = width / waveformArea.nombre_total_division_horizontal;
 
                 // lignes horizontales
                 for (let x=0; x<width; x+=horizontalStep) {
@@ -89,15 +91,16 @@ Item {
                     waveformArea.vPerDiv = newValue;
                 }
                 function onSamplesChanged() {
-                    var pts = []
+                    let pts = []
                     let w = ch1Path.width
                     let h = ch1Path.height
                     for (let i = 0; i < backend.samples.length; i++) {
 
                         //let vPerDiv = 4 // 1V/div
-                        let range = waveformArea.vPerDiv * waveformArea.nombre_total_division / 2
+                        let Yrange = waveformArea.vPerDiv * waveformArea.nombre_total_division_vertical / 2;
+                        let Xrange = waveformArea.msPerDiv * waveformArea.nombre_total_division_horizontal;
                         // Normalisation : transforme [-5V,5V] en [-1,+1]
-                        let valNorm = (backend.samples[i]) / range
+                        let valNorm = (backend.samples[i]) / Yrange
                         let x = (i / (backend.samples.length - 1)) * w
                         let y = h/2 - valNorm * (h/2)
 
