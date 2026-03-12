@@ -13,8 +13,9 @@ Item {
 
         readonly property real nombre_total_division_vertical : 8
         readonly property real nombre_total_division_horizontal : 10
+        readonly property real echantillonage_period : 0.000022
         property real vPerDiv : 4;
-        property real msPerDiv : 0.02
+        property real msPerDiv : 0.001
         // grille style oscilloscope
         Canvas {
             anchors.fill: parent
@@ -101,10 +102,10 @@ Item {
                         let Xrange = waveformArea.msPerDiv * waveformArea.nombre_total_division_horizontal;
                         // Normalisation : transforme [-5V,5V] en [-1,+1]
                         let valNorm = (backend.samples[i]) / Yrange
-                        let x = (i / (backend.samples.length - 1)) * w
+                        let x = x = (i * waveformArea.echantillonage_period) * (w / (waveformArea.nombre_total_division_horizontal * waveformArea.msPerDiv));
                         let y = h/2 - valNorm * (h/2)
-
-                        pts.push(Qt.point(x, y))
+                        if(x <= w)
+                          pts.push(Qt.point(x, y))
                     }
                     ch1Polyline.path = pts
                 }
