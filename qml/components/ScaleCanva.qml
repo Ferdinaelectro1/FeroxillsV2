@@ -1,4 +1,0 @@
-Item {
-    id: root
-
-}

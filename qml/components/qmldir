@@ -2,3 +2,4 @@ module Ferro.Components
 
 FerroSlider 1.0 FerroSlider.qml
 FerroOneValuePopup 1.0 FerroOneValuePopup.qml
+FerroScaleCanva 1.0 FerroScaleCanva.qml

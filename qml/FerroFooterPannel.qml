@@ -1,4 +1,5 @@
 import QtQuick
+import "components/"
 
 Item {
     implicitWidth: 700
@@ -13,17 +14,26 @@ Item {
             anchors.fill: parent
             anchors.margins: 15
             spacing: 25
+            FerroScaleCanva {
+                color : "#F7D40A"
+                height: parent.height
+                width: 100
+                decalage : 10
+                firstText : "1"
+            }
 
-            Rectangle {
-                anchors.fill : parent
-                color : "#0000FF"
-                Text {
-                    anchors.verticalCenter : parent.verticalCenter
-                    text: "TimeBase: 500us/div"
-                    color: "#D0D0D0"
-                    font.pixelSize: 16
-                    font.bold : true
-                }
+            FerroScaleCanva {
+                color: "#0000FF"
+                height: parent.height
+                width: 100
+                decalage : 10
+            }
+
+            FerroScaleCanva {
+                color: "#FF0000"
+                height: parent.height
+                width: 100
+                decalage : 10
             }
         }
     }
