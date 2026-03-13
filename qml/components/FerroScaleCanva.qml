@@ -28,11 +28,19 @@ Item {
         }
     }
     Text {
-        x : (((root.width*0.2) / 2) + root.decalage) - implicitWidth / 2
+        x : (((root.width*0.2) / 2) + root.decalage) - implicitWidth
+        y : root.height / 2 - implicitHeight / 2
+        color: "#FFFFFF"
+        font.bold : true
+        font.pixelSize : 25
+        text: root.firstText
+    }
+    Text {
+        x : ((root.width*0.2 + root.width + root.decalage) / 2) - (implicitWidth/2)
         y : root.height / 2 - implicitHeight / 2
         color: "#FFFFFF"
         font.bold : true
         font.pixelSize : 20
-        text: root.firstText
+        text: root.secondText
     }
 }

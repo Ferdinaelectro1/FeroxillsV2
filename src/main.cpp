@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <qqmlcontext.h>
 #include "Backend.h"
+#include "core/FSettings.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,9 @@ int main(int argc, char *argv[])
 
     qmlRegisterUncreatableType<FDisplayMode>("Feroxills.DisplayMode", 1, 0, "FDisplayMode", "Enum only");
 
+
+    auto * settings = new FSettings(&app);
+    engine.rootContext()->setContextProperty("settings", settings);
 
     Backend *backend = new Backend(&app);
     engine.rootContext()->setContextProperty("backend", backend);

@@ -14,8 +14,8 @@ Item {
         readonly property real nombre_total_division_vertical : 8
         readonly property real nombre_total_division_horizontal : 10
         readonly property real echantillonage_period : 0.000022
-        property real vPerDiv : 4;
-        property real msPerDiv : 0.001
+        property real vPerDiv : settings.voltPerDivision;
+        property real msPerDiv : settings.timePerDivision;
         // grille style oscilloscope
         Canvas {
             anchors.fill: parent

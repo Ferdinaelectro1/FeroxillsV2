@@ -20,6 +20,7 @@ Item {
                 width: 100
                 decalage : 10
                 firstText : "1"
+                secondText : "= "+settings.voltPerDivision.toFixed(2)+"V"
             }
 
             FerroScaleCanva {
@@ -27,13 +28,17 @@ Item {
                 height: parent.height
                 width: 100
                 decalage : 10
+                firstText : "2"
+                secondText : "= 1V"
             }
 
             FerroScaleCanva {
                 color: "#FF0000"
                 height: parent.height
-                width: 100
+                width: 120
                 decalage : 10
+                firstText : "3"
+                secondText : "= "+(settings.timePerDivision*1000.0).toFixed(2)+" ms"
             }
         }
     }

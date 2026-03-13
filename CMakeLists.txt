@@ -29,6 +29,8 @@ qt_add_executable(appFeroxills
         src/core/debug/debug.cpp
         src/core/debug/debug.h
         src/io/ISampleProvider.h
+        src/core/FSettings.cpp
+        src/core/FSettings.h
 )
 
 qt_add_qml_module(appFeroxills
