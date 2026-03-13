@@ -10,3 +10,4 @@ pas encore de double canal
 - Implémenter la possibilité de décaler de façon horizontale un signal
 - Émettre un signal qui indique quand les valeurs du signal change en mode auto , afin de redessiner rapidement le signal  depuis le simulateur de signaux
 - Mettre le générateur de signaux dans un autre thread séparé du thread principale
+- Implémentater le stockage local des configurations et paramètres du user, tels la sensibilité horizontale , vertical et autres
