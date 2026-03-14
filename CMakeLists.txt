@@ -4,9 +4,14 @@ project(Feroxills VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick Test)
 
 qt_standard_project_setup(REQUIRES 6.5)
+
+qt_add_executable (FeroxillsTests
+        test/FSettingsTest.cpp
+        src/core/FSettings.cpp
+)
 
 qt_add_executable(appFeroxills
     src/main.cpp
@@ -71,9 +76,15 @@ target_link_libraries(appFeroxills
     PRIVATE Qt6::Quick
 )
 
+target_link_libraries(FeroxillsTests
+        PRIVATE Qt6::Test Qt6::Core
+)
+
 include(GNUInstallDirs)
 install(TARGETS appFeroxills
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+add_test(NAME FeroxillsTests COMMAND FeroxillsTests)
