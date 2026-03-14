@@ -5,32 +5,33 @@
 #ifndef FEROXILLS_FSETTINGS_H
 #define FEROXILLS_FSETTINGS_H
 #include <qobject.h>
-#include "event/EventBus.h"
+#include <QSettings>
 
 
 class FSettings final : public QObject {
     Q_OBJECT
-    Q_PROPERTY(double voltPerDivision READ getVoltPerDivision NOTIFY onVoltPerDivisionChanged)
-    Q_PROPERTY(double timePerDivision READ getTimePerDivision NOTIFY onTimePerDivisionChanged)
-
+    Q_PROPERTY(double timeDiv READ getTimeDiv WRITE setTimeDiv NOTIFY onTimeDivChanged)
+    Q_PROPERTY(double ch1VoltDiv READ getCh1VoltDiv WRITE setCh1VoltDiv NOTIFY onCh1VoltDivChanged)
 public:
-    explicit FSettings(QObject *parent = nullptr) : QObject(parent), _voltPerDivision(4),_timePerDivision(0.001){
-        connect(EventBus::getInstance(),&EventBus::Suggest_volt_PerDiv,this,&FSettings::setVoltPerDivision);
-    }
-    [[nodiscard]] double getVoltPerDivision() const {return _voltPerDivision;}
-    [[nodiscard]] double getTimePerDivision() const {return _timePerDivision;}
+    static FSettings *instance();
+    FSettings(const FSettings &) = delete;
+    FSettings &operator=(const FSettings &) = delete;
+    FSettings(const FSettings &&) = delete;
+    FSettings &operator=(const FSettings &&) = delete;
+    [[nodiscard]] double getTimeDiv() const;
+    [[nodiscard]] double getCh1VoltDiv() const;
+    void setTimeDiv(double timeDiv);
+    void setCh1VoltDiv(double ch1VoltDiv);
 
     signals:
-    void onVoltPerDivisionChanged();
-    void onTimePerDivisionChanged();
-
-public slots:
-    void setVoltPerDivision(const double newVoltPerDivision) { _voltPerDivision = newVoltPerDivision; emit onVoltPerDivisionChanged();}
-    void setTimePerDivision(const double newTimePerDivision) { _timePerDivision = newTimePerDivision; emit onTimePerDivisionChanged();}
+    void onTimeDivChanged();
+    void onCh1VoltDivChanged();
 
 private:
-    double _voltPerDivision;
-    double _timePerDivision;
+    FSettings();
+    double _timeDiv;
+    double _ch1VoltDiv;
+    QSettings _localSettings;
 };
 
 #endif //FEROXILLS_FSETTINGS_H

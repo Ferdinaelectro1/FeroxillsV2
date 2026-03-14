@@ -4,6 +4,7 @@
 
 #include "Auto.h"
 #include "../../core/analyser/SamplesAnalyser.h"
+#include "src/core/FSettings.h"
 #include "src/core/event/EventBus.h"
 
 /**
@@ -35,5 +36,7 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
     }
     const double marge_of_voltage = max - min;
     const auto vPerDiv = static_cast<float>(marge_of_voltage/DIVISION_TOTAL) ;//
-    emit EventBus::getInstance()->Suggest_volt_PerDiv(SamplesAnalyser::getVerticalAdaptedScale(vPerDiv));
+    const auto suggetvPerDiv = SamplesAnalyser::getVerticalAdaptedScale(vPerDiv);
+    //qDebug() <<"suggetvPerDiv = "<< suggetvPerDiv;
+    FSettings::instance()->setCh1VoltDiv(suggetvPerDiv);
 }

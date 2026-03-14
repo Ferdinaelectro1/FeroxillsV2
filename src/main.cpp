@@ -17,10 +17,7 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     qmlRegisterUncreatableType<FDisplayMode>("Feroxills.DisplayMode", 1, 0, "FDisplayMode", "Enum only");
-
-
-    auto * settings = new FSettings(&app);
-    engine.rootContext()->setContextProperty("settings", settings);
+    qmlRegisterSingletonInstance<FSettings>("Feroxills.Settings",1,0,"Settings",FSettings::instance());
 
     Backend *backend = new Backend(&app);
     engine.rootContext()->setContextProperty("backend", backend);

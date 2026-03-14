@@ -1,5 +1,7 @@
 import QtQuick
 import "components/"
+import Feroxills.Settings 1.0
+
 
 Item {
     implicitWidth: 700
@@ -20,7 +22,7 @@ Item {
                 width: 100
                 decalage : 10
                 firstText : "1"
-                secondText : "= "+settings.voltPerDivision.toFixed(2)+"V"
+                secondText : "= "+Settings.ch1VoltDiv.toFixed(2)+"V"
             }
 
             FerroScaleCanva {
@@ -38,7 +40,7 @@ Item {
                 width: 120
                 decalage : 10
                 firstText : "3"
-                secondText : "= "+(settings.timePerDivision*1000.0).toFixed(2)+" ms"
+                secondText : "= "+(Settings.timeDiv*1000.0).toFixed(2)+" ms"
             }
         }
     }

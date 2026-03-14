@@ -24,7 +24,6 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     connect(signalGenerator,&SignalGenerator::samplesAvailable,this,&Backend::dataAvailable);
     /*Réémission du signal issues du bus d'event par le backend , pour permettre de récupérer les paramètres du trigger depuis qml*/
     connect(EventBus::getInstance(),&EventBus::TriggerModeDisplayInvoked,this,&Backend::triggerModeDisplayInvoked);
-    connect(EventBus::getInstance(),&EventBus::Suggest_volt_PerDiv,this,&Backend::suggestVoltPerDiv);
     SignalParameter s_parameter;
     s_parameter.frequency = 150;
     s_parameter.voltage = 4;

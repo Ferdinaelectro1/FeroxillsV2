@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Shapes 6.5
+import Feroxills.Settings 1.0
 
 Item {
     implicitHeight: 300
@@ -14,8 +15,8 @@ Item {
         readonly property real nombre_total_division_vertical : 8
         readonly property real nombre_total_division_horizontal : 10
         readonly property real echantillonage_period : 0.000022
-        property real vPerDiv : settings.voltPerDivision;
-        property real msPerDiv : settings.timePerDivision;
+        property real vPerDiv : Settings.ch1VoltDiv;
+        property real msPerDiv : Settings.timeDiv;
         // grille style oscilloscope
         Canvas {
             anchors.fill: parent
@@ -86,11 +87,6 @@ Item {
             // Quand les données C++ changent → QML met à jour
             Connections {
                 target: backend
-
-                function  onSuggestVoltPerDiv(newValue) {
-                    console.log("NewValue = ",newValue);
-                    waveformArea.vPerDiv = newValue;
-                }
                 function onSamplesChanged() {
                     let pts = []
                     let w = ch1Path.width
