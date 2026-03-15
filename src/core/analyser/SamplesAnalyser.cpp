@@ -3,6 +3,7 @@
 //
 
 #include "SamplesAnalyser.h"
+#include "../FConstantes.h"
 
 SamplesAnalyser::SamplesAnalyser() : _samplesParameter {0,0,0,0,0},_hysteresis(0.0){}
 
@@ -73,7 +74,7 @@ std::pair<double, double> SamplesAnalyser::getMinMaxVoltage(const QVector<double
 }
 
 float SamplesAnalyser::getVerticalAdaptedScale(const float calculatedScale) {
-    for (const float scale : verticalScale) {
+    for (const float scale : Feroxills::Constants::VERTICAL_SCALES) {
         if (calculatedScale <= scale) return scale;
     }
     return calculatedScale;

@@ -6,11 +6,6 @@
 #define FEROXILLS_SIGNALANALYSER_H
 
 #include <QVector>
-#define DIVISION_TOTAL 8.0
-
-static constexpr float verticalScale[] = {
-    0.01f,0.02f,0.05f,0.1f,0.2f,0.5f,1.0f,2.0f,5.0f,10.0f
-};
 
 struct SamplesParameter {
     double voltage_max;

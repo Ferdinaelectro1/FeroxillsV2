@@ -5,7 +5,7 @@
 #include "Auto.h"
 #include "../../core/analyser/SamplesAnalyser.h"
 #include "src/core/FSettings.h"
-#include "src/core/event/EventBus.h"
+#include "../../core/FConstantes.h"
 
 /**
  *récupération de la fenetre de 2000 element les plus récents pour la recherche du trigger.
@@ -35,7 +35,7 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
         qWarning() << "[ERROR] :  Aucun index de front montant trouvé";
     }
     const double marge_of_voltage = max - min;
-    const auto vPerDiv = static_cast<float>(marge_of_voltage/DIVISION_TOTAL) ;//
+    const auto vPerDiv = static_cast<float>(marge_of_voltage/Feroxills::Constants::VERTICAL_DIVISIONS) ;//
     const auto suggetvPerDiv = SamplesAnalyser::getVerticalAdaptedScale(vPerDiv);
     //qDebug() <<"suggetvPerDiv = "<< suggetvPerDiv;
     FSettings::instance()->setCh1VoltDiv(suggetvPerDiv);
