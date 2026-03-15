@@ -10,10 +10,10 @@ class FSettingsTest final : public  QObject {
     Q_OBJECT
 private slots:
     void testSettings() {
-        FSettings::instance()->setCh1VoltDiv(2.4);
-        QCOMPARE(2.4,FSettings::instance()->getCh1VoltDiv());
-        FSettings::instance()->setTimeDiv(3.001);
-        QCOMPARE(3.001,FSettings::instance()->getTimeDiv());
+        FSettings::instance()->setCh1VoltDiv(4);
+        QCOMPARE(4,FSettings::instance()->getCh1VoltDiv());
+        FSettings::instance()->setTimeDiv(0.001);
+        QCOMPARE(0.001,FSettings::instance()->getTimeDiv());
     }
 
 };
