@@ -11,6 +11,8 @@ namespace Feroxills::Constants {
     static constexpr float VERTICAL_SCALES[] = {
         0.01f,0.02f,0.05f,0.1f,0.2f,0.5f,1.0f,2.0f,5.0f,10.0f
     };
+    static constexpr unsigned long SAMPLING_FREQUENCY = 44100;
+    static constexpr unsigned int NUMBER_OF_PERIOD_PRINT_IN_AUTO = 2;
 }
 
 #endif //FEROXILLS_FCONSTANTES_H

@@ -21,6 +21,7 @@ public:
     SamplesAnalyser();
     [[nodiscard]] SamplesParameter getSamplesParameter(const QVector<double>& samplesWindows);
     [[nodiscard]] static std::optional<unsigned long> getFirstRisingPos(const QVector<double>& buffer,double trigger = 0.0) ;
+    [[nodiscard]] static std::optional<double> getPeriod(const QVector<double>& samples);
     [[nodiscard]] static  std::pair<double,double> getMinMaxVoltage(const QVector<double>& samples);
     [[nodiscard]] static float getVerticalAdaptedScale(float calculatedScale);
 
@@ -28,7 +29,6 @@ private:
     //Methodes
     [[nodiscard]] std::pair<double,double> getMinMaxVoltage() const;
     [[nodiscard]] unsigned long getPeriodSamples() const;
-    [[nodiscard]] std::pair<unsigned long,unsigned long> getTwoRisingPos() const;
     //Attributs
     SamplesParameter _samplesParameter;
     QVector<double> _samplesWindows;

@@ -37,6 +37,11 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
     const double marge_of_voltage = max - min;
     const auto vPerDiv = static_cast<float>(marge_of_voltage/Feroxills::Constants::VERTICAL_DIVISIONS) ;//
     const auto suggetvPerDiv = SamplesAnalyser::getVerticalAdaptedScale(vPerDiv);
+    const auto signalPeriod = SamplesAnalyser::getPeriod(researchBuffer);
+    if (signalPeriod.has_value()) {
+        const auto suggestPeriod = (signalPeriod.value() * Feroxills::Constants::NUMBER_OF_PERIOD_PRINT_IN_AUTO) / Feroxills::Constants::HORIZONTAL_DIVISIONS;
+        FSettings::instance()->setTimeDiv(suggestPeriod);
+    }
     //qDebug() <<"suggetvPerDiv = "<< suggetvPerDiv;
     FSettings::instance()->setCh1VoltDiv(suggetvPerDiv);
 }

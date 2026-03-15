@@ -12,12 +12,12 @@ SamplesAnalyser::SamplesAnalyser() : _samplesParameter {0,0,0,0,0},_hysteresis(0
     const auto [voltage_min, voltage_max] = getMinMaxVoltage();
     _samplesParameter.voltage_min = voltage_min;
     _samplesParameter.voltage_max = voltage_max;
-    const auto [firstRisingPos, secondRisingPos] = getTwoRisingPos();
+    constexpr  unsigned long firstRisingPos = 0;
+    constexpr  unsigned long secondRisingPos = 30;
     _samplesParameter._first_rising_pos = firstRisingPos;
     _samplesParameter._second_rising_pos = secondRisingPos;
     _samplesParameter.periodSamples = getPeriodSamples(); //déterminer les front avant de detecter la période
-    if (!secondRisingPos || (firstRisingPos == secondRisingPos)) _samplesParameter.isPeriodic = false;
-    else _samplesParameter.isPeriodic = true;
+    _samplesParameter.isPeriodic = true;
     return _samplesParameter;
 }
 
@@ -33,18 +33,18 @@ unsigned long SamplesAnalyser::getPeriodSamples() const {
     return period;
 }
 
-std::pair<unsigned long, unsigned long> SamplesAnalyser::getTwoRisingPos() const {
-    if (_samplesWindows.empty()) return {0,0};
+static std::pair<unsigned long, unsigned long> getTwoRisingPos(const QVector<double>& samples) {
+    if (samples.empty()) return {0,0};
     unsigned long firstRisingPos = 0;
     unsigned long secondRisingPos = 0;
-    for (int i = 0; i < _samplesWindows.size() - 1; ++i) {
-        if (_samplesWindows[i] < -_hysteresis && _samplesWindows[i+1] > _hysteresis) {
+    for (int i = 0; i < samples.size() - 1; ++i) {
+        if (samples[i] < 0 && samples[i+1] > 0) {
             firstRisingPos = i;
             break;
         }
     }
-    for (int i = firstRisingPos + 1 ; i < _samplesWindows.size() - 1; ++i) {
-        if (_samplesWindows[i] < -_hysteresis && _samplesWindows[i+1] > _hysteresis) {
+    for (int i = firstRisingPos + 1 ; i < samples.size() - 1; ++i) {
+        if (samples[i] < 0 && samples[i+1] > 0) {
             secondRisingPos = i;
             break;
         }
@@ -60,6 +60,15 @@ std::optional<unsigned long> SamplesAnalyser::getFirstRisingPos(const QVector<do
         }
     }
     return std::nullopt;
+}
+
+std::optional<double> SamplesAnalyser::getPeriod(const QVector<double> &samples) {
+    const auto [firstRisingPos, secondRisingPos] = getTwoRisingPos(samples);
+    if (firstRisingPos == secondRisingPos) {
+        return std::nullopt;
+    }
+    const double period = static_cast<double>(secondRisingPos - firstRisingPos)*(1.0 / Feroxills::Constants::SAMPLING_FREQUENCY);
+    return period;
 }
 
 std::pair<double, double> SamplesAnalyser::getMinMaxVoltage(const QVector<double> &samples) {
