@@ -12,3 +12,5 @@ pas encore de double canal
 - Mettre le générateur de signaux dans un autre thread séparé du thread principale
 - Implémentater le stockage local des configurations et paramètres du user, tels la sensibilité horizontale , vertical et autres
 - Supprimer le code inutile qui calcule la fréquence et la structure samplesParameter du code de l'analyser
+- Implémenter correctement le comportement du mode auto , pour éviter de faire des calcules à répétition à chaque frame en mode auto , mais le faire une seul fois au clic du mode auto
+- Implémenter les divisions horizontales par défaut
