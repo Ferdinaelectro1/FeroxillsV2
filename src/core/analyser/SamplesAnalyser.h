@@ -24,6 +24,7 @@ public:
     [[nodiscard]] static std::optional<double> getPeriod(const QVector<double>& samples);
     [[nodiscard]] static  std::pair<double,double> getMinMaxVoltage(const QVector<double>& samples);
     [[nodiscard]] static float getVerticalAdaptedScale(float calculatedScale);
+    [[nodiscard]] static float getHorizontalAdaptedScale(float calculatedScale,float& currentScale);
 
 private:
     //Methodes

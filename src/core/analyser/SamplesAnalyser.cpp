@@ -88,3 +88,24 @@ float SamplesAnalyser::getVerticalAdaptedScale(const float calculatedScale) {
     }
     return calculatedScale;
 }
+
+static float getAdaptedScale (const float calculatedScale,float& currentScale) {
+    for (const float scale : Feroxills::Constants::HORIZONTAL_SCALES) {
+        if (calculatedScale <= scale) {
+            currentScale = scale;
+            return scale;
+        }
+    }
+    return calculatedScale;
+}
+
+float SamplesAnalyser::getHorizontalAdaptedScale(const float calculatedScale,float& currentScale) {
+    if (currentScale < std::numeric_limits<float>::epsilon()) {
+        return getAdaptedScale(calculatedScale,currentScale);
+    }
+    /*On vérifie si le scale calculé n'est pas dans la zone d'hystérésis pour éviter des variations brusques*/
+    if (calculatedScale <= currentScale*(1 + Feroxills::Constants::SCALE_HYSTERESIS) && (calculatedScale >= currentScale*(1 - Feroxills::Constants::SCALE_HYSTERESIS))) {
+        return currentScale;
+    }
+    return getAdaptedScale(calculatedScale,currentScale);
+}

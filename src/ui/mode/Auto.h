@@ -14,6 +14,8 @@ public:
     [[nodiscard]] DisplayMode  getModeType() const  override {
         return AUTO;
     }
+private:
+    float _currentHorizontalScale = 0.0;
 };
 
 

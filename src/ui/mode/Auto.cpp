@@ -40,7 +40,7 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
     const auto signalPeriod = SamplesAnalyser::getPeriod(researchBuffer);
     if (signalPeriod.has_value()) {
         const auto suggestPeriod = (signalPeriod.value() * Feroxills::Constants::NUMBER_OF_PERIOD_PRINT_IN_AUTO) / Feroxills::Constants::HORIZONTAL_DIVISIONS;
-        FSettings::instance()->setTimeDiv(suggestPeriod);
+        FSettings::instance()->setTimeDiv(SamplesAnalyser::getHorizontalAdaptedScale(static_cast<float>(suggestPeriod),_currentHorizontalScale));
     }
     //qDebug() <<"suggetvPerDiv = "<< suggetvPerDiv;
     FSettings::instance()->setCh1VoltDiv(suggetvPerDiv);
