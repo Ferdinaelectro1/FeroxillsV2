@@ -30,20 +30,42 @@ Item {
                 let verticalStep = height / waveformArea.nombre_total_division_vertical;
                 let horizontalStep = width / waveformArea.nombre_total_division_horizontal;
 
-                // lignes horizontales
+                // lignes verticales
                 for (let x=0; x<width; x+=horizontalStep) {
                     ctx.beginPath();
                     ctx.moveTo(x,0);
                     ctx.lineTo(x,height);
                     ctx.stroke();
+                    let horizontalSubDivStep = horizontalStep / 5;
+                    ctx.strokeStyle = "#FFFFFF";
+                    ctx.lineWidth = 2;
+                    for(let xSubDiv = x; xSubDiv < horizontalStep + x; xSubDiv += horizontalSubDivStep) {
+                        ctx.beginPath();
+                        ctx.moveTo(xSubDiv,(height/2 - 3));
+                        ctx.lineTo(xSubDiv,(height/2 + 3));
+                        ctx.stroke();
+                    }
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = "#222228";
                 }
 
-                // lignes verticales
+                // lignes horizontales
                 for (let y=0; y<height; y+=verticalStep) {
                     ctx.beginPath();
                     ctx.moveTo(0,y);
                     ctx.lineTo(width,y);
                     ctx.stroke();
+                    let verticalSubDivStep = verticalStep / 5;
+                    ctx.strokeStyle = "#FFFFFF";
+                    ctx.lineWidth = 2;
+                    for(let ySubDiv = y; ySubDiv < verticalStep + y; ySubDiv += verticalSubDivStep) {
+                        ctx.beginPath();
+                        ctx.moveTo((width/2 - 3),ySubDiv);
+                        ctx.lineTo((width/2 + 3),ySubDiv);
+                        ctx.stroke();
+                    }
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = "#222228";
                 }
             }
         }
