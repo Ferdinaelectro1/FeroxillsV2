@@ -120,7 +120,7 @@ Item {
                         let Xrange = waveformArea.msPerDiv * waveformArea.nombre_total_division_horizontal;
                         // Normalisation : transforme [-5V,5V] en [-1,+1]
                         let valNorm = (backend.samples[i]) / Yrange
-                        let x = x = (i * waveformArea.echantillonage_period) * (w / (waveformArea.nombre_total_division_horizontal * waveformArea.msPerDiv));
+                        let x = (i * waveformArea.echantillonage_period) * (w / (waveformArea.nombre_total_division_horizontal * waveformArea.msPerDiv));
                         let y = h/2 - valNorm * (h/2)
                         if(x <= w)
                           pts.push(Qt.point(x, y))
