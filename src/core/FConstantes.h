@@ -27,6 +27,7 @@ namespace Feroxills::Constants {
         1.0f,  2.0f,  5.0f
     };
     static constexpr unsigned long SAMPLING_FREQUENCY = 44100;
+    static constexpr double SAMPLING_PERIOD = 1.0 / SAMPLING_FREQUENCY;
     static constexpr unsigned int NUMBER_OF_PERIOD_PRINT_IN_AUTO = 2;
     static constexpr double SCALE_HYSTERESIS = 0.2; // 20%
 }
