@@ -46,7 +46,6 @@ void FSettings::setCh1VoltDiv(const double ch1VoltDiv) {
 void FSettings::setSamplesNeeded(const unsigned long samplesNeeded) {
     if (samplesNeeded != _sample_needed) {
         _sample_needed = samplesNeeded;
-        emit onCh1VoltDivChanged();
         _localSettings.setValue("samplesNeeded",static_cast<qulonglong>(samplesNeeded));
     }
 }
