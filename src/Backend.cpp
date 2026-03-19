@@ -23,6 +23,7 @@ static void printSamplesParameter(const SamplesParameter& param) {
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     INFO("Launch app");
     signalGenerator = new SignalGenerator(this);
+    _sample_needed = FSettings::instance()->getSamplesNeeded();
     _displaySamples.resize(_sample_needed, 0.0);
     connect(signalGenerator,&SignalGenerator::samplesAvailable,this,&Backend::dataAvailable);
     connect(FSettings::instance(),&FSettings::onTimeDivChanged,this,&Backend::onTimeDivChanged);

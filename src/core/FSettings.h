@@ -20,8 +20,10 @@ public:
     FSettings &operator=(const FSettings &&) = delete;
     [[nodiscard]] double getTimeDiv() const;
     [[nodiscard]] double getCh1VoltDiv() const;
+    [[nodiscard]] unsigned long getSamplesNeeded() const;
     void setTimeDiv(double timeDiv);
     void setCh1VoltDiv(double ch1VoltDiv);
+    void setSamplesNeeded(unsigned long samplesNeeded);
 
     signals:
     void onTimeDivChanged();
@@ -32,6 +34,7 @@ private:
     double _timeDiv;
     double _ch1VoltDiv;
     QSettings _localSettings;
+    unsigned long _sample_needed;
 };
 
 #endif //FEROXILLS_FSETTINGS_H

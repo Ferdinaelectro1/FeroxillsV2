@@ -57,7 +57,7 @@ private:
     DisplayContext _display_context;
     bool _run = true;
     SamplesAnalyser _analyser;
-    unsigned long _sample_needed = 512;
+    unsigned long _sample_needed;
 
 public slots:
     void onTimeOut();
