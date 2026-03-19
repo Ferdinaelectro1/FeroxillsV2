@@ -83,6 +83,7 @@ void Backend::dataAvailable(const QVector<double>& data) {
 
 void Backend::onTimeDivChanged() {
     _sample_needed = static_cast<unsigned long>((FSettings::instance()->getTimeDiv() * Feroxills::Constants::HORIZONTAL_DIVISIONS) / Feroxills::Constants::SAMPLING_PERIOD);
+    FSettings::instance()->setSamplesNeeded(_sample_needed);
     _displaySamples.resize(_sample_needed, 0.0);
     const  double intervalOfAcquisition = Feroxills::Constants::SAMPLING_PERIOD * static_cast<double>(_sample_needed);
     qDebug() << "Samples need = " << _sample_needed << " et intervalOfAcquisition = " << intervalOfAcquisition*1000 << " et TimeDiv = "<<FSettings::instance()->getTimeDiv();
