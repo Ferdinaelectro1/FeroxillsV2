@@ -51,16 +51,18 @@ private:
     SignalGenerator *signalGenerator;
     QVector<double> _samples;
     FRingBuf<double,10000> _samplesRingBuf;
-    double _displaySamples[512] = {0};
+    QVector<double> _displaySamples;
     double _maxVoltage;
     QTimer *_timer;
     DisplayContext _display_context;
     bool _run = true;
     SamplesAnalyser _analyser;
+    unsigned long _sample_needed = 512;
 
 public slots:
     void onTimeOut();
     void dataAvailable(const QVector<double>& data);
+    void onTimeDivChanged()  ;
 };
 
 #endif //FEROXILLS_BACKEND_H

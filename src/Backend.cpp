@@ -3,6 +3,8 @@
 //
 
 #include "Backend.h"
+#include "core/FConstantes.h"
+#include "core/FSettings.h"
 #include "core/event/EventBus.h"
 #include  "core/debug/debug.h"
 
@@ -21,7 +23,9 @@ static void printSamplesParameter(const SamplesParameter& param) {
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     INFO("Launch app");
     signalGenerator = new SignalGenerator(this);
+    _displaySamples.resize(_sample_needed, 0.0);
     connect(signalGenerator,&SignalGenerator::samplesAvailable,this,&Backend::dataAvailable);
+    connect(FSettings::instance(),&FSettings::onTimeDivChanged,this,&Backend::onTimeDivChanged);
     /*Réémission du signal issues du bus d'event par le backend , pour permettre de récupérer les paramètres du trigger depuis qml*/
     connect(EventBus::getInstance(),&EventBus::TriggerModeDisplayInvoked,this,&Backend::triggerModeDisplayInvoked);
     SignalParameter s_parameter;
@@ -38,8 +42,7 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
 }
 
 QVector<double> Backend::getDisplaySamples() const {
-    QVector<double> vec(_displaySamples, _displaySamples + 512);
-    return  vec;
+    return  _displaySamples;
 }
 
 double Backend::getMaxVoltage() const {
@@ -77,6 +80,14 @@ void Backend::dataAvailable(const QVector<double>& data) {
     setMaxVoltage(_samples);
 }
 
+void Backend::onTimeDivChanged() {
+    _sample_needed = static_cast<unsigned long>((FSettings::instance()->getTimeDiv() * Feroxills::Constants::HORIZONTAL_DIVISIONS) / Feroxills::Constants::SAMPLING_PERIOD);
+    _displaySamples.resize(_sample_needed, 0.0);
+    const  double intervalOfAcquisition = Feroxills::Constants::SAMPLING_PERIOD * static_cast<double>(_sample_needed);
+    qDebug() << "Samples need = " << _sample_needed << " et intervalOfAcquisition = " << intervalOfAcquisition*1000 << " et TimeDiv = "<<FSettings::instance()->getTimeDiv();
+    signalGenerator->setAcquisitionInterval(static_cast<int>(intervalOfAcquisition*1000));
+}
+
 void Backend::onTimeOut() {
     static bool analyse = false;
     static unsigned long count = 0;
@@ -93,7 +104,7 @@ void Backend::onTimeOut() {
         }
         //on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
         //en utilisant le buffer circulaire
-        _display_context.processDisplaySamples(&_samplesRingBuf,_displaySamples,512);
+        _display_context.processDisplaySamples(&_samplesRingBuf,_displaySamples.data(),_sample_needed);
         emit SamplesChanged();
     }
 }
