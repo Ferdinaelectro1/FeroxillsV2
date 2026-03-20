@@ -4,8 +4,8 @@ import Qt5Compat.GraphicalEffects
 
 Popup {
     id: root
-    property string title : "Settings";
-    property string placeholderText : "value"
+    property string title : qsTr("Settings");
+    property string placeholderText : qsTr("value")
     anchors.centerIn: Overlay.overlay
     modal: true
     focus: true
@@ -73,7 +73,7 @@ Popup {
             spacing: 8
 
             Button {
-                text: "Cancel"
+                text: qsTr("Cancel")
                 width: 80
                 height: 30
 

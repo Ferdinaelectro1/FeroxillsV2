@@ -38,7 +38,7 @@ Item {
 
                     Text {
                         anchors.centerIn: parent
-                        text: parent.isRun ? "Stop" : "Run"
+                        text: parent.isRun ? qsTr("Stop") : qsTr("Run")
                         color: "#eae5e5"
                         font.pixelSize: 30
                         font.bold: true
@@ -49,9 +49,9 @@ Item {
                 id : repeater
                 // on récupère depuis c++ le mode de display initiale et on initial les états de boutton de qml avec ça.
                 model : [
-                    { name : "Roll",mode : FDisplayMode.CONTINU} ,
-                    { name : "Trigger",mode : FDisplayMode.TRIGGER } ,
-                    { name : "Auto",mode : FDisplayMode.AUTO }
+                    { name : qsTr("Roll")    ,mode : FDisplayMode.CONTINU} ,
+                    { name : qsTr("Trigger") ,mode : FDisplayMode.TRIGGER } ,
+                    { name : qsTr("Auto")    ,mode : FDisplayMode.AUTO }
                 ]
                 Rectangle {
                     property bool btnEnabled: !(backend.display_context.getCurrentMode() === modelData.mode)
@@ -88,7 +88,7 @@ Item {
             }
 
             GroupBox {
-                title: "Paramètres du signal"
+                title: qsTr("Paramètres du signal")
                 width: parent.width
                 label: Label {
                     text: parent.title
@@ -109,7 +109,7 @@ Item {
                     anchors.fill : parent
                     spacing : 10
                     FerroSlider {
-                        label: "Duty"
+                        label: qsTr("Duty")
                         unit: ""
                         accentColor: "#00b4d8"
                         from : 0.0
@@ -122,7 +122,7 @@ Item {
                         }
                     }
                     FerroSlider {
-                        label: "Voltage"
+                        label: qsTr("Voltage")
                         unit: "V"
                         accentColor: "#00b4d8"
                         from : 0.0
@@ -135,7 +135,7 @@ Item {
                         }
                     }
                     FerroSlider {
-                        label: "Fréquence"
+                        label: qsTr("Fréquence")
                         unit: "Hz"
                         accentColor: "#00b4d8"
                         from : 0.0
@@ -161,7 +161,7 @@ Item {
     }
     FerroOneValuePopup {
         id : parametresPopup
-        title : "Trigger Level"
+        title : qsTr("Trigger Level")
         onValidate: function(value) {
             currentDisplayModeObject.setTriggerLevel(value)
             parametresPopup.close()
