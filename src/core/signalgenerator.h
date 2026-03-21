@@ -18,6 +18,7 @@ enum class SignalType{
     PWM,
     RISING_PULSE,
     AM,
+    FM,
     ZERO
 };
 
