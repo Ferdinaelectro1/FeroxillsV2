@@ -9,9 +9,6 @@ pas encore de double canal
 - Implémenter la possibilité de décaler de façon horizontale un signal
 - Émettre un signal qui indique quand les valeurs du signal change en mode auto , afin de redessiner rapidement le signal  depuis le simulateur de signaux
 - Mettre le générateur de signaux dans un autre thread séparé du thread principale
-- Implémentater le stockage local des configurations et paramètres du user, tels la sensibilité horizontale , vertical et autres
 - Supprimer le code inutile qui calcule la fréquence et la structure samplesParameter du code de l'analyser
 - Implémenter correctement le comportement du mode auto , pour éviter de faire des calcules à répétition à chaque frame en mode auto , mais le faire une seul fois au clic du mode auto
-- Implémenter les divisions horizontales par défaut
 - Implémenter la génération d'un signal FM
-- Déplacer le nombre de minidivisions dans le fichier des constantes
