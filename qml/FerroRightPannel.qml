@@ -86,6 +86,12 @@ Item {
                     }
                 }
             }
+            Button {
+                text: qsTr("Reset Trigger")
+                onClicked: {
+                    console.log("Reset trigger")
+                }
+            }
 
             GroupBox {
                 title: qsTr("Paramètres du signal")
