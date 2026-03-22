@@ -12,6 +12,7 @@ TriggerMode::TriggerMode() {
 }
 
 void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
+    if (!_triggerLevel.has_value()) return;
     if (ringBuf->size() < 2000 + display_win_size) return;
     //on mémorise 2000 + 512 echantillons issues du ring qu'on va use
     //plus tard pour l'affichage, ne pas use le ring buffer directement
@@ -19,7 +20,7 @@ void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double
     // et alors l'index trouvé devient invalide
     const QVector<double> snapshot = ringBuf->getRecentWindows(2000 + display_win_size);
     const QVector<double> researchBuffer = snapshot.mid(0,2000);
-    auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer,_triggerLevel);
+    auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer,_triggerLevel.value());
     if (firstRisingPos.has_value()) {
          const unsigned int bufferOffset = display_win_size/2;
         /* On remplit les 1 /2 premiers valeurs de display_win_size par des 0, pour pouvoir placer par la suite le trigger en partant de là.
@@ -47,6 +48,6 @@ void TriggerMode::setTriggerLevel(const double triggerLevel) {
 }
 
 double TriggerMode::getTriggerLevel() const {
-    return  _triggerLevel;
+    return  _triggerLevel.value();
 }
 

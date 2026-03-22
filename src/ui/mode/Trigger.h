@@ -21,7 +21,10 @@ public:
     Q_INVOKABLE [[nodiscard]] double getTriggerLevel() const;
 
 private:
-    double _triggerLevel = 4.5;
+    std::optional<double> _triggerLevel;
+    bool _trigger_is_detected = false;
+    TriggerType _trigger_type;
+    QVector<double> _oldDisplaySamples = {0};
 };
 
 
