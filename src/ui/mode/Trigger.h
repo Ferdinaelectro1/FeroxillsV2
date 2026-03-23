@@ -9,6 +9,11 @@
 #include "../DisplayMode.h"
 #include <QDebug>
 
+enum class TriggerType {
+    CONTINUOUS_TRIGGER = 0,
+    SINGLE_SHOOT_TRIGGER = 1
+};
+
 class TriggerMode final : public  FDisplayMode {
     Q_OBJECT
 public:
