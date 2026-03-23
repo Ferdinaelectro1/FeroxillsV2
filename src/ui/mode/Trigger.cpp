@@ -5,10 +5,16 @@
 #include "Trigger.h"
 #include "../../core/analyser/SamplesAnalyser.h"
 #include "../../core/event/EventBus.h"
+#include "src/core/FSettings.h"
 
 
 TriggerMode::TriggerMode() {
     emit EventBus::getInstance()->TriggerModeDisplayInvoked(this);
+    _trigger_type = static_cast<TriggerType>(FSettings::instance()->getTriggerModeTriggerType());
+    qDebug() << "TriggerMode::TriggerMode" << FSettings::instance()->getTriggerModeTriggerType();
+    connect(FSettings::instance(),&FSettings::onTriggerMode_triggerTypeChanged,this, [&]() {
+        _trigger_type = static_cast<TriggerType>(FSettings::instance()->getTriggerModeTriggerType());
+    });
 }
 
 void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
