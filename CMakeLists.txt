@@ -54,6 +54,7 @@ qt_add_qml_module(appFeroxills
         QML_FILES qml/components/FerroSlider.qml
         QML_FILES qml/components/FerroOneValuePopup.qml
         QML_FILES qml/components/FerroScaleCanva.qml
+        QML_FILES qml/components/FerroTriggerTypePopup.qml
         RESOURCES
            qml/font/SAKUNA.ttf
            qml/font/Paper_Scratch.otf
