@@ -91,10 +91,9 @@ Item {
             }
             Button {
                 text: qsTr("Reset Trigger")
+                enabled : root1.currentMode === FDisplayMode.TRIGGER
                 onClicked: {
-                    if(root1.currentMode === FDisplayMode.TRIGGER) {
-                        triggerModePopup.open()
-                    }
+                    triggerModePopup.open()
                 }
             }
 
