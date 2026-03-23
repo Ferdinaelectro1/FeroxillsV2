@@ -3,11 +3,13 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import Feroxills.DisplayMode 1.0
+import Feroxills.Settings 1.0
 import "components/"
 
 Item {
     id: root1
     property var currentDisplayModeObject: null
+    property int currentMode : 0
     // --- RIGHT PANEL (buttons) ---
     implicitWidth: 250
     implicitHeight: 700
@@ -74,6 +76,7 @@ Item {
                             console.log("Bouton pressé  : ",modelData.name)
                             console.log("Mode  : ",modelData.mode)
                             backend.display_context.setNewMode(modelData.mode)
+                            root1.currentMode = modelData.mode;
                             //on active tout les bouttons d'abord
                             for (let i = 0; i < repeater.count; i++) {
                                 if(index === i) continue;
@@ -89,7 +92,9 @@ Item {
             Button {
                 text: qsTr("Reset Trigger")
                 onClicked: {
-                    console.log("Reset trigger")
+                    if(root1.currentMode === FDisplayMode.TRIGGER) {
+                        triggerModePopup.open()
+                    }
                 }
             }
 
@@ -162,7 +167,7 @@ Item {
         function onTriggerModeDisplayInvoked(triggerDisplayMode)
         {
             currentDisplayModeObject = triggerDisplayMode;
-            parametresPopup.open()
+            triggerModePopup.open()
         }
     }
     FerroOneValuePopup {
@@ -171,6 +176,15 @@ Item {
         onValidate: function(value) {
             currentDisplayModeObject.setTriggerLevel(value)
             parametresPopup.close()
+        }
+    }
+    FerroTriggerTypePopup {
+        id: triggerModePopup
+        selectedMode : Settings.triggerModeTriggerType
+        onValidate: (mode) => {
+            Settings.triggerModeTriggerType = mode;// 0 = continu, 1 = single shot
+            console.log("New mode : ",mode)
+            parametresPopup.open()
         }
     }
 }
