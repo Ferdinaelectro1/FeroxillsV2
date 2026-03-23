@@ -15,6 +15,8 @@ public:
         return AUTO;
     }
 private:
+    void applyAutoScale(const QVector<double>& snapshot);
+    bool _scaled = false;
     float _currentHorizontalScale = 0.0;
 };
 
