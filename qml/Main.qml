@@ -2,6 +2,7 @@ import QtQuick 6.5
 import QtQuick.Controls 6.5
 import QtQuick.Layouts 6.5
 import QtQuick.Shapes 6.5
+import QtQuick.Controls.Material
 
 Window {
     visible: true
@@ -11,6 +12,9 @@ Window {
     maximumWidth: 1280
     minimumHeight: 720
     maximumHeight: 720
+    Material.theme: Material.Dark
+    Material.accent: "#4dabf7"
+    Material.primary: "#2b2b2b"
     title: "Feroxills 0.0.1"
 
     Rectangle {
