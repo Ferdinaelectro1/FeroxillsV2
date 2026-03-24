@@ -48,7 +48,9 @@ void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *d
             }
         }
     }else {
-        qWarning() << "[ERROR] :  Aucun index de front montant trouvé";
+        for (int i= 0; i < display_win_size; i++) {
+            displaySamplesBuff[i] = 0;
+        }
     }
     applyAutoScale(snapshot);
 }

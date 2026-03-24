@@ -18,7 +18,12 @@ TriggerMode::TriggerMode() {
 }
 
 void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
-    if (!_triggerLevel.has_value()) return;
+    if (!_triggerLevel.has_value()) {
+        for (int i= 0; i < display_win_size; i++) {
+            displaySamplesBuff[i] = 0;
+        }
+        return;
+    }
     if (ringBuf->size() < 2000 + display_win_size) return;
     //on mémorise 2000 + 512 echantillons issues du ring qu'on va use
     //plus tard pour l'affichage, ne pas use le ring buffer directement
@@ -58,7 +63,9 @@ void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double
             }
         }
     }else {
-        qWarning() << "[ERROR] :  Aucun trigger trouvé";
+        for (int i= 0; i < display_win_size; i++) {
+            displaySamplesBuff[i] = 0;
+        }
     }
 }
 
