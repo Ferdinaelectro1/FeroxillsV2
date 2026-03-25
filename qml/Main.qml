@@ -8,9 +8,7 @@ Window {
     visible: true
     width: 1280
     height: 720
-    minimumWidth: 1280
     maximumWidth: 1280
-    minimumHeight: 720
     maximumHeight: 720
     Material.theme: Material.Dark
     Material.accent: "#4dabf7"
@@ -19,8 +17,8 @@ Window {
 
     Rectangle {
         id: root
-        width: 1280
-        height: 720
+        width: parent.width
+        height: parent.height
         color: "#111216"    // Fond Rigol sombre
 
         FerroHeaderPannel {
