@@ -14,12 +14,12 @@ Item {
 
         Row {
             anchors.fill: parent
-            anchors.margins: 15
-            spacing: 25
+            anchors.margins: 10
+            spacing: 35
             FerroScaleCanva {
                 color : "#F7D40A"
                 height: parent.height
-                width: 100
+                width: 150
                 decalage : 10
                 firstText : "1"
                 secondText : "= "+Settings.ch1VoltDiv.toFixed(2)+"V"
@@ -28,7 +28,7 @@ Item {
             FerroScaleCanva {
                 color: "#0000FF"
                 height: parent.height
-                width: 100
+                width: 150
                 decalage : 10
                 firstText : "2"
                 secondText : "= 1V"
@@ -37,7 +37,7 @@ Item {
             FerroScaleCanva {
                 color: "#FF0000"
                 height: parent.height
-                width: 120
+                width: 170
                 decalage : 10
                 firstText : "3"
                 secondText : "= "+(Settings.timeDiv*1000.0).toFixed(2)+" ms"
