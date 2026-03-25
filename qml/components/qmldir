@@ -4,3 +4,4 @@ FerroSlider 1.0 FerroSlider.qml
 FerroOneValuePopup 1.0 FerroOneValuePopup.qml
 FerroScaleCanva 1.0 FerroScaleCanva.qml
 FerroTriggerTypePopup 1.0 FerroTriggerTypePopup.qml
+AutoSizeText 1.0 AutoSizeText.qml
