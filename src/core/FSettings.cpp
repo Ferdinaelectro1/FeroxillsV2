@@ -3,6 +3,16 @@
 //
 
 #include "FSettings.h"
+#include "FConstantes.h"
+
+static ssize_t getScalePos(const double scale, const float *scaleBuffer, const size_t scaleBufferSize) {
+    for (int i = 0; i < scaleBufferSize; i++) {
+        if (std::abs(scale - scaleBuffer[i]) < 1e-6f) { //this is equivalent to scale == scaleBuffer[i]
+            return i;
+        }
+    }
+    return -1;
+}
 
 FSettings::FSettings() : _localSettings("feroxills.org","Feroxills") {
     _timeDiv = _localSettings.value("timeDiv",0.001).toDouble();
@@ -64,4 +74,54 @@ void FSettings::setTriggerModeTriggerType(const int triggerMode) {
     }
 }
 
+void FSettings::stepCh1VoltDiv(const bool decrement) {
+    constexpr auto totalScaleSize = std::size(Feroxills::Constants::VERTICAL_SCALES);
+    const ssize_t posFound = getScalePos(getCh1VoltDiv(),Feroxills::Constants::VERTICAL_SCALES,totalScaleSize);
+    if (posFound != -1) {
+        _current_vertical_scale_pos = posFound;
+    }
+    if (decrement) {
+        if (_current_vertical_scale_pos > 0)
+           _current_vertical_scale_pos--;
+    }
+    else {
+        if (_current_vertical_scale_pos < totalScaleSize - 1)
+          _current_vertical_scale_pos++;
+    }
+    setCh1VoltDiv(Feroxills::Constants::VERTICAL_SCALES[_current_vertical_scale_pos]);
+    //qDebug() << "Pos : "<<_current_vertical_scale_pos<<" Value = "<<Feroxills::Constants::VERTICAL_SCALES[_current_vertical_scale_pos];
+}
+
+void FSettings::stepTimeDiv(const bool decrement) {
+    constexpr auto totalScaleSize = std::size(Feroxills::Constants::HORIZONTAL_SCALES);
+    const ssize_t posFound = getScalePos(getTimeDiv(),Feroxills::Constants::HORIZONTAL_SCALES,totalScaleSize);
+    if (posFound != -1) {
+        _current_horizontal_scale_pos = posFound;
+    }
+    if (decrement) {
+        if (_current_horizontal_scale_pos > 0)
+            _current_horizontal_scale_pos--;
+    }
+    else {
+        if (_current_horizontal_scale_pos < totalScaleSize - 1)
+            _current_horizontal_scale_pos++;
+    }
+    setTimeDiv(Feroxills::Constants::HORIZONTAL_SCALES[_current_horizontal_scale_pos]);
+}
+
+void FSettings::decrementCh1VoltDiv() {
+   stepCh1VoltDiv(true);
+}
+
+void FSettings::incrementCh1VoltDiv() {
+    stepCh1VoltDiv(false);
+}
+
+void FSettings::incrementTimeDiv() {
+    stepTimeDiv(false);
+}
+
+void FSettings::decrementTimeDiv() {
+    stepTimeDiv(true);
+}
 //Temporaire

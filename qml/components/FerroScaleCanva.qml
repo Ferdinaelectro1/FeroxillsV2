@@ -9,6 +9,8 @@ Item {
     property string firstText  : ""
     property string secondText : ""
     property real shapeHeight: 60
+    signal clickedLess()
+    signal clickedMore()
 
     Rectangle {
         anchors.fill : parent
@@ -46,6 +48,7 @@ Item {
                             border.color: "#454749"
                             border.width: 1
                         }
+                        onClicked : root.clickedLess()
                     }
                 }
 
@@ -109,6 +112,7 @@ Item {
                             border.color: "#454749"
                             border.width: 1
                         }
+                        onClicked : root.clickedMore()
                     }
                 }
             }

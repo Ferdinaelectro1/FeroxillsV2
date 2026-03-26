@@ -23,6 +23,12 @@ Item {
                 decalage : 10
                 firstText : "1"
                 secondText : "= "+Settings.ch1VoltDiv.toFixed(2)+"V"
+                onClickedMore : {
+                    Settings.incrementCh1VoltDiv();
+                }
+                onClickedLess : {
+                    Settings.decrementCh1VoltDiv();
+                }
             }
 
             FerroScaleCanva {
@@ -41,6 +47,12 @@ Item {
                 decalage : 10
                 firstText : "3"
                 secondText : "= "+(Settings.timeDiv*1000.0).toFixed(2)+" ms"
+                onClickedMore : {
+                    Settings.incrementTimeDiv();
+                }
+                onClickedLess : {
+                    Settings.decrementTimeDiv();
+                }
             }
         }
     }

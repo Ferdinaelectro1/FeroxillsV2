@@ -27,6 +27,10 @@ public:
     void setCh1VoltDiv(double ch1VoltDiv);
     void setSamplesNeeded(unsigned long samplesNeeded);
     void setTriggerModeTriggerType(int triggerMode); // 0 = continuous, 1 = single shot
+    Q_INVOKABLE void incrementCh1VoltDiv();
+    Q_INVOKABLE void decrementCh1VoltDiv();
+    Q_INVOKABLE void incrementTimeDiv();
+    Q_INVOKABLE void decrementTimeDiv();
 
     signals:
     void onTimeDivChanged();
@@ -40,6 +44,10 @@ private:
     QSettings _localSettings;
     unsigned long _sample_needed;
     int _triggerMode_triggerType;
+    unsigned long _current_vertical_scale_pos = 0;
+    unsigned long _current_horizontal_scale_pos = 0;
+    void stepCh1VoltDiv(bool decrement);
+    void stepTimeDiv(bool decrement);
 };
 
 #endif //FEROXILLS_FSETTINGS_H
