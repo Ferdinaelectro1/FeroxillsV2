@@ -11,6 +11,7 @@
 
 #include "ui/DisplayContext.h"
 #include "core/analyser/SamplesAnalyser.h"
+#include "core/FConstantes.h"
 
 class Backend final : public QObject
 {
@@ -50,7 +51,7 @@ public:
 private:
     SignalGenerator *signalGenerator;
     QVector<double> _samples;
-    FRingBuf<double,10000> _samplesRingBuf;
+    FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> _samplesRingBuf;
     QVector<double> _displaySamples;
     double _maxVoltage;
     QTimer *_timer;

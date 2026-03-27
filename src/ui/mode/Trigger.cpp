@@ -17,7 +17,7 @@ TriggerMode::TriggerMode() {
     });
 }
 
-void TriggerMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
+void TriggerMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
     if (!_triggerLevel.has_value()) {
         for (int i= 0; i < display_win_size; i++) {
             displaySamplesBuff[i] = 0;

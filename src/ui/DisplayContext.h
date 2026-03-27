@@ -11,6 +11,7 @@
 #include "mode/Auto.h"
 #include "mode/Continu.h"
 #include "mode/Trigger.h"
+#include "../core/FConstantes.h"
 
 class DisplayContext final : public QObject {
     Q_OBJECT
@@ -47,7 +48,7 @@ public:
     }
 
 
-    void processDisplaySamples(FRingBuf<double,10000> *ringBuf, double *displaySamples, size_t display_win_size) const {
+    void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples, size_t display_win_size) const {
         if (_current_mode) {
             _current_mode->processDisplaySamples(ringBuf,displaySamples, display_win_size);
         }

@@ -28,7 +28,7 @@ void AutoMode::applyAutoScale (const QVector<double>& snapshot) {
     FSettings::instance()->setCh1VoltDiv(suggetvPerDiv);
 }
 
-void AutoMode::processDisplaySamples(FRingBuf<double, 10000> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
+void AutoMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
     if (ringBuf->size() < 2000 + display_win_size) return;
     //on mémorise 2000 + 512 echantillons issues du ring qu'on va use
     //plus tard pour l'affichage, ne pas use le ring buffer directement

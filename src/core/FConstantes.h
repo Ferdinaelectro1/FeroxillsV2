@@ -30,6 +30,7 @@ namespace Feroxills::Constants {
     static constexpr double SAMPLING_PERIOD = 1.0 / SAMPLING_FREQUENCY;
     static constexpr unsigned int NUMBER_OF_PERIOD_PRINT_IN_AUTO = 2;
     static constexpr double SCALE_HYSTERESIS = 0.2; // 20%
+    static constexpr  unsigned long RING_BUFFER_SIZE = 20000;
 }
 
 #endif //FEROXILLS_FCONSTANTES_H
