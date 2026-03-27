@@ -46,7 +46,20 @@ Item {
                 width: 170
                 decalage : 10
                 firstText : "3"
-                secondText : "= "+(Settings.timeDiv*1000.0).toFixed(2)+" ms"
+                secondText: {
+                    let _timeDiv = Settings.timeDiv;
+                    if (_timeDiv === undefined || _timeDiv === null) return "--";
+
+                    if (_timeDiv < 0.000001) {
+                        return "= " + (_timeDiv * 1000000000.0).toFixed(1) + " ns";
+                    } else if (_timeDiv < 0.001) {
+                        return "= " + (_timeDiv * 1000000.0).toFixed(1) + " us";
+                    } else if (_timeDiv < 1.0) {
+                        return "= " + (_timeDiv * 1000.0).toFixed(1) + " ms";
+                    } else {
+                        return "= " + (_timeDiv).toFixed(1) + " s";
+                    }
+                }
                 onClickedMore : {
                     Settings.incrementTimeDiv();
                 }
