@@ -22,7 +22,7 @@ Item {
                 width: 150
                 decalage : 10
                 firstText : "1"
-                secondText : "= "+Settings.ch1VoltDiv.toFixed(2)+"V"
+                secondText : " = "+Settings.ch1VoltDiv.toFixed(2)+"V"
                 onClickedMore : {
                     Settings.incrementCh1VoltDiv();
                 }
@@ -51,13 +51,15 @@ Item {
                     if (_timeDiv === undefined || _timeDiv === null) return "--";
 
                     if (_timeDiv < 0.000001) {
-                        return "= " + (_timeDiv * 1000000000.0).toFixed(1) + " ns";
+                        if((_timeDiv * 1000000000.0).toFixed(1) >= 1000.0)
+                            return "  = " + (_timeDiv * 1000000.0).toFixed(1) + " us";
+                        return "  = " + (_timeDiv * 1000000000.0).toFixed(1) + " ns";
                     } else if (_timeDiv < 0.001) {
-                        return "= " + (_timeDiv * 1000000.0).toFixed(1) + " us";
+                        return "  = " + (_timeDiv * 1000000.0).toFixed(1) + " us";
                     } else if (_timeDiv < 1.0) {
-                        return "= " + (_timeDiv * 1000.0).toFixed(1) + " ms";
+                        return "  = " + (_timeDiv * 1000.0).toFixed(1) + " ms";
                     } else {
-                        return "= " + (_timeDiv).toFixed(1) + " s";
+                        return "  = " + (_timeDiv).toFixed(1) + " s";
                     }
                 }
                 onClickedMore : {
