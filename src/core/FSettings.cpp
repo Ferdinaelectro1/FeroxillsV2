@@ -7,7 +7,7 @@
 
 static ssize_t getScalePos(const double scale, const float *scaleBuffer, const size_t scaleBufferSize) {
     for (int i = 0; i < scaleBufferSize; i++) {
-        if (std::abs(scale - scaleBuffer[i]) < 1e-6f) { //this is equivalent to scale == scaleBuffer[i]
+        if (std::abs(scale - scaleBuffer[i]) < 1e-12f) { //this is equivalent to scale == scaleBuffer[i]
             return i;
         }
     }
