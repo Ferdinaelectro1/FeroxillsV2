@@ -69,11 +69,6 @@ void Backend::setRun(const bool run) {
 }
 
 void Backend::dataAvailable(const QVector<double>& data) {
-    if(data.size() != 512) {
-        qWarning() << "Backend::dataAvailable(): data.size() != 512";
-        exit(1);
-    }
-
     _samples = data.toVector();
 
     for (const double ech : _samples)
