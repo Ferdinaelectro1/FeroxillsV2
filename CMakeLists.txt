@@ -4,7 +4,7 @@ project(Feroxills VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS QuickControls2 Quick Test)
+find_package(Qt6 REQUIRED COMPONENTS QuickControls2 Quick Test SerialPort)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -37,6 +37,8 @@ qt_add_executable(appFeroxills
         src/core/FSettings.cpp
         src/core/FSettings.h
         src/core/FConstantes.h
+        src/io/SerialWorker.cpp
+        src/io/SerialWorker.h
 )
 
 qt_add_qml_module(appFeroxills
@@ -76,7 +78,7 @@ set_target_properties(appFeroxills PROPERTIES
 )
 
 target_link_libraries(appFeroxills
-    PRIVATE Qt6::Quick Qt6::QuickControls2
+    PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::SerialPort
 )
 
 target_link_libraries(FeroxillsTests

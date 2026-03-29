@@ -12,6 +12,7 @@
 #include "ui/DisplayContext.h"
 #include "core/analyser/SamplesAnalyser.h"
 #include "core/FConstantes.h"
+#include "io/SerialWorker.h"
 
 class Backend final : public QObject
 {
@@ -59,6 +60,7 @@ private:
     bool _run = true;
     SamplesAnalyser _analyser;
     unsigned long _sample_needed;
+    SerialWorker *_serialWorker;
 
 public slots:
     void onTimeOut();
