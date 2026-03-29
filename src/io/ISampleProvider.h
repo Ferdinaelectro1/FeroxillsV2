@@ -27,7 +27,7 @@ class ISampleProvider : public  QObject {
     void samplesAvailable(const QVector<double>& );
 
 private:
-    virtual void doSetAcquisitionInterval(int interval) = 0;
+    virtual void doSetAcquisitionInterval(int interval) {};
     virtual void doStartAcquisition(int interval) = 0;
     virtual void doStopAcquisition() = 0;
 };
