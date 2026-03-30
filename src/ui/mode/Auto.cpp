@@ -49,7 +49,7 @@ void AutoMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING
         }
     }else {
         for (int i= 0; i < display_win_size; i++) {
-            displaySamplesBuff[i] = 0;
+            displaySamplesBuff[i] = snapshot[snapshot.size() - (display_win_size - i)];
         }
     }
     applyAutoScale(snapshot);
