@@ -23,8 +23,8 @@ void AutoMode::applyAutoScale (const QVector<double>& snapshot) {
     if (signalPeriod.has_value()) {
         const auto suggestPeriod = (signalPeriod.value() * Feroxills::Constants::NUMBER_OF_PERIOD_PRINT_IN_AUTO) / Feroxills::Constants::HORIZONTAL_DIVISIONS;
         FSettings::instance()->setTimeDiv(SamplesAnalyser::getHorizontalAdaptedScale(static_cast<float>(suggestPeriod),_currentHorizontalScale));
-        _scaled = true;
     }
+    _scaled = true;
     FSettings::instance()->setCh1VoltDiv(suggetvPerDiv);
 }
 
