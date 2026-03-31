@@ -47,10 +47,10 @@ void AutoMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING
                 displaySamplesBuff[i] = snapshot[idx + i];
             }
         }
-        applyAutoScale(snapshot);
     }else {
         for (int i= 0; i < display_win_size; i++) {
             displaySamplesBuff[i] = snapshot[snapshot.size() - (display_win_size - i)];
         }
     }
+    applyAutoScale(snapshot);
 }
