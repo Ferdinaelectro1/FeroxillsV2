@@ -106,25 +106,21 @@ Item {
                 }
             }
 
-            // Quand les données C++ changent → QML met à jour
+            // Quand les du modelView C++ changent → QML met à jour
             Connections {
-                target: backend
-                function onSamplesChanged() {
+                target: viewModel
+                function onDisplayValuesChanged() {
                     let pts = []
                     let w = ch1Path.width
                     let h = ch1Path.height
-                    for (let i = 0; i < backend.samples.length; i++) {
 
-                        //let vPerDiv = 4 // 1V/div
-                        let Yrange = waveformArea.vPerDiv * waveformArea.nombre_total_division_vertical / 2;
-                        let Xrange = waveformArea.msPerDiv * waveformArea.nombre_total_division_horizontal;
-                        // Normalisation : transforme [-5V,5V] en [-1,+1]
-                        let valNorm = (backend.samples[i]) / Yrange
-                        let x = (i * waveformArea.echantillonage_period) * (w / (waveformArea.nombre_total_division_horizontal * waveformArea.msPerDiv));
-                        let y = h/2 - valNorm * (h/2)
-                        if(x <= w)
-                          pts.push(Qt.point(x, y))
+                    //Denormalization of normalized values
+                    for (let i = 0; i < viewModel.displayValues.length; i++) {
+                        let px = viewModel.displayValues[i].x * w
+                        let py = h/2 - viewModel.displayValues[i].y * (h/2)
+                        pts.push(Qt.point(px, py))
                     }
+
                     ch1Polyline.path = pts
                 }
 

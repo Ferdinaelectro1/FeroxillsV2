@@ -43,8 +43,9 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     _timer->start();
 }
 
-QVector<double> Backend::getDisplaySamples() const {
-    return  _displaySamples;
+Backend::~Backend() {
+    _worker_thread->quit();
+    _worker_thread->wait();
 }
 
 double Backend::getMaxVoltage() const {
@@ -103,7 +104,7 @@ void Backend::onTimeOut() {
         //on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
         //en utilisant le buffer circulaire
         _display_context.processDisplaySamples(&_samplesRingBuf,_displaySamples.data(),_sample_needed);
-        emit SamplesChanged();
+        emit  displaySamplesReady(_displaySamples);
     }
 }
 
