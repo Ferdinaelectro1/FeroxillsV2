@@ -5,30 +5,35 @@
 #ifndef FEROXILLS_ISAMPLESREADER_H
 #define FEROXILLS_ISAMPLESREADER_H
 #include <qobject.h>
+#include "ProviderSettings.h"
+#include "ProviderType.h"
 
 class ISampleProvider : public  QObject {
     Q_OBJECT
 
     public:
     explicit ISampleProvider(QObject *parent = nullptr) : QObject(parent) {};
-    void startAcquisition(const int interval = 500) {
-        doStartAcquisition(interval);
+    ~ISampleProvider() override = default;
+
+public slots:
+    void startAcquisition(const ProviderSettings* settings) {
+        doStartAcquisition(settings);
     }
-    void setAcquisitionInterval(const int interval) {
-        if (interval)
-            doSetAcquisitionInterval(interval);
+    void modifyAcquisitionSettings(const ProviderSettings* settings) {
+        if (settings)
+            doModifyAcquisitionSettings(settings);
     }
     void stopAcquisition() {
         doStopAcquisition();
     };
-    ~ISampleProvider() override = default;
 
     signals:
+    void providerStopped(ProviderState state);
     void samplesAvailable(const QVector<double>& );
 
 private:
-    virtual void doSetAcquisitionInterval(int interval) {};
-    virtual void doStartAcquisition(int interval) = 0;
+    virtual void doModifyAcquisitionSettings(const ProviderSettings* settings) {};
+    virtual void doStartAcquisition(const ProviderSettings* settings) = 0;
     virtual void doStopAcquisition() = 0;
 };
 
