@@ -41,6 +41,13 @@ qt_add_executable(appFeroxills
         src/io/SerialWorker.h
         src/ui/FViewModel.h
         src/ui/FViewModel.cpp
+        src/io/ProviderSettings.h
+        src/io/ProviderSourceController.cpp
+        src/io/ProviderSourceController.h
+        src/io/ProviderType.h
+        src/io/Factory.h
+        src/io/SoftwareProvider.cpp
+        src/io/SoftwareProvider.h
 )
 
 qt_add_qml_module(appFeroxills
