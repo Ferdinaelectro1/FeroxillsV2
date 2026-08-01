@@ -5,7 +5,6 @@
 #ifndef FEROXILLS_BACKEND_H
 #define FEROXILLS_BACKEND_H
 
-#include "core/signalgenerator.h"
 #include "core/FBuffer.h"
 #include <QTimer>
 
@@ -13,6 +12,7 @@
 #include "core/analyser/SamplesAnalyser.h"
 #include "core/FConstantes.h"
 #include "io/SerialWorker.h"
+#include  "io/ProviderSourceController.h"
 
 class Backend final : public QObject
 {
@@ -25,7 +25,7 @@ class Backend final : public QObject
     Q_PROPERTY(double frequency READ getFrequency WRITE setFrequency NOTIFY frequencyChanged)
 public:
     explicit Backend(QObject *parent = nullptr);
-    ~Backend() override;
+    ~Backend() override = default;
     [[nodiscard]] double getMaxVoltage() const;
     void setMaxVoltage(const QVector<double>& voltageSamples);
     [[nodiscard]] DisplayContext* getDisplayContext() { return &_display_context; }
@@ -49,7 +49,7 @@ public:
         void suggestVoltPerDiv(float );
 
 private:
-    SignalGenerator *signalGenerator;
+    ProviderSourceController *_source_controller;
     QVector<double> _samples;
     FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> _samplesRingBuf;
     QVector<double> _displaySamples;

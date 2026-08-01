@@ -7,6 +7,7 @@
 #include "core/FSettings.h"
 #include "core/event/EventBus.h"
 #include  "core/debug/debug.h"
+#include "io/SoftwareProvider.h"
 
 static void printSamplesParameter(const SamplesParameter& param) {
     constexpr double ech_freq = (1.0/44100.0);
@@ -22,30 +23,23 @@ static void printSamplesParameter(const SamplesParameter& param) {
 
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     INFO("Launch app");
-    signalGenerator = new SignalGenerator(this);
-    _serialWorker = new SerialWorker(this);
+    auto s = SoftwareProviderSettings();
+    s.interval_ms = 500;
+    s.frequency = 150;
+    s.voltage = 4;
+    s.phase = 0;
+    s.type = SignalType::SINUS ;
+    _source_controller = new ProviderSourceController(ProviderType::SOFTWARE_SOURCE,&s,this);
     _sample_needed = FSettings::instance()->getSamplesNeeded();
     _displaySamples.resize(_sample_needed, 0.0);
-    connect(signalGenerator,&SignalGenerator::samplesAvailable,this,&Backend::dataAvailable);
+    connect(_source_controller,&ProviderSourceController::samplesAvailable,this,&Backend::dataAvailable);
     connect(FSettings::instance(),&FSettings::onTimeDivChanged,this,&Backend::onTimeDivChanged);
     /*Réémission du signal issues du bus d'event par le backend , pour permettre de récupérer les paramètres du trigger depuis qml*/
     connect(EventBus::getInstance(),&EventBus::TriggerModeDisplayInvoked,this,&Backend::triggerModeDisplayInvoked);
-    SignalParameter s_parameter;
-    s_parameter.frequency = 150;
-    s_parameter.voltage = 4;
-    s_parameter.phase = 0;
-    s_parameter.type = SignalType::SINUS;
-    signalGenerator->setSignalParameter(s_parameter);
-    signalGenerator->startAcquisition(100);
     _timer = new QTimer(this);
     connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut); //timer d'affichage de chaque frame (on peut regler le fps ici)
     _timer->setInterval(50);
     _timer->start();
-}
-
-Backend::~Backend() {
-    _worker_thread->quit();
-    _worker_thread->wait();
 }
 
 double Backend::getMaxVoltage() const {
@@ -84,7 +78,13 @@ void Backend::onTimeDivChanged() {
     _displaySamples.resize(_sample_needed, 0.0);
     const  double intervalOfAcquisition = Feroxills::Constants::SAMPLING_PERIOD * static_cast<double>(_sample_needed);
     qDebug() << "Samples need = " << _sample_needed << " et intervalOfAcquisition = " << intervalOfAcquisition*1000 << " et TimeDiv = "<<FSettings::instance()->getTimeDiv();
-    signalGenerator->setAcquisitionInterval(static_cast<int>(intervalOfAcquisition*1000));
+    auto s = SoftwareProviderSettings();
+    s.interval_ms = static_cast<int>(intervalOfAcquisition*1000);
+    s.frequency = 150;
+    s.voltage = 4;
+    s.phase = 0;
+    s.type = SignalType::SINUS ;
+    _source_controller->setCurrentProviderSettings(&s);
 }
 
 void Backend::onTimeOut() {
