@@ -78,13 +78,12 @@ void Backend::onTimeDivChanged() {
     _displaySamples.resize(_sample_needed, 0.0);
     const  double intervalOfAcquisition = Feroxills::Constants::SAMPLING_PERIOD * static_cast<double>(_sample_needed);
     qDebug() << "Samples need = " << _sample_needed << " et intervalOfAcquisition = " << intervalOfAcquisition*1000 << " et TimeDiv = "<<FSettings::instance()->getTimeDiv();
-    auto s = SoftwareProviderSettings();
-    s.interval_ms = static_cast<int>(intervalOfAcquisition*1000);
-    s.frequency = 150;
-    s.voltage = 4;
-    s.phase = 0;
-    s.type = SignalType::SINUS ;
-    _source_controller->setCurrentProviderSettings(&s);
+    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
+        sw->interval_ms = static_cast<int>(intervalOfAcquisition*1000);
+        _source_controller->setCurrentProviderSettings(sw);
+    } else {
+        qWarning() << "We try to modify parameter on source who don't have this parameter";
+    }
 }
 
 void Backend::onTimeOut() {

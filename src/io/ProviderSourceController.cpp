@@ -9,7 +9,7 @@ ProviderSourceController::ProviderSourceController(const ProviderType init_type,
     _current_provider_thread = new QThread(this);
     _current_provider_thread->start();
     _current_provider_source_type = init_type;
-    _current_provider_settings = std::unique_ptr<const ProviderSettings>(init_settings->clone());
+    _current_provider_settings = std::unique_ptr<ProviderSettings>(init_settings->clone());
     _pending_provider_source_type = init_type;
     _current_provider = initializeProviderSourceController(init_type, _current_provider_settings.get());
     qRegisterMetaType<ProviderState>("ProviderState");
@@ -33,14 +33,14 @@ ProviderSourceController::~ProviderSourceController() {
 void ProviderSourceController::switchTo(const ProviderType new_type, const ProviderSettings* new_settings) {
     if (!new_settings || _stop_in_progress) return;
     if (!_current_provider) {
-        auto temp_settings = std::unique_ptr<const ProviderSettings>(new_settings->clone());
+        auto temp_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
         _current_provider = initializeProviderSourceController(new_type,temp_settings.get());
         if (!_current_provider) return;
         _current_provider_settings = std::move(temp_settings);
         _current_provider_source_type = new_type;
     } else {
         _pending_provider_source_type = new_type;
-        _pending_provider_settings = std::unique_ptr<const ProviderSettings>(new_settings->clone());
+        _pending_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
         connect(_current_provider,&ISampleProvider::providerStopped,this,[&](const ProviderState state) {
             if (state == ProviderState::SUCCESS) {
                 if (_current_provider) _current_provider->deleteLater();
@@ -60,7 +60,7 @@ ProviderType ProviderSourceController::getCurrentProviderType() const {
     return  _current_provider_source_type;
 }
 
-const ProviderSettings * ProviderSourceController::getCurrentProviderSettings() const {
+ProviderSettings * ProviderSourceController::getCurrentProviderSettings() const {
     return _current_provider_settings.get();
 }
 
@@ -71,7 +71,7 @@ void ProviderSourceController::setCurrentProviderSettings(const ProviderSettings
     QMetaObject::invokeMethod(provider, [provider, settings_copy = std::move(settings_copy)]() mutable {
         provider->modifyAcquisitionSettings(settings_copy.get());
     }, Qt::QueuedConnection);
-    _current_provider_settings = std::unique_ptr<const ProviderSettings>(new_settings->clone());
+    _current_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
 }
 
 ISampleProvider* ProviderSourceController::initializeProviderSourceController(const ProviderType type, const ProviderSettings* settings) const {

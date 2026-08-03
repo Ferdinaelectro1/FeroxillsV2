@@ -18,7 +18,7 @@ public:
      explicit  ProviderSourceController(ProviderType  init_type, const ProviderSettings* init_settings, QObject *parent = nullptr);
      void switchTo(ProviderType new_type, const ProviderSettings* new_settings);
      [[nodiscard]] ProviderType getCurrentProviderType() const;
-     [[nodiscard]] const ProviderSettings *getCurrentProviderSettings() const;
+     [[nodiscard]] ProviderSettings *getCurrentProviderSettings() const;
      void setCurrentProviderSettings(const ProviderSettings* new_settings);
      ~ProviderSourceController() override;
 
@@ -30,9 +30,9 @@ private:
 
      ISampleProvider *_current_provider;
      ProviderType _pending_provider_source_type;
-     std::unique_ptr<const ProviderSettings> _pending_provider_settings;
+     std::unique_ptr<ProviderSettings> _pending_provider_settings;
      ProviderType _current_provider_source_type;
-     std::unique_ptr<const ProviderSettings> _current_provider_settings;
+     std::unique_ptr<ProviderSettings> _current_provider_settings;
      QThread* _current_provider_thread;
      bool _stop_in_progress;
 };
