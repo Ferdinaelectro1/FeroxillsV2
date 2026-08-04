@@ -7,6 +7,8 @@
 
 #include <QThread>
 #include <memory>
+#include <atomic>
+#include <mutex>
 #include "ISampleProvider.h"
 #include  "ProviderSettings.h"
 #include   "ProviderType.h"
@@ -35,6 +37,9 @@ private:
      std::unique_ptr<ProviderSettings> _current_provider_settings;
      QThread* _current_provider_thread;
      bool _stop_in_progress;
+     std::atomic<bool> _settingsUpdatePending{false};
+     std::unique_ptr<const ProviderSettings> _pendingSettingsForApply;
+     std::mutex _pendingSettingsMutex;
 };
 
 

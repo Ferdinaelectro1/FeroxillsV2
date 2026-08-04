@@ -66,10 +66,22 @@ ProviderSettings * ProviderSourceController::getCurrentProviderSettings() const 
 
 void ProviderSourceController::setCurrentProviderSettings(const ProviderSettings *new_settings) {
     if (!_current_provider || !new_settings) return;
-    auto settings_copy = std::unique_ptr<const ProviderSettings>(new_settings->clone());
+    {
+        std::lock_guard<std::mutex> lock(_pendingSettingsMutex);
+        _pendingSettingsForApply = std::unique_ptr<const ProviderSettings>(new_settings->clone());
+    }
+    if (_settingsUpdatePending.exchange(true,std::memory_order_release)) return;
+
     ISampleProvider* provider = _current_provider;
-    QMetaObject::invokeMethod(provider, [provider, settings_copy = std::move(settings_copy)]() mutable {
-        provider->modifyAcquisitionSettings(settings_copy.get());
+    QMetaObject::invokeMethod(provider, [this,provider]() mutable {
+        _settingsUpdatePending.store(false);
+        std::unique_ptr<const ProviderSettings> settings;
+        {
+            std::lock_guard<std::mutex> lock(_pendingSettingsMutex);
+            settings = std::move(_pendingSettingsForApply);
+        }
+        if (settings && provider)
+            provider->modifyAcquisitionSettings(settings.get());
     }, Qt::QueuedConnection);
     _current_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
 }
