@@ -108,25 +108,52 @@ void Backend::onTimeOut() {
 }
 
 double Backend::getDutyCycle() const {
-    return signalGenerator->getSignalParameter().duty;
+    if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
+        return  sw->duty;
+    }
+    qWarning() << "Tried to read dutyCycle on a source that doesn't expose it (current type mismatch)";
+    return 0.0;
 }
 
 double Backend::getVoltage() const {
-    return  signalGenerator->getSignalParameter().voltage;
+    if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
+        return  sw->voltage;
+    }
+    qWarning() << "Tried to read voltage on a source that doesn't expose it (current type mismatch)";
+    return 0.0;
 }
 
 double Backend::getFrequency() const {
-    return signalGenerator->getSignalParameter().frequency;
+    if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
+        return  sw->frequency;
+    }
+    qWarning() << "Tried to read frequency on a source that doesn't expose it (current type mismatch)";
+    return 0.0;
 }
 
 void Backend::setDutyCycle(const double duty) const {
-    signalGenerator->setDuty(duty);
+    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
+        sw->duty = duty;
+        _source_controller->setCurrentProviderSettings(sw);
+    } else {
+        qWarning() << "Tried to modify dutyCycle on a source that doesn't expose it (current type mismatch)";
+    }
 }
 
 void Backend::setVoltage(const double voltage) const {
-    signalGenerator->setVoltage(voltage);
+    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
+        sw->voltage = voltage;
+        _source_controller->setCurrentProviderSettings(sw);
+    } else {
+        qWarning() << "Tried to modify voltage on a source that doesn't expose it (current type mismatch)";
+    }
 }
 
 void Backend::setFrequency(const double frequency) const {
-    signalGenerator->setFrequency(frequency);
+    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
+        sw->frequency = frequency;
+        _source_controller->setCurrentProviderSettings(sw);
+    } else {
+        qWarning() << "Tried to modify Frequency on a source that doesn't expose it (current type mismatch)";
+    }
 }
