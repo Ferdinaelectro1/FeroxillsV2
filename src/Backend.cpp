@@ -24,7 +24,7 @@ static void printSamplesParameter(const SamplesParameter& param) {
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     INFO("Launch app");
     auto s = SoftwareProviderSettings();
-    s.interval_ms = 500;
+    s.interval_ms = 50;
     s.frequency = 150;
     s.voltage = 4;
     s.phase = 0;
