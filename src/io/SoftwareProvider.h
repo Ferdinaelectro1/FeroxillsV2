@@ -79,8 +79,6 @@ public:
     void intervalMsChanged();
     void phaseChanged();
 
-    friend class SoftwareProvider;
-
 private:
     SignalType _type = SignalType::SINUS;
     double _voltage = 1.0;
