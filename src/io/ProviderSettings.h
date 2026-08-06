@@ -5,9 +5,12 @@
 #ifndef FEROXILLS_PROVIDERSETTINGS_H
 #define FEROXILLS_PROVIDERSETTINGS_H
 
-class ProviderSettings {
+#include <QObject>
+
+class ProviderSettings : public  QObject {
+    Q_OBJECT
     public:
-    virtual  ~ProviderSettings() = default;
+    ~ProviderSettings() override = default;
     [[nodiscard]] virtual  ProviderSettings* clone() const = 0;
 };
 

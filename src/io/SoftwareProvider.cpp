@@ -25,8 +25,8 @@ void SoftwareProvider::doStartAcquisition(const ProviderSettings *settings)
         qWarning() << Q_FUNC_INFO << "this ProviderSettings in parameter is not SoftWareSettings";
         return;
     }
-    m_settings = std::make_unique<const SoftwareProviderSettings>(*softSettings);
-    m_timer->setInterval(softSettings->interval_ms);
+    m_settings =  std::unique_ptr<const SoftwareProviderSettings>(dynamic_cast<const SoftwareProviderSettings *>(softSettings->clone()));
+    m_timer->setInterval(softSettings->_interval_ms);
     m_timer->start();
 }
 
@@ -42,9 +42,9 @@ void SoftwareProvider::doModifyAcquisitionSettings(const ProviderSettings *setti
         qWarning() << Q_FUNC_INFO << "this ProviderSettings in parameter is not SoftWareSettings";
         return;
     }
-    m_settings = std::make_unique<const SoftwareProviderSettings>(*softSettings);
+    m_settings = std::unique_ptr<const SoftwareProviderSettings>(dynamic_cast<const SoftwareProviderSettings *>(softSettings->clone()));
     m_timer->stop();
-    m_timer->setInterval(softSettings->interval_ms);
+    m_timer->setInterval(softSettings->_interval_ms);
     m_timer->start();
 }
 
@@ -69,73 +69,73 @@ void SoftwareProvider::send_Samples()
         const double t = m_t * dt;
 
         double value = 0.0;
-        switch (m_settings->type) {
+        switch (m_settings->_type) {
             case SignalType::SINUS:
                 value =
-                    m_settings->voltage *
+                    m_settings->_voltage *
                         std::sin(2.0 * M_PI *
-                             m_settings->frequency * t +
-                         m_settings->phase);
+                             m_settings->_frequency * t +
+                         m_settings->_phase);
                 break;
             case SignalType::AM:
-                value = m_settings->voltage *
+                value = m_settings->_voltage *
                         std::sin(2.0 * M_PI *
-                             m_settings->frequency * t +
-                         m_settings->phase) ;
+                             m_settings->_frequency * t +
+                         m_settings->_phase) ;
                 value =  value *
                         std::sin(2.0 * M_PI *
-                             m_settings->frequency*30 * t +
-                         m_settings->phase) ;
+                             m_settings->_frequency*30 * t +
+                         m_settings->_phase) ;
                 break;
             case SignalType::FM:
-                value = m_settings->voltage *
+                value = m_settings->_voltage *
                         std::sin(2.0 * M_PI *
-                             m_settings->frequency * t +
-                         m_settings->phase);
-                value =  m_settings->voltage *
+                             m_settings->_frequency * t +
+                         m_settings->_phase);
+                value =  m_settings->_voltage *
                         std::sin(2.0 * M_PI *
                              value * t +
-                         m_settings->phase) ;
+                         m_settings->_phase) ;
                 break;
             case SignalType::CONTINU:
-                value = m_settings->voltage;
+                value = m_settings->_voltage;
                 break;
             case SignalType::CARRE:
                 value = (std::sin(2.0 * M_PI *
-                         m_settings->frequency * t +
-                         m_settings->phase)  >= 0) ? m_settings->voltage : -m_settings->voltage;
+                         m_settings->_frequency * t +
+                         m_settings->_phase)  >= 0) ? m_settings->_voltage : -m_settings->_voltage;
                 break;
             case SignalType::PWM:
             {
                 const double phase = std::fmod(
-                    m_settings->frequency * t +
-                    m_settings->phase / (2.0 * M_PI),
+                    m_settings->_frequency * t +
+                    m_settings->_phase / (2.0 * M_PI),
                     1.0
                 );
 
-                value = (phase < m_settings->duty)
-                        ? m_settings->voltage
-                        : -m_settings->voltage;
+                value = (phase < m_settings->_duty)
+                        ? m_settings->_voltage
+                        : -m_settings->_voltage;
             }
                 break;
             case SignalType::TRIANGLE :
-                value = 2 * m_settings->voltage / M_PI* std::asin(sin(2.0 * M_PI *
-                         m_settings->frequency * t +
-                         m_settings->phase));
+                value = 2 * m_settings->_voltage / M_PI* std::asin(sin(2.0 * M_PI *
+                         m_settings->_frequency * t +
+                         m_settings->_phase));
                 break;
             case SignalType::RAMPE:
-                value = 2*m_settings->voltage * (
-                    (t/(1.0/m_settings->frequency)) - floor(t/(1.0/m_settings->frequency) + 0.5)
+                value = 2*m_settings->_voltage * (
+                    (t/(1.0/m_settings->_frequency)) - floor(t/(1.0/m_settings->_frequency) + 0.5)
                     );
                 break;
             case SignalType::RANDOM: {
                 constexpr double N = 1.0;
-                value = m_settings->voltage* (QRandomGenerator::global()->generateDouble() * 2.0 - 1.0) * N;
+                value = m_settings->_voltage* (QRandomGenerator::global()->generateDouble() * 2.0 - 1.0) * N;
                 break;
             }
             case SignalType::RISING_PULSE:
-                if (t >= m_settings->rising_time && t < m_settings->rising_time + 7*dt) {
-                    value = m_settings->voltage;
+                if (t >= m_settings->_rising_time && t < m_settings->_rising_time + 7*dt) {
+                    value = m_settings->_voltage;
                 }
                 else {
                     value = 0.0;

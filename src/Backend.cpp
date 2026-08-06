@@ -24,11 +24,11 @@ static void printSamplesParameter(const SamplesParameter& param) {
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
     INFO("Launch app");
     auto s = SoftwareProviderSettings();
-    s.interval_ms = 50;
-    s.frequency = 150;
-    s.voltage = 4;
-    s.phase = 0;
-    s.type = SignalType::SINUS ;
+    s.set_interval_ms(50);
+    s.set_frequency(150);
+    s.set_voltage(4);
+    s.set_phase(0);
+    s.set_type(SignalType::SINUS);
     _source_controller = new ProviderSourceController(ProviderType::SOFTWARE_SOURCE,&s,this);
     _sample_needed = FSettings::instance()->getSamplesNeeded();
     _displaySamples.resize(_sample_needed, 0.0);
@@ -79,7 +79,7 @@ void Backend::onTimeDivChanged() {
     const  double intervalOfAcquisition = Feroxills::Constants::SAMPLING_PERIOD * static_cast<double>(_sample_needed);
     qDebug() << "Samples need = " << _sample_needed << " et intervalOfAcquisition = " << intervalOfAcquisition*1000 << " et TimeDiv = "<<FSettings::instance()->getTimeDiv();
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->interval_ms = static_cast<int>(intervalOfAcquisition*1000);
+        sw->set_interval_ms(static_cast<int>(intervalOfAcquisition*1000));
         _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "We try to modify parameter on source who don't have this parameter";
@@ -109,7 +109,7 @@ void Backend::onTimeOut() {
 
 double Backend::getDutyCycle() const {
     if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        return  sw->duty;
+        return  sw->get_duty();
     }
     qWarning() << "Tried to read dutyCycle on a source that doesn't expose it (current type mismatch)";
     return 0.0;
@@ -117,7 +117,7 @@ double Backend::getDutyCycle() const {
 
 double Backend::getVoltage() const {
     if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        return  sw->voltage;
+        return  sw->get_voltage();
     }
     qWarning() << "Tried to read voltage on a source that doesn't expose it (current type mismatch)";
     return 0.0;
@@ -125,7 +125,7 @@ double Backend::getVoltage() const {
 
 double Backend::getFrequency() const {
     if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        return  sw->frequency;
+        return  sw->get_frequency();
     }
     qWarning() << "Tried to read frequency on a source that doesn't expose it (current type mismatch)";
     return 0.0;
@@ -133,7 +133,7 @@ double Backend::getFrequency() const {
 
 void Backend::setDutyCycle(const double duty) const {
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->duty = duty;
+        sw->set_duty(duty);
         _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "Tried to modify dutyCycle on a source that doesn't expose it (current type mismatch)";
@@ -142,7 +142,7 @@ void Backend::setDutyCycle(const double duty) const {
 
 void Backend::setVoltage(const double voltage) const {
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->voltage = voltage;
+        sw->set_voltage(voltage);
         _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "Tried to modify voltage on a source that doesn't expose it (current type mismatch)";
@@ -151,7 +151,7 @@ void Backend::setVoltage(const double voltage) const {
 
 void Backend::setFrequency(const double frequency) const {
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->frequency = frequency;
+        sw->set_frequency(frequency);
         _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "Tried to modify Frequency on a source that doesn't expose it (current type mismatch)";
