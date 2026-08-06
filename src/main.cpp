@@ -5,6 +5,7 @@
 #include "core/FSettings.h"
 #include <QQuickStyle>
 #include "ui/FViewModel.h"
+#include "src/core/SignalType.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     qmlRegisterUncreatableType<FDisplayMode>("Feroxills.DisplayMode", 1, 0, "FDisplayMode", "Enum only");
+    qmlRegisterUncreatableType<SignalType>("Feroxills.SignalType", 1, 0, "SignalType", "Enum only");
     qmlRegisterSingletonInstance<FSettings>("Feroxills.Settings",1,0,"Settings",FSettings::instance());
 
     Backend *backend = new Backend(&app);

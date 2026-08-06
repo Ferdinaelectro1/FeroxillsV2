@@ -11,28 +11,15 @@
 #include <memory>
 #include "ISampleProvider.h"
 #include "ProviderSettings.h"
+#include "src/core/SignalType.h"
 
 #define BUFFER_SIZE 512
-
-enum class SignalType{
-    SINUS,
-    CARRE,
-    TRIANGLE,
-    CONTINU,
-    RAMPE,
-    RANDOM,
-    PWM,
-    RISING_PULSE,
-    AM,
-    FM,
-    ZERO
-};
 
 class SoftwareProvider;
 
 class SoftwareProviderSettings final : public ProviderSettings {
     Q_OBJECT
-    Q_PROPERTY(SignalType type WRITE set_type READ get_type NOTIFY typeChanged)
+    Q_PROPERTY(SignalType::Type type WRITE set_type READ get_type NOTIFY typeChanged)
     Q_PROPERTY(double voltage WRITE set_voltage READ get_voltage NOTIFY voltageChanged)
     Q_PROPERTY(double phase WRITE set_phase READ get_phase NOTIFY phaseChanged)
     Q_PROPERTY(double frequency WRITE set_frequency READ get_frequency NOTIFY frequencyChanged)
@@ -53,7 +40,7 @@ public:
     }
 
     //getters
-    [[nodiscard]] SignalType get_type() const { return _type; }
+    [[nodiscard]] SignalType::Type get_type() const { return _type; }
     [[nodiscard]] double get_voltage() const { return _voltage; }
     [[nodiscard]] double get_frequency() const { return _frequency; }
     [[nodiscard]] double get_duty() const { return _duty; }
@@ -62,7 +49,7 @@ public:
     [[nodiscard]] double get_phase() const { return _phase; }
 
     //setters
-    void set_type(const SignalType type) { _type = type; emit typeChanged(); }
+    void set_type(const SignalType::Type type) { _type = type; emit typeChanged(); }
     void set_voltage(const double voltage) { _voltage = voltage; emit voltageChanged(); }
     void set_frequency(const double frequency) { _frequency = frequency; emit frequencyChanged(); }
     void set_duty(const double duty) { _duty = duty; emit dutyChanged(); }
@@ -80,7 +67,7 @@ public:
     void phaseChanged();
 
 private:
-    SignalType _type = SignalType::SINUS;
+    SignalType::Type _type = SignalType::SINUS;
     double _voltage = 1.0;
     double _phase = 0.0;
     double _frequency = 10.0;
