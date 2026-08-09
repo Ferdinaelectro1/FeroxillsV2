@@ -49,13 +49,13 @@ public:
     [[nodiscard]] double get_phase() const { return _phase; }
 
     //setters
-    void set_type(const SignalType::Type type) { _type = type; emit typeChanged(); }
-    void set_voltage(const double voltage) { _voltage = voltage; emit voltageChanged(); }
-    void set_frequency(const double frequency) { _frequency = frequency; emit frequencyChanged(); }
-    void set_duty(const double duty) { _duty = duty; emit dutyChanged(); }
-    void set_rising_time(const double rising_time) { _rising_time = rising_time; emit risingTimeChanged(); }
-    void set_interval_ms(const int interval_ms) { _interval_ms = interval_ms; emit intervalMsChanged(); }
-    void set_phase(const double phase) { _phase = phase; emit phaseChanged(); }
+    void set_type(const SignalType::Type type) { _type = type; emit typeChanged(); emit anyFieldChanged();}
+    void set_voltage(const double voltage) { _voltage = voltage; emit voltageChanged(); emit anyFieldChanged();}
+    void set_frequency(const double frequency) { _frequency = frequency; emit frequencyChanged(); emit anyFieldChanged();}
+    void set_duty(const double duty) { _duty = duty; emit dutyChanged(); emit anyFieldChanged();}
+    void set_rising_time(const double rising_time) { _rising_time = rising_time; emit risingTimeChanged(); emit anyFieldChanged();}
+    void set_interval_ms(const int interval_ms) { _interval_ms = interval_ms; emit intervalMsChanged(); emit anyFieldChanged();}
+    void set_phase(const double phase) { _phase = phase; emit phaseChanged(); emit anyFieldChanged();}
 
     signals:
     void typeChanged();

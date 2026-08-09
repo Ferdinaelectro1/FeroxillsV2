@@ -10,6 +10,7 @@ ProviderSourceController::ProviderSourceController(const ProviderType init_type,
     _current_provider_thread->start();
     _current_provider_source_type = init_type;
     _current_provider_settings = std::unique_ptr<ProviderSettings>(init_settings->clone());
+    connectSettingsSignal();
     _pending_provider_source_type = init_type;
     _current_provider = initializeProviderSourceController(init_type, _current_provider_settings.get());
     qRegisterMetaType<ProviderState>("ProviderState");
@@ -37,6 +38,7 @@ void ProviderSourceController::switchTo(const ProviderType new_type, const Provi
         _current_provider = initializeProviderSourceController(new_type,temp_settings.get());
         if (!_current_provider) return;
         _current_provider_settings = std::move(temp_settings);
+        connectSettingsSignal();
         _current_provider_source_type = new_type;
     } else {
         _pending_provider_source_type = new_type;
@@ -48,6 +50,7 @@ void ProviderSourceController::switchTo(const ProviderType new_type, const Provi
                 if (!_current_provider) return;
                 _current_provider_source_type = _pending_provider_source_type;
                 _current_provider_settings = std::move(_pending_provider_settings);
+                connectSettingsSignal();
             }
             _stop_in_progress = false;
         });
@@ -84,6 +87,7 @@ void ProviderSourceController::setCurrentProviderSettings(const ProviderSettings
             provider->modifyAcquisitionSettings(settings.get());
     }, Qt::QueuedConnection);
     _current_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
+    connectSettingsSignal();
 }
 
 ISampleProvider* ProviderSourceController::initializeProviderSourceController(const ProviderType type, const ProviderSettings* settings) const {
@@ -95,4 +99,10 @@ ISampleProvider* ProviderSourceController::initializeProviderSourceController(co
         new_provider->startAcquisition(settings_copy.get());
     },Qt::QueuedConnection);
     return new_provider;
+}
+
+void ProviderSourceController::connectSettingsSignal() {
+//We connect this new signal because settings changed , so new settings should have, his own anyFieldChanged signal
+  if (_current_provider_settings) connect(_current_provider_settings.get(),&ProviderSettings::anyFieldChanged,this,[this]() {
+      this->setCurrentProviderSettings(_current_provider_settings.get());});
 }

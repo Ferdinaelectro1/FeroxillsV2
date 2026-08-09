@@ -12,6 +12,8 @@ class ProviderSettings : public  QObject {
     public:
     ~ProviderSettings() override = default;
     [[nodiscard]] virtual  ProviderSettings* clone() const = 0;
+    signals:
+    void anyFieldChanged();
 };
 
 #endif //FEROXILLS_PROVIDERSETTINGS_H

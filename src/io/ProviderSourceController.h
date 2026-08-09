@@ -29,6 +29,7 @@ public:
 
 private:
      ISampleProvider* initializeProviderSourceController(ProviderType type,const ProviderSettings* settings) const;
+     void connectSettingsSignal();
 
      ISampleProvider *_current_provider;
      ProviderType _pending_provider_source_type;
