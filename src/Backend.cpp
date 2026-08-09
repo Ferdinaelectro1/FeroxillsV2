@@ -130,6 +130,10 @@ double Backend::getFrequency() const {
     return 0.0;
 }
 
+ProviderSourceController * Backend::getProviderSourceController() const {
+    return  _source_controller;
+}
+
 void Backend::setDutyCycle(const double duty) const {
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
         sw->set_duty(duty);

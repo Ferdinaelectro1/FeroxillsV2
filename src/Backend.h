@@ -23,6 +23,7 @@ class Backend final : public QObject
     Q_PROPERTY(double dutyCycle READ getDutyCycle WRITE setDutyCycle NOTIFY dutyCycleChanged)
     Q_PROPERTY(double voltage READ getVoltage WRITE setVoltage NOTIFY voltageChanged)
     Q_PROPERTY(double frequency READ getFrequency WRITE setFrequency NOTIFY frequencyChanged)
+    Q_PROPERTY(ProviderSourceController * sourceController READ getProviderSourceController CONSTANT)
 public:
     explicit Backend(QObject *parent = nullptr);
     ~Backend() override = default;
@@ -33,6 +34,7 @@ public:
     [[nodiscard]] double getDutyCycle() const;
     [[nodiscard]] double getVoltage() const;
     [[nodiscard]] double getFrequency() const;
+    [[nodiscard]] ProviderSourceController *getProviderSourceController() const ;
     void setDutyCycle(double duty) const;
     void setVoltage(double voltage) const;
     void setFrequency(double frequency) const;

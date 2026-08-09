@@ -19,8 +19,8 @@ class ProviderSourceController final : public QObject {
 public:
      explicit  ProviderSourceController(ProviderType  init_type, const ProviderSettings* init_settings, QObject *parent = nullptr);
      void switchTo(ProviderType new_type, const ProviderSettings* new_settings);
-     [[nodiscard]] ProviderType getCurrentProviderType() const;
-     [[nodiscard]] ProviderSettings *getCurrentProviderSettings() const;
+     Q_INVOKABLE [[nodiscard]] ProviderType getCurrentProviderType() const;
+     Q_INVOKABLE [[nodiscard]] ProviderSettings *getCurrentProviderSettings() const;
      ~ProviderSourceController() override;
 
      signals:

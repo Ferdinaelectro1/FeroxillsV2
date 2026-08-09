@@ -43,7 +43,7 @@ void ProviderSourceController::switchTo(const ProviderType new_type, const Provi
     } else {
         _pending_provider_source_type = new_type;
         _pending_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
-        connect(_current_provider,&ISampleProvider::providerStopped,this,[&](const ProviderState state) {
+        connect(_current_provider,&ISampleProvider::providerStopped,this,[this](const ProviderState state) {
             if (state == ProviderState::SUCCESS) {
                 if (_current_provider) _current_provider->deleteLater();
                 _current_provider = initializeProviderSourceController(_pending_provider_source_type,_pending_provider_settings.get());

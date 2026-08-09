@@ -48,6 +48,7 @@ qt_add_executable(appFeroxills
         src/io/Factory.h
         src/io/SoftwareProvider.cpp
         src/io/SoftwareProvider.h
+        src/core/SignalType.h
 )
 
 qt_add_qml_module(appFeroxills
