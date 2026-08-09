@@ -21,7 +21,6 @@ public:
      void switchTo(ProviderType new_type, const ProviderSettings* new_settings);
      [[nodiscard]] ProviderType getCurrentProviderType() const;
      [[nodiscard]] ProviderSettings *getCurrentProviderSettings() const;
-     void setCurrentProviderSettings(const ProviderSettings* new_settings);
      ~ProviderSourceController() override;
 
      signals:
@@ -29,6 +28,7 @@ public:
 
 private:
      ISampleProvider* initializeProviderSourceController(ProviderType type,const ProviderSettings* settings) const;
+     void setCurrentProviderSettings(const ProviderSettings* new_settings);
      void connectSettingsSignal();
 
      ISampleProvider *_current_provider;
