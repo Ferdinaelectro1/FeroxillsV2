@@ -80,7 +80,6 @@ void Backend::onTimeDivChanged() {
     qDebug() << "Samples need = " << _sample_needed << " et intervalOfAcquisition = " << intervalOfAcquisition*1000 << " et TimeDiv = "<<FSettings::instance()->getTimeDiv();
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
         sw->set_interval_ms(static_cast<int>(intervalOfAcquisition*1000));
-        _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "We try to modify parameter on source who don't have this parameter";
     }
@@ -134,7 +133,6 @@ double Backend::getFrequency() const {
 void Backend::setDutyCycle(const double duty) const {
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
         sw->set_duty(duty);
-        _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "Tried to modify dutyCycle on a source that doesn't expose it (current type mismatch)";
     }
@@ -143,7 +141,6 @@ void Backend::setDutyCycle(const double duty) const {
 void Backend::setVoltage(const double voltage) const {
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
         sw->set_voltage(voltage);
-        _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "Tried to modify voltage on a source that doesn't expose it (current type mismatch)";
     }
@@ -152,7 +149,6 @@ void Backend::setVoltage(const double voltage) const {
 void Backend::setFrequency(const double frequency) const {
     if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
         sw->set_frequency(frequency);
-        _source_controller->setCurrentProviderSettings(sw);
     } else {
         qWarning() << "Tried to modify Frequency on a source that doesn't expose it (current type mismatch)";
     }
