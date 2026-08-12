@@ -17,9 +17,9 @@
 class ProviderSourceController final : public QObject {
      Q_OBJECT
 public:
-     explicit  ProviderSourceController(ProviderType  init_type, const ProviderSettings* init_settings, QObject *parent = nullptr);
-     void switchTo(ProviderType new_type, const ProviderSettings* new_settings);
-     Q_INVOKABLE [[nodiscard]] ProviderType getCurrentProviderType() const;
+     explicit  ProviderSourceController(ProviderType::Type  init_type, const ProviderSettings* init_settings, QObject *parent = nullptr);
+     void switchTo(ProviderType::Type new_type, const ProviderSettings* new_settings);
+     Q_INVOKABLE [[nodiscard]] ProviderType::Type getCurrentProviderType() const;
      Q_INVOKABLE [[nodiscard]] ProviderSettings *getCurrentProviderSettings() const;
      ~ProviderSourceController() override;
 
@@ -27,14 +27,14 @@ public:
      void samplesAvailable(const QVector<double>& );
 
 private:
-     ISampleProvider* initializeProviderSourceController(ProviderType type,const ProviderSettings* settings) const;
+     ISampleProvider* initializeProviderSourceController(ProviderType::Type type,const ProviderSettings* settings) const;
      void setCurrentProviderSettings(const ProviderSettings* new_settings);
      void connectSettingsSignal();
 
      ISampleProvider *_current_provider;
-     ProviderType _pending_provider_source_type;
+     ProviderType::Type _pending_provider_source_type;
      std::unique_ptr<ProviderSettings> _pending_provider_settings;
-     ProviderType _current_provider_source_type;
+     ProviderType::Type _current_provider_source_type;
      std::unique_ptr<ProviderSettings> _current_provider_settings;
      QThread* _current_provider_thread;
      bool _stop_in_progress;

@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterUncreatableType<FDisplayMode>("Feroxills.DisplayMode", 1, 0, "FDisplayMode", "Enum only");
     qmlRegisterUncreatableType<SignalType>("Feroxills.SignalType", 1, 0, "SignalType", "Enum only");
+    qmlRegisterUncreatableType<ProviderType>("Feroxills.ProviderType", 1, 0, "ProviderType", "Enum only");
     qmlRegisterSingletonInstance<FSettings>("Feroxills.Settings",1,0,"Settings",FSettings::instance());
 
     Backend *backend = new Backend(&app);

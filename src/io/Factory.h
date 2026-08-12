@@ -10,7 +10,7 @@
 
 class ProviderFactory {
     public:
-       static ISampleProvider * createProvider(const ProviderType type) {
+       static ISampleProvider * createProvider(const ProviderType::Type type) {
            switch (type) {
                case ProviderType::SOFTWARE_SOURCE:
                    return  new SoftwareProvider();

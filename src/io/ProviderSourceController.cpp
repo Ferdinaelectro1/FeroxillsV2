@@ -5,7 +5,7 @@
 #include "ProviderSourceController.h"
 #include "Factory.h"
 
-ProviderSourceController::ProviderSourceController(const ProviderType init_type, const ProviderSettings* init_settings, QObject *parent) : QObject(parent) {
+ProviderSourceController::ProviderSourceController(const ProviderType::Type init_type, const ProviderSettings* init_settings, QObject *parent) : QObject(parent) {
     _current_provider_thread = new QThread(this);
     _current_provider_thread->start();
     _current_provider_source_type = init_type;
@@ -31,7 +31,7 @@ ProviderSourceController::~ProviderSourceController() {
 }
 
 
-void ProviderSourceController::switchTo(const ProviderType new_type, const ProviderSettings* new_settings) {
+void ProviderSourceController::switchTo(const ProviderType::Type new_type, const ProviderSettings* new_settings) {
     if (!new_settings || _stop_in_progress) return;
     if (!_current_provider) {
         auto temp_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
@@ -59,7 +59,7 @@ void ProviderSourceController::switchTo(const ProviderType new_type, const Provi
     }
 }
 
-ProviderType ProviderSourceController::getCurrentProviderType() const {
+ProviderType::Type ProviderSourceController::getCurrentProviderType() const {
     return  _current_provider_source_type;
 }
 
@@ -90,7 +90,7 @@ void ProviderSourceController::setCurrentProviderSettings(const ProviderSettings
     connectSettingsSignal();
 }
 
-ISampleProvider* ProviderSourceController::initializeProviderSourceController(const ProviderType type, const ProviderSettings* settings) const {
+ISampleProvider* ProviderSourceController::initializeProviderSourceController(const ProviderType::Type type, const ProviderSettings* settings) const {
     ISampleProvider *new_provider = ProviderFactory::createProvider(type);
     if (!new_provider) return nullptr;
     auto settings_copy = std::unique_ptr<const ProviderSettings>(settings->clone());
