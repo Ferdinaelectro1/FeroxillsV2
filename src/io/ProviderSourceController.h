@@ -16,15 +16,17 @@
 
 class ProviderSourceController final : public QObject {
      Q_OBJECT
+     Q_PROPERTY(ProviderType::Type currentProviderType READ getCurrentProviderType NOTIFY currentProviderTypeChanged)
 public:
      explicit  ProviderSourceController(ProviderType::Type  init_type, const ProviderSettings* init_settings, QObject *parent = nullptr);
      void switchTo(ProviderType::Type new_type, const ProviderSettings* new_settings);
-     Q_INVOKABLE [[nodiscard]] ProviderType::Type getCurrentProviderType() const;
+     [[nodiscard]] ProviderType::Type getCurrentProviderType() const;
      Q_INVOKABLE [[nodiscard]] ProviderSettings *getCurrentProviderSettings() const;
      ~ProviderSourceController() override;
 
      signals:
      void samplesAvailable(const QVector<double>& );
+     void currentProviderTypeChanged(ProviderType::Type new_type);
 
 private:
      ISampleProvider* initializeProviderSourceController(ProviderType::Type type,const ProviderSettings* settings) const;

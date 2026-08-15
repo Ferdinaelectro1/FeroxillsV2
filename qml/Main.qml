@@ -2,6 +2,7 @@ import QtQuick 6.5
 import QtQuick.Controls 6.5
 import QtQuick.Layouts 6.5
 import QtQuick.Shapes 6.5
+import Feroxills.ProviderType 1.0
 import QtQuick.Controls.Material
 
 Window {
@@ -13,7 +14,19 @@ Window {
     Material.theme: Material.Dark
     Material.accent: "#4dabf7"
     Material.primary: "#2b2b2b"
-    title: "Feroxills 0.0.1"
+    title: {
+        const beginWord = "Feroxills 0.0.1 - ";
+        switch (backend.sourceController.currentProviderType) {
+            case ProviderType.SOFTWARE_SOURCE:
+                return beginWord + "SOFTWARE";
+            case ProviderType.UART_SOURCE:
+                return beginWord + "UART SOURCE";
+            case ProviderType.USB_SOURCE:
+                return beginWord + "USB SOURCE";
+            default:
+                return beginWord + "OTHER";
+        }
+    }
 
     Rectangle {
         id: root
