@@ -13,8 +13,7 @@ ProviderSourceController::ProviderSourceController(const ProviderType::Type init
     connectSettingsSignal();
     _pending_provider_source_type = init_type;
     _current_provider = initializeProviderSourceController(init_type, _current_provider_settings.get());
-    qRegisterMetaType<ProviderState>("ProviderState");
-    if (_current_provider) connect(_current_provider,&ISampleProvider::samplesAvailable,this,&ProviderSourceController::samplesAvailable);
+    qRegisterMetaType<ProviderState>("ProviderState");//Allow Qt to know this enum type in her Queue event
     _stop_in_progress = false;
 }
 
@@ -55,7 +54,15 @@ void ProviderSourceController::switchTo(const ProviderType::Type new_type, const
             _stop_in_progress = false;
         });
         _stop_in_progress = true;
-        if (_current_provider) _current_provider->stopAcquisition();
+        if (_current_provider) {
+            //We do this because, after put this event is in Qt Event Queue, _current_provider
+            // can be already modify in another parts of code, so we pointe provider on this
+            //old value, for use this
+            ISampleProvider *provider = _current_provider;
+            QMetaObject::invokeMethod(provider, [provider]() {
+                provider->stopAcquisition();
+            },Qt::QueuedConnection);
+        }
     }
 }
 
@@ -98,6 +105,7 @@ ISampleProvider* ProviderSourceController::initializeProviderSourceController(co
     QMetaObject::invokeMethod(new_provider,[new_provider,settings_copy = std::move(settings_copy)]() mutable {
         new_provider->startAcquisition(settings_copy.get());
     },Qt::QueuedConnection);
+    connect(new_provider,&ISampleProvider::samplesAvailable,this,&ProviderSourceController::samplesAvailable);
     return new_provider;
 }
 
