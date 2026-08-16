@@ -124,11 +124,11 @@ Item {
                         accentColor: "#00b4d8"
                         from : 0.0
                         to : 1.0
-                        value : backend.dutyCycle
+                        value : backend.sourceController.currentProviderSettings.duty
                         stepSize : 0.01
                         width : parent.width
                         onCurrentValueChanged : {
-                            backend.dutyCycle = currentValue
+                            backend.sourceController.currentProviderSettings.duty = currentValue
                         }
                     }
                     FerroSlider {
@@ -137,11 +137,11 @@ Item {
                         accentColor: "#00b4d8"
                         from : 0.0
                         to : 5.0
-                        value : backend.voltage
+                        value : backend.sourceController.currentProviderSettings.voltage
                         stepSize : 0.01
                         width : parent.width
                         onCurrentValueChanged : {
-                            backend.voltage = currentValue
+                            backend.sourceController.currentProviderSettings.voltage = currentValue
                         }
                     }
                     FerroSlider {
@@ -150,11 +150,11 @@ Item {
                         accentColor: "#00b4d8"
                         from : 0.0
                         to : 1000.0
-                        value : backend.frequency
+                        value : backend.sourceController.currentProviderSettings.frequency
                         stepSize : 10.0
                         width : parent.width
                         onCurrentValueChanged : {
-                            backend.frequency = currentValue
+                            backend.sourceController.currentProviderSettings.frequency = currentValue
                         }
                     }
                 }

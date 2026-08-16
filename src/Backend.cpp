@@ -105,54 +105,7 @@ void Backend::onTimeOut() {
     }
 }
 
-double Backend::getDutyCycle() const {
-    if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        return  sw->get_duty();
-    }
-    qWarning() << "Tried to read dutyCycle on a source that doesn't expose it (current type mismatch)";
-    return 0.0;
-}
-
-double Backend::getVoltage() const {
-    if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        return  sw->get_voltage();
-    }
-    qWarning() << "Tried to read voltage on a source that doesn't expose it (current type mismatch)";
-    return 0.0;
-}
-
-double Backend::getFrequency() const {
-    if (const auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        return  sw->get_frequency();
-    }
-    qWarning() << "Tried to read frequency on a source that doesn't expose it (current type mismatch)";
-    return 0.0;
-}
 
 ProviderSourceController * Backend::getProviderSourceController() const {
     return  _source_controller;
-}
-
-void Backend::setDutyCycle(const double duty) const {
-    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->set_duty(duty);
-    } else {
-        qWarning() << "Tried to modify dutyCycle on a source that doesn't expose it (current type mismatch)";
-    }
-}
-
-void Backend::setVoltage(const double voltage) const {
-    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->set_voltage(voltage);
-    } else {
-        qWarning() << "Tried to modify voltage on a source that doesn't expose it (current type mismatch)";
-    }
-}
-
-void Backend::setFrequency(const double frequency) const {
-    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->set_frequency(frequency);
-    } else {
-        qWarning() << "Tried to modify Frequency on a source that doesn't expose it (current type mismatch)";
-    }
 }
