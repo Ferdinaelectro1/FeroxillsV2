@@ -6,7 +6,6 @@
 #include "core/FConstantes.h"
 #include "core/FSettings.h"
 #include "core/event/EventBus.h"
-#include  "core/debug/debug.h"
 #include "io/SoftwareProvider.h"
 
 static void printSamplesParameter(const SamplesParameter& param) {
@@ -22,7 +21,7 @@ static void printSamplesParameter(const SamplesParameter& param) {
 }
 
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
-    INFO("Launch app");
+    qDebug() << "App lauch";
     auto s = SoftwareProviderSettings();
     s.set_interval_ms(50);
     s.set_frequency(150);

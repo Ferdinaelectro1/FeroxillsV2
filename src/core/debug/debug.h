@@ -4,42 +4,13 @@
 
 #ifndef FEROXILLS_DEBUG_H
 #define FEROXILLS_DEBUG_H
-#include <QVector>
-#include <QFile>
-#include <QDebug>
+#include <QMessageLogContext>
 
-#define INFO(msg) debug::instance().log(msg,"DEBUG")
-#define ERROR(msg) debug::instance().log(msg,"ERROR")
-#define WARN(msg) debug::instance().log(msg,"WARNING")
+#define ANSI_RESET   "\033[0m"
+#define ANSI_GREEN   "\033[32m"
+#define ANSI_ORANGE  "\033[33m"
+#define ANSI_RED     "\033[31m"
 
-class debug {
-public:
-    debug(const debug&) = delete;
-    debug(debug&&) = delete;
-    debug& operator=(const debug&) = delete;
-    debug& operator=(debug&&) = delete;
-    static debug& instance();
-    void log(const QString& message,const QString& logType) const;
-    template<typename Type>
-    static void printCurve(const QVector<Type>& fX, const QVector<Type>& fY, const QString& file_name)
-    {
-        QFile file(file_name) ;
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            QTextStream out(&file);
-            const int n = std::min(fX.size(), fY.size());
-            for(int i=0; i<n; ++i)
-            {
-                out << fX[i] << " " << fY[i] << "\n";
-            }
-        }
-        else {
-            qDebug() << "[Error] : Cannot open file : "<< file_name ;
-        }
-    }
-
-private:
-    debug() = default;
-};
+void debugMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 #endif //FEROXILLS_DEBUG_H

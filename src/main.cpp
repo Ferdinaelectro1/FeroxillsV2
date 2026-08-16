@@ -6,10 +6,12 @@
 #include <QQuickStyle>
 #include "ui/FViewModel.h"
 #include "src/core/SignalType.h"
+#include "src/core/debug/debug.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    qInstallMessageHandler(debugMessageHandler);
 
     QQuickStyle::setStyle("Material");
 
