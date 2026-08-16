@@ -97,8 +97,27 @@ void ProviderSourceController::setCurrentProviderSettings(const ProviderSettings
         if (settings && provider)
             provider->modifyAcquisitionSettings(settings.get());
     }, Qt::QueuedConnection);
-    _current_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
-    connectSettingsSignal();
+    // IMPORTANT: this method is called both externally (e.g. Backend/QML providing
+    // a genuinely different settings object) AND internally, synchronously, from
+    // connectSettingsSignal()'s lambda whenever anyFieldChanged() fires on
+    // _current_provider_settings itself. In the internal case, new_settings IS
+    // _current_provider_settings.get() — the same object, mid-way through emitting
+    // its own signal (we're still inside its call stack).
+    //
+    // We must NOT reassign _current_provider_settings (a unique_ptr) when
+    // new_settings already points to it: unique_ptr's operator= destroys the old
+    // object before storing the new one, which would destroy this object while
+    // it's still executing one of its own methods (undefined behavior).
+    //
+    // So we only clone + swap the local pointer, re-emit currentProviderSettingsChanged,
+    // and reconnect the signal, when the caller genuinely handed us a *different*
+    // object (e.g. a real switchTo()). Cloning + pushing to the provider thread
+    // always happens regardless, since the provider thread needs the update either way.
+    if (new_settings != _current_provider_settings.get()) {
+        _current_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
+        emit currentProviderSettingsChanged();
+        connectSettingsSignal();
+    }
 }
 
 ISampleProvider* ProviderSourceController::initializeProviderSourceController(const ProviderType::Type type, const ProviderSettings* settings) const {
