@@ -7,6 +7,7 @@
 
 #include  "ISampleProvider.h"
 #include  "SoftwareProvider.h"
+#include  "SerialProvider.h"
 
 class ProviderFactory {
     public:
@@ -17,7 +18,7 @@ class ProviderFactory {
                case ProviderType::USB_SOURCE:
                    break;
                case ProviderType::UART_SOURCE:
-                   break;
+                   return new SerialProvider();
                case ProviderType::NO_SOURCE:
                    break;
                default:
