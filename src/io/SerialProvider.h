@@ -6,6 +6,8 @@
 #define FEROXILLS_SERIALPROVIDER_H
 
 #include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QVariant>
 #include <memory>
 
 #include "ISampleProvider.h"
@@ -16,6 +18,7 @@ class SerialSettings final : public ProviderSettings {
     Q_PROPERTY(QSerialPort::BaudRate baudRate READ getBaudRate WRITE setBaudRate NOTIFY baudRateChanged)
 
     public:
+    SerialSettings();
     [[nodiscard]] ProviderSettings* clone() const override {
         auto * new_settings = new SerialSettings;
         new_settings->setBaudRate(this->_baudRate);
@@ -46,7 +49,7 @@ class SerialSettings final : public ProviderSettings {
     void resolutionChanged();
 
 private:
-    QString _portName = "/dev/ttyACM0";
+    QString _portName;
     QSerialPort::BaudRate _baudRate = QSerialPort::Baud9600;
     double _maxVoltage = 5;
     double _resolution = 1024;
@@ -57,6 +60,8 @@ class SerialProvider final : public ISampleProvider {
 
 public:
     explicit SerialProvider(QObject *parent = nullptr);
+    static QVariantList getAvailablePorts();
+    static QString getDefaultPortName();
     ~SerialProvider() override;
 
 private:
