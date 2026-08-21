@@ -70,6 +70,7 @@ qt_add_qml_module(appFeroxills
         QML_FILES qml/components/FerroScaleCanva.qml
         QML_FILES qml/components/FerroTriggerTypePopup.qml
         QML_FILES qml/components/FAutoSizeText.qml
+        QML_FILES qml/components/FerroListView.qml
         RESOURCES
            qml/font/SAKUNA.ttf
            qml/font/Paper_Scratch.otf
