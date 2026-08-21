@@ -65,6 +65,7 @@ qt_add_qml_module(appFeroxills
         QML_FILES qml/FerroRightPannel.qml
         QML_FILES qml/FerroFooterPannel.qml
         QML_FILES qml/SoftwareRightPanel.qml
+        QML_FILES qml/SerialRightPanel.qml
         QML_FILES qml/components/FerroSlider.qml
         QML_FILES qml/components/FerroOneValuePopup.qml
         QML_FILES qml/components/FerroScaleCanva.qml
