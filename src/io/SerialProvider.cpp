@@ -66,8 +66,13 @@ void SerialProvider::doModifyAcquisitionSettings(const ProviderSettings *setting
 
 void SerialProvider::connect_acquisitionSignal() {
     if (!_serialPort) return;
+    // Frame format: [0xFF][MSB: 7 bits][LSB: 3 bits] -> 10-bit sample (0-1023)
+    // The 7/3 split (not 5/5) ensures no data byte ever equals 0xFF (the magic marker).
     connect(_serialPort,&QSerialPort::readyRead,this,[this]() {
-        if (!_settings) return;
+        if (!_settings) {
+            qWarning() << "The settings null";
+            return;
+        }
        const QByteArray data = _serialPort->readAll();
         for (const char c : data) {
             const auto byte = static_cast<uint8_t>(c);
