@@ -60,8 +60,6 @@ class SerialProvider final : public ISampleProvider {
 
 public:
     explicit SerialProvider(QObject *parent = nullptr);
-    static QVariantList getAvailablePorts();
-    static QString getDefaultPortName();
     ~SerialProvider() override;
 
 private:

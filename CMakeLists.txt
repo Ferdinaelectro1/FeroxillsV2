@@ -49,6 +49,7 @@ qt_add_executable(appFeroxills
         src/core/SignalType.h
         src/io/SerialProvider.cpp
         src/io/SerialProvider.h
+        src/io/SerialPortUtils.h
 )
 
 qt_add_qml_module(appFeroxills

@@ -8,8 +8,10 @@
 #include <iostream>
 #include <QDebug>
 
+#include "SerialPortUtils.h"
+
 SerialSettings::SerialSettings() {
-    _portName = SerialProvider::getDefaultPortName();
+    _portName = SerialPortUtils::getDefaultPortName();
 }
 
 SerialProvider::SerialProvider(QObject *parent) : ISampleProvider(parent),_currentState(TrameState::SEARCH_MAGIC) {
@@ -21,28 +23,6 @@ SerialProvider::SerialProvider(QObject *parent) : ISampleProvider(parent),_curre
     connect_acquisitionSignal();
     _samples.reserve(512);
     _settings = nullptr;
-}
-
-QVariantList SerialProvider::getAvailablePorts() {
-    QVariantList availablePorts;
-    const auto infos = QSerialPortInfo::availablePorts();
-    for (const QSerialPortInfo &info : infos) {
-        QVariantMap portInfo;
-        portInfo["portName"] = info.portName();
-        portInfo["description"] = info.description();
-        portInfo["manufacturer"] = info.manufacturer();
-        portInfo["systemLocation"] = info.systemLocation();
-        availablePorts.append(portInfo);
-    }
-    return availablePorts;
-}
-
-QString SerialProvider::getDefaultPortName() {
-    const auto ports = QSerialPortInfo::availablePorts();
-    if (!ports.isEmpty()) {
-        return ports.first().portName();
-    }
-    return "";
 }
 
 SerialProvider::~SerialProvider() {
