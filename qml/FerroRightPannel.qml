@@ -100,6 +100,7 @@ Item {
                 function getPanelSource()  {
                     switch (backend.sourceController.currentProviderType) {
                         case ProviderType.SOFTWARE_SOURCE: return "SoftwareRightPanel.qml"
+                        case ProviderType.UART_SOURCE : return "SerialRightPanel.qml"
                         case ProviderType.USB_SOURCE: return "UsbRightPanel.qml"
                         default : return ""
                     }

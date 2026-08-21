@@ -31,10 +31,19 @@ GroupBox {
             property var availablePorts : SerialPortUtils.getAvailablePorts()
             Layout.fillWidth: true
             elements : portsDisplayList
+            currentElement : backend.sourceController.currentProviderSettings.portName
             onCurrentIndexChanged : {
                 if(currentIndex >= 0 && currentIndex < availablePorts.length) {
-                    console.log("Right selected port :", availablePorts[currentIndex].systemLocation)
+                    const portSelectedName = availablePorts[currentIndex].systemLocation;
+                    console.log("Right selected port :", portSelectedName)
+                    backend.sourceController.currentProviderSettings.portName = portSelectedName
                 }
+            }
+            onIsOpenChanged : {
+                availablePorts = SerialPortUtils.getAvailablePorts();
+                portsDisplayList = availablePorts.map(function(p){
+                    return p.portName + " - " + p.description
+                })
             }
         }
         Button {
