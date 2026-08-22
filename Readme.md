@@ -1,31 +1,31 @@
 # Feroxills
 
-Oscilloscope logiciel multi-source, écrit en C++/Qt6 (QML).
+Multi-source software oscilloscope, written in C++/Qt6 (QML).
 
-Il permet de visualiser des signaux provenant de différentes sources (générateur interne, port série, ...) avec plusieurs modes d'affichage (continu, trigger, auto).
+It allows visualizing signals from different sources (internal generator, serial port, ...) with several display modes (continuous, trigger, auto).
 
-![Aperçu de l'interface](docs/assets/screenshoot.png)
+![UI preview](docs/assets/screenshoot.png)
 
-## Fonctionnalités actuelles
+## Current features
 
-- Affichage de signaux en mode Continu, Trigger et Auto
-- Génération de signaux de test (fréquence, tension réglables)
-- Détection de ports série disponibles
-- Interface QML personnalisée
+- Signal display in Continuous, Trigger and Auto modes
+- Test signal generation (adjustable frequency, voltage)
+- Serial port detection
+- Custom QML interface
 
-## Prérequis
+## Requirements
 
 - Qt 6.5+ (modules `Quick`, `QuickControls2`, `SerialPort`, `Test`)
 - CMake 3.16+
-- Compilateur C++17
+- C++17 compiler
 
-## Compilation
+## Build
 
 ```bash
 cmake -B build -S .
 cmake --build build
 ```
 
-## Statut
+## Status
 
-Projet en développement actif. Voir `Issues.txt` et `features.txt` pour les travaux en cours et à venir.
+Actively under development. See `Issues.txt` and `features.txt` for ongoing and upcoming work.
