@@ -63,8 +63,5 @@ GroupBox {
                 backend.sourceController.currentProviderSettings.baudRate = baudRates[currentIndex];
             }
         }
-        Button {
-            text: qsTr("Connect Oscillo")
-        }
     }
 }
