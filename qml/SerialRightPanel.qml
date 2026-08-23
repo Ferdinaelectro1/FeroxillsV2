@@ -54,6 +54,15 @@ GroupBox {
                 })
             }
         }
+        FerroListView {
+            property var baudRates : [9600,19200,38400,57600,230400,115200]
+            Layout.fillWidth: true
+            elements : baudRates
+            currentElement : backend.sourceController.currentProviderSettings.baudRate
+            onCurrentIndexChanged  : {
+                backend.sourceController.currentProviderSettings.baudRate = baudRates[currentIndex];
+            }
+        }
         Button {
             text: qsTr("Connect Oscillo")
         }
