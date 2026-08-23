@@ -34,9 +34,15 @@ Window {
         height: parent.height
         color: "#111216"    // Fond Rigol sombre
 
+
+        FerroMenuBar {
+            id: menubar
+            anchors.top : parent.top
+        }
+
         FerroHeaderPannel {
             id: header
-            anchors.top: parent.top
+            anchors.top: menubar.bottom
             height: 60
             width: parent.width
         }

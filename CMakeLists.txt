@@ -64,6 +64,7 @@ qt_add_qml_module(appFeroxills
         QML_FILES qml/FerroHeaderPannel.qml
         QML_FILES qml/FerroRightPannel.qml
         QML_FILES qml/FerroFooterPannel.qml
+        QML_FILES qml/FerroMenuBar.qml
         QML_FILES qml/SoftwareRightPanel.qml
         QML_FILES qml/SerialRightPanel.qml
         QML_FILES qml/components/FerroSlider.qml
@@ -72,6 +73,7 @@ qt_add_qml_module(appFeroxills
         QML_FILES qml/components/FerroTriggerTypePopup.qml
         QML_FILES qml/components/FAutoSizeText.qml
         QML_FILES qml/components/FerroListView.qml
+        QML_FILES qml/components/FerroMenuItem.qml
         RESOURCES
            qml/font/SAKUNA.ttf
            qml/font/Paper_Scratch.otf
