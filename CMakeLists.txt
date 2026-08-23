@@ -77,7 +77,6 @@ qt_add_qml_module(appFeroxills
            qml/font/Paper_Scratch.otf
            qml/font/SPORT_GAME_PERSONAL_USE_ONLY!.ttf
            QML_FILES qml/FerroComboxMenu.qml
-           SOURCES src/core/signalgenerator.h src/core/signalgenerator.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
