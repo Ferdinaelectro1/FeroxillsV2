@@ -5,19 +5,19 @@ import Feroxills.SerialPortUtils 1.0
 import "components/"
 
 GroupBox {
-    title : qsTr("Serial Pannel")
+    title : qsTr("Serial Panel")
     label: Label {
         text: parent.title
-        color: "#00b4d8"           // couleur du titre
+        color: "#00b4d8"           // title color
         font.bold: true
         font.pixelSize: 13
-        font.letterSpacing: 1.5   // espacement des lettres (effet stylé
+        font.letterSpacing: 1.5   // letter spacing styling
         leftPadding: 10
     }
     background: Rectangle {
-        color: "transparent"       // fond transparent
-        radius: 8                  // coins arrondis
-        border.color: "#00b4d8"    // couleur de la bordure
+        color: "transparent"       // transparent background
+        radius: 8                  // rounded corners
+        border.color: "#00b4d8"    // border color
         border.width: 1.5
         opacity: 0.8
     }

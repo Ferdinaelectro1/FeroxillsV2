@@ -98,7 +98,7 @@ void SerialProvider::connect_acquisitionSignal() {
                         if (_samples.size() >= 511) {
                             emit samplesAvailable(_samples);
                             _samples.clear();
-                            qDebug() << "Signal de envoyé ####";
+                            qDebug() << "Signal sent ####";
                         }
                         //qDebug() << "samples -> " << sample_voltage;
                         _currentState = TrameState::SEARCH_MAGIC;

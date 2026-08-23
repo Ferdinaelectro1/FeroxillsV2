@@ -12,12 +12,12 @@ Item {
         border.color: "#2D2D33"
         anchors.fill: parent
 
-        readonly property real nombre_total_division_vertical : 8
-        readonly property real nombre_total_division_horizontal : 10
-        readonly property real echantillonage_period : 0.000022
+        readonly property real totalVerticalDivisionCount : 8
+        readonly property real totalHorizontalDivisionCount : 10
+        readonly property real samplingPeriod : 0.000022
         property real vPerDiv : Settings.ch1VoltDiv;
         property real msPerDiv : Settings.timeDiv;
-        // grille style oscilloscope
+        // oscilloscope grid style
         Canvas {
             anchors.fill: parent
             onPaint: {
@@ -27,10 +27,10 @@ Item {
 
                 ctx.strokeStyle = "#222228";
                 ctx.lineWidth = 1;
-                let verticalStep = height / waveformArea.nombre_total_division_vertical;
-                let horizontalStep = width / waveformArea.nombre_total_division_horizontal;
+                let verticalStep = height / waveformArea.totalVerticalDivisionCount;
+                let horizontalStep = width / waveformArea.totalHorizontalDivisionCount;
 
-                // lignes verticales
+                // vertical lines
                 for (let x=0; x<width; x+=horizontalStep) {
                     ctx.beginPath();
                     ctx.moveTo(x,0);
@@ -49,7 +49,7 @@ Item {
                     ctx.strokeStyle = "#222228";
                 }
 
-                // lignes horizontales
+                // horizontal lines
                 for (let y=0; y<height; y+=verticalStep) {
                     ctx.beginPath();
                     ctx.moveTo(0,y);
@@ -106,7 +106,7 @@ Item {
                 }
             }
 
-            // Quand les du modelView C++ changent → QML met à jour
+            // When the C++ modelView changes, QML updates
             Connections {
                 target: viewModel
                 function onDisplayValuesChanged() {
@@ -114,7 +114,7 @@ Item {
                     let w = ch1Path.width
                     let h = ch1Path.height
 
-                    //Denormalization of normalized values
+                    // Denormalization of normalized values
                     for (let i = 0; i < viewModel.displayValues.length; i++) {
                         let px = viewModel.displayValues[i].x * w
                         let py = h/2 - viewModel.displayValues[i].y * (h/2)

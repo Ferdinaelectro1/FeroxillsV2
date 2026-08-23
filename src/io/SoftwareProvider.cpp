@@ -50,15 +50,15 @@ void SoftwareProvider::doModifyAcquisitionSettings(const ProviderSettings *setti
 
 void SoftwareProvider::send_Samples()
 {
-    // 1️⃣ swap : ce qui était rempli devient envoyable
+    // 1) swap: the filled buffer becomes sendable
     std::swap(m_samples, m_samples_to_send);
 
-    // 2️⃣ envoyer le buffer précédent
+    // 2) send the previous buffer
     if (!m_samples_to_send.isEmpty()) {
         emit samplesAvailable(m_samples_to_send);
     }
 
-    // 3️⃣ remplir le nouveau buffer
+    // 3) fill the new buffer
     m_samples.clear();
     m_samples.reserve(512);
 

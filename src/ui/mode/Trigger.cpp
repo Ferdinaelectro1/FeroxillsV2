@@ -25,13 +25,12 @@ void TriggerMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::R
         return;
     }
     if (ringBuf->size() < 2000 + display_win_size) return;
-    //on mémorise 2000 + 512 echantillons issues du ring qu'on va use
-    //plus tard pour l'affichage, ne pas use le ring buffer directement
-    //car le temps que l'analyse finissent des push pourrait survenir
-    // et alors l'index trouvé devient invalide
+    // store 2000 + 512 samples from the ring buffer for later display
+    // do not use the ring buffer directly because analysis may still push data
+    // while the trigger index becomes invalid
     if (_trigger_type == TriggerType::SINGLE_SHOOT_TRIGGER) {
         if (_trigger_is_detected) {
-            displaySamplesBuff = _oldDisplaySamples.data(); //on envoie l'ancien buffer capturé
+            displaySamplesBuff = _oldDisplaySamples.data(); // send the previously captured buffer
             return;
         }
     }
@@ -45,17 +44,17 @@ void TriggerMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::R
             _trigger_is_detected = true;
         }
          const unsigned int bufferOffset = display_win_size/2;
-        /* On remplit les 1 /2 premiers valeurs de display_win_size par des 0, pour pouvoir placer par la suite le trigger en partant de là.
-        *  Pour que le trigger soit affiché au centre de l'écran
+        /* Fill the first half of display_win_size with zeros so the trigger can be positioned from there.
+        *  This keeps the trigger centered on the screen.
         */
         for (int i = 0; i < bufferOffset; i++) {
             displaySamplesBuff[i] = 0;
         }
         const auto idx = firstRisingPos.value();
-        //Verification qu'il y a assez d'espace après la position du trigger
+        // Verify there is enough space after the trigger position
         if (idx + static_cast<int>(display_win_size) <= snapshot.size()) {
             for (unsigned long i = bufferOffset - 1; i < display_win_size; ++i) {
-                /*On fait ceci (i - (bufferOffset - 1)) pour que on puisse accéder dans le snapshot les données ainsin :  id x+ 0 , ..., n . Pour éviter des mauvais accèes*/
+                /* This (i - (bufferOffset - 1)) mapping allows access to the snapshot data as idx + 0, ..., n without invalid indexing. */
                 displaySamplesBuff[i] = snapshot[idx + (i - (bufferOffset - 1))];
                 if (_trigger_type == TriggerType::SINGLE_SHOOT_TRIGGER) {
                     _oldDisplaySamples.append(displaySamplesBuff[i]);

@@ -11,7 +11,7 @@ public:
     [[nodiscard]] size_t freeSpace() const { return capacity - m_size; }
     void push(T newValue);
     //T read();
-    void advanceRead(size_t n); //avancer la fenetre d'un pas donné
+    void advanceRead(size_t n); // advance the window by the specified step
     void getWindow(T* out,size_t windowSize);
     [[nodiscard]] QVector<T> getRecentWindows(size_t win_size);
     void getWindowFromIndex(unsigned long index, T* out,size_t windowSize);
@@ -39,7 +39,7 @@ unsigned long FRingBuf<T,capacity>::size() const {
 template<typename T, size_t capacity>
 void FRingBuf<T,capacity>::push(T newValue) {
     m_data[m_write_index] = newValue;
-    //astuce pour aller vite (l'index de write est remise à 0, si plus d'espace)
+    // optimization trick: reset the write index to 0 when there is no remaining space
     m_write_index = (m_write_index + 1) % capacity;
     if(m_size < capacity){
         ++ m_size;
@@ -50,7 +50,7 @@ template<typename T, size_t capacity>
 void FRingBuf<T,capacity>::getWindow(T* out,size_t windowSize) {
     if (windowSize > m_size)
         windowSize = m_size;
-    //on paret de l'index de lecture courante pour faire notre lecture
+    // start from the current read index to perform the read
     size_t idx = m_read_index;
     for (size_t i = 0; i < windowSize; ++i) {
         out[i] = m_data[idx];
@@ -75,41 +75,40 @@ void FRingBuf<T,capacity>::clear() {
 
 /**
  *
- * @param win_size taille de la fenetre à récupérer
- * @return retourne les win_size élément les plus récents présent dans le ring buffer
- * afin de permettre à ce que l'analyseur analyse l'échantillons récents , et pas
- * des echantillons passés
+ * @param win_size window size to retrieve
+ * @return returns the most recent win_size elements currently present in the ring buffer
+ * so the analyser can inspect recent samples instead of stale ones
  */
 template<typename T, size_t capacity>
 QVector<T> FRingBuf<T,capacity>::getRecentWindows(size_t win_size) {
     QVector<T> out;
     if (win_size == 0) return  out;
-    if (win_size > m_size) win_size = m_size; //limite la taille de la fenetre demandé par l'analyseur
+    if (win_size > m_size) win_size = m_size; // limit the requested window size to the analyser
     out.reserve(win_size);
-    // mémorisation du write index pour éviter des incohérence ou races conditions
+    // keep a snapshot of the write index to avoid races and inconsistencies
     const size_t write_snapshot = m_write_index;
 
-    // Calcul du début en modulo pur
+    // Calculate the start index using pure modulo arithmetic
     const size_t start = (write_snapshot + capacity - win_size) % capacity;
 
-    // Nombre d'éléments jusqu'à la fin physique du buffer
+    // Number of elements until the physical end of the buffer
     const size_t first_part = std::min(win_size, capacity - start);
 
-    //première partie, de start jusqu'à la fin du buffer
+    // first part: from start to the end of the buffer
     for (size_t i = 0; i < first_part; ++i)
         out.push_back(m_data[start + i]);
 
-    // deuxième partie, si wrap nécessaire
+    // second part: if wraparound is required
     const size_t remaining = win_size - first_part;
     for (size_t i = 0; i < remaining; ++i)
         out.push_back(m_data[i]);
     return  out;
 }
 
-//À solidifier  plus tard
+// To be hardened later
 template<typename T, size_t capacity>
 void FRingBuf<T,capacity>::getWindowFromIndex(const unsigned long index, T* out,const size_t windowSize) {
-    //la taille demandé est trop énorme
+    // requested size is too large
     assert(out != nullptr);
     assert(index + windowSize <= capacity);
     for (unsigned long i = 0; i < windowSize; ++i) {

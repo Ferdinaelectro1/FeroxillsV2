@@ -10,18 +10,18 @@
 
 static void printSamplesParameter(const SamplesParameter& param) {
     constexpr double ech_freq = (1.0/44100.0);
-    qDebug() << "*******Paramèters*******";
+    qDebug() << "*******Parameters*******";
     qDebug() << "**Voltage Max = "<< param.voltage_max;
     qDebug() << "**Voltage Min = "<< param.voltage_min;
     qDebug() << "**First rising pos = "<<param._first_rising_pos;
     qDebug() << "**Second rising pos = "<<param._second_rising_pos;
     qDebug() << "**Period Samples = " << param.periodSamples;
     qDebug() << "**Period = "<<param.periodSamples * ech_freq;
-    qDebug() << "**Frequence = "<<1/(param.periodSamples * ech_freq);
+    qDebug() << "**Frequency = "<<1/(param.periodSamples * ech_freq);
 }
 
 Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_context(this,std::make_unique<ContinuMode>()) {
-    qDebug() << "App lauch";
+    qDebug() << "App launch";
     auto s = SoftwareProviderSettings();
     s.set_interval_ms(50);
     s.set_frequency(150);
@@ -33,7 +33,7 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     _displaySamples.resize(_sample_needed, 0.0);
     connect(_source_controller,&ProviderSourceController::samplesAvailable,this,&Backend::dataAvailable);
     connect(FSettings::instance(),&FSettings::onTimeDivChanged,this,&Backend::onTimeDivChanged);
-    /*Réémission du signal issues du bus d'event par le backend , pour permettre de récupérer les paramètres du trigger depuis qml*/
+    /*Re-emit the signal coming from the event bus in the backend so the trigger parameters can be retrieved from QML*/
     connect(EventBus::getInstance(),&EventBus::TriggerModeDisplayInvoked,this,&Backend::triggerModeDisplayInvoked);
     _timer = new QTimer(this);
     connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut); //timer d'affichage de chaque frame (on peut regler le fps ici)
@@ -95,11 +95,11 @@ void Backend::onTimeOut() {
             if (param.isPeriodic)
               printSamplesParameter(param);
             else
-                qWarning() << "Ce signal n'est pas un signal periodic";
+                qWarning() << "This signal is not a periodic signal";
             analyse = true;
         }
-        //on envoie les données à afficher au système de traitement de l'affichage, pour décider de l'affichage
-        //en utilisant le buffer circulaire
+        // Send the data to the display-processing system to decide how to render it
+        // using the circular buffer
         _display_context.processDisplaySamples(&_samplesRingBuf,_displaySamples.data(),_sample_needed);
         emit  displaySamplesReady(_displaySamples);
     }

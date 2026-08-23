@@ -16,7 +16,7 @@ SamplesAnalyser::SamplesAnalyser() : _samplesParameter {0,0,0,0,0},_hysteresis(0
     constexpr  unsigned long secondRisingPos = 30;
     _samplesParameter._first_rising_pos = firstRisingPos;
     _samplesParameter._second_rising_pos = secondRisingPos;
-    _samplesParameter.periodSamples = getPeriodSamples(); //déterminer les front avant de detecter la période
+    _samplesParameter.periodSamples = getPeriodSamples(); // determine the rising edges before detecting the period
     _samplesParameter.isPeriodic = true;
     return _samplesParameter;
 }
@@ -52,7 +52,7 @@ static std::pair<unsigned long, unsigned long> getTwoRisingPos(const QVector<dou
     return {firstRisingPos,secondRisingPos};
 }
 
-//Récupère la position du premier front montant dans un buffer qu'on lui fournit
+// Retrieve the position of the first rising edge in a provided buffer
 std::optional<unsigned long> SamplesAnalyser::getFirstRisingPos(const QVector<double>& buffer,const double trigger) {
     for (int i = 0; i < buffer.size() - 1; ++i) {
         if (buffer[i] <= trigger && buffer[i+1] > trigger) {
@@ -103,7 +103,7 @@ float SamplesAnalyser::getHorizontalAdaptedScale(const float calculatedScale,flo
     if (currentScale < std::numeric_limits<float>::epsilon()) {
         return getAdaptedScale(calculatedScale,currentScale);
     }
-    /*On vérifie si le scale calculé n'est pas dans la zone d'hystérésis pour éviter des variations brusques*/
+    /*Check that the calculated scale is not in the hysteresis zone to avoid abrupt variations*/
     if (calculatedScale <= currentScale*(1 + Feroxills::Constants::SCALE_HYSTERESIS) && (calculatedScale >= currentScale*(1 - Feroxills::Constants::SCALE_HYSTERESIS))) {
         return currentScale;
     }

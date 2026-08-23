@@ -4,19 +4,19 @@ import QtQuick.Layouts
 import "components/"
 
 GroupBox {
-    title: qsTr("Paramètres du signal")
+    title: qsTr("Signal Settings")
     label: Label {
         text: parent.title
-        color: "#00b4d8"           // couleur du titre
+        color: "#00b4d8"           // title color
         font.bold: true
         font.pixelSize: 13
-        font.letterSpacing: 1.5   // espacement des lettres (effet stylé)
+        font.letterSpacing: 1.5   // letter spacing styling
         leftPadding: 10
     }
     background: Rectangle {
-        color: "transparent"       // fond transparent
-        radius: 8                  // coins arrondis
-        border.color: "#00b4d8"    // couleur de la bordure
+        color: "transparent"       // transparent background
+        radius: 8                  // rounded corners
+        border.color: "#00b4d8"    // border color
         border.width: 1.5
         opacity: 0.8
     }
@@ -50,7 +50,7 @@ GroupBox {
             }
         }
         FerroSlider {
-            label: qsTr("Fréquence")
+            label: qsTr("Frequency")
             unit: "Hz"
             accentColor: "#00b4d8"
             from : 0.0

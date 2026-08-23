@@ -48,8 +48,8 @@ private slots:
 
 private:
     void doSetAcquisitionInterval(int interval) override;
-    void doStartAcquisition(int intervalle) override;//demarrer l'envoie des signaux par intervalle
-    void doStopAcquisition() override; //arrêter l'envoie des signaux
+    void doStartAcquisition(int intervalle) override;// start sending signals at the specified interval
+    void doStopAcquisition() override; // stop sending signals
     QVector<double> m_echantillons;
     QVector<double> m_send_echantillons;
     QTimer* m_timer;

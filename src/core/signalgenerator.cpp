@@ -43,15 +43,15 @@ void SignalGenerator::doSetAcquisitionInterval(const int interval)
 
 void SignalGenerator::sendEchantillons()
 {
-    // 1️⃣ swap : ce qui était rempli devient envoyable
+    // 1) swap: the filled buffer becomes sendable
     std::swap(m_echantillons, m_send_echantillons);
 
-    // 2️⃣ envoyer le buffer précédent
+    // 2) send the previous buffer
     if (!m_send_echantillons.isEmpty()) {
         emit samplesAvailable(m_send_echantillons);
     }
 
-    // 3️⃣ remplir le nouveau buffer
+    // 3) fill the new buffer
     m_echantillons.clear();
     m_echantillons.reserve(512);
 

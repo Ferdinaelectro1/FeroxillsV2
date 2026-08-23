@@ -25,7 +25,7 @@ public:
     }
 
     Q_INVOKABLE [[nodiscard]] FDisplayMode::DisplayMode getCurrentMode() const {
-         qDebug() << "Mode courant avec "<< _current_mode->getModeType();
+         qDebug() << "Current mode: "<< _current_mode->getModeType();
          return  _current_mode->getModeType();
      }
 
@@ -41,19 +41,18 @@ public:
                  setCurrentMode(std::make_unique<TriggerMode>());
                  break;
              default:
-                 qWarning() << "Assignation du nouveau mode échoué";
+                 qWarning() << "Assignment of the new mode failed";
                  break;
          }
-         qDebug() << "Nouveau mode" << new_mode;
+         qDebug() << "New mode" << new_mode;
     }
 
 
     void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples, size_t display_win_size) const {
         if (_current_mode) {
-            _current_mode->processDisplaySamples(ringBuf,displaySamples, display_win_size);
-        }
-        else {
-            qWarning() << "Aucun système de traitement trouvé";
+            _current_mode->processDisplaySamples(ringBuf, displaySamples, display_win_size);
+        } else {
+            qWarning() << "No processing system found";
         }
     }
 

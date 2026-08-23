@@ -2,26 +2,26 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-// ─────────────────────────────────────────────
-//  FerroSlider — Slider custom propre et bien espacé
+// ------------------------------------------------------
+// FerroSlider - custom slider with clean spacing
 //
-//  Propriétés exposées :
-//    label       : string  — nom du paramètre  (ex: "Fréquence")
-//    unit        : string  — unité affichée    (ex: "Hz", "V", "°")
-//    from        : real    — valeur minimale
-//    to          : real    — valeur maximale
-//    value       : real    — valeur courante
-//    stepSize    : real    — pas du slider
-//    decimals    : int     — nb de décimales affichées
-//    accentColor : color   — couleur principale
-//    showMinMax  : bool    — afficher min/max sous la barre
-// ─────────────────────────────────────────────
+// Exposed properties:
+//   label       : string  - parameter name    (example: "Frequency")
+//   unit        : string  - displayed unit    (example: "Hz", "V", "deg")
+//   from        : real    - minimum value
+//   to          : real    - maximum value
+//   value       : real    - current value
+//   stepSize    : real    - slider step
+//   decimals    : int     - number of displayed decimals
+//   accentColor : color   - main color
+//   showMinMax  : bool    - show min/max below the bar
+// ------------------------------------------------------
 
 Item {
     id: root
 
-    // ── Propriétés publiques ──────────────────
-    property string label:       "Paramètre"
+    // --- Public properties ---
+    property string label:       "Parameter"
     property string unit:        ""
     property real   from:        0
     property real   to:          100
@@ -32,13 +32,13 @@ Item {
 
     readonly property real currentValue: internalSlider.value
 
-    // ── Taille par défaut ─────────────────────
+    // --- Default size ---
     implicitWidth:  190
     implicitHeight: mainColumn.implicitHeight + 24
 
-    // ─────────────────────────────────────────
-    //  GroupBox stylisé
-    // ─────────────────────────────────────────
+    // ------------------------------
+    // Styled GroupBox
+    // ------------------------------
     GroupBox {
         id: groupBox
         anchors.fill: parent
@@ -46,7 +46,7 @@ Item {
         rightPadding: 12
         bottomPadding: 12*/
 
-        // ── Titre custom ──────────────────────
+        // --- Custom title ---
         label:
             Text {
                     text:               root.label
@@ -56,22 +56,22 @@ Item {
                     font.letterSpacing: 1.2
         }
 
-        // ── Contenu principal ─────────────────
+        // --- Main content ---
         ColumnLayout {
             id:           mainColumn
             anchors.fill: parent
 
-            // ── Bloc 2 : Slider seul ─────────
+            // --- Block 2: slider only ---
             Slider {
                 id:               internalSlider
                 Layout.fillWidth: true
-                implicitHeight:   32   // hauteur fixe, claire, sans débordement
+                implicitHeight:   32   // fixed height, clear and uncluttered
                 from:             root.from
                 to:               root.to
                 value:            root.value
                 stepSize:         root.stepSize
 
-                // ── Barre ─────────────────────
+                // --- Bar ---
                 background: Rectangle {
                     x:      internalSlider.leftPadding
                     y:      internalSlider.topPadding +
@@ -82,7 +82,7 @@ Item {
                     radius: 2
                     color:  "#2a2a2a"
 
-                    // Progression colorée
+                    // Colored progression
                     Rectangle {
                         width:  internalSlider.visualPosition * parent.width
                         height: parent.height
@@ -102,7 +102,7 @@ Item {
                     }
                 }
 
-                // ── Handle circulaire ─────────
+                // --- Circular handle ---
                 handle: Item {
                     x: internalSlider.leftPadding +
                         internalSlider.visualPosition *
@@ -114,7 +114,7 @@ Item {
                     width:  26
                     height: 26
 
-                    // Halo au clic
+                    // Click halo
                     Rectangle {
                         anchors.centerIn: parent
                         width:   parent.width + 4
@@ -131,7 +131,7 @@ Item {
                         }
                     }
 
-                    // Cercle principal
+                    // Main circle
                     Rectangle {
                         anchors.centerIn: parent
                         width:   parent.width - 2
@@ -143,7 +143,7 @@ Item {
                         border.color: "white"
                         border.width: 2
 
-                        // Point central
+                        // Center dot
                         Rectangle {
                             anchors.centerIn: parent
                             width:   3
@@ -160,6 +160,6 @@ Item {
                 }
             }
 
-        } // fin ColumnLayout
-    } // fin GroupBox
-} // fin Item
+        } // end ColumnLayout
+    } // end GroupBox
+} // end Item

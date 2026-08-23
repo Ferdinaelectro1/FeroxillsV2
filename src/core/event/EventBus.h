@@ -10,7 +10,7 @@ class EventBus final : public  QObject {
     Q_OBJECT
 public:
     static EventBus *getInstance();
-    /*Suppression des constructeurs par défaut (classe Singleton)*/
+    /*Disable default constructors (Singleton class)*/
     EventBus(const EventBus &) = delete;
     EventBus(EventBus &&) = delete;
     EventBus &operator=(const EventBus &) = delete;

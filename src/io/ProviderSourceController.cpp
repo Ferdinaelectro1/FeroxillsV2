@@ -101,7 +101,7 @@ void ProviderSourceController::setCurrentProviderSettings(const ProviderSettings
     // a genuinely different settings object) AND internally, synchronously, from
     // connectSettingsSignal()'s lambda whenever anyFieldChanged() fires on
     // _current_provider_settings itself. In the internal case, new_settings IS
-    // _current_provider_settings.get() — the same object, mid-way through emitting
+    // _current_provider_settings.get() - the same object, mid-way through emitting
     // its own signal (we're still inside its call stack).
     //
     // We must NOT reassign _current_provider_settings (a unique_ptr) when

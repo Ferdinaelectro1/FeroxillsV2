@@ -49,7 +49,7 @@ Item {
 
             Repeater {
                 id : repeater
-                // on récupère depuis c++ le mode de display initiale et on initial les états de boutton de qml avec ça.
+                // Retrieve the initial display mode from C++ and initialize the QML button states accordingly.
                 model : [
                     { name : qsTr("Roll")    ,mode : FDisplayMode.CONTINU} ,
                     { name : qsTr("Trigger") ,mode : FDisplayMode.TRIGGER } ,
@@ -73,17 +73,17 @@ Item {
                         anchors.fill : parent
                         enabled : btnEnabled
                         onClicked : {
-                            console.log("Bouton pressé  : ",modelData.name)
-                            console.log("Mode  : ",modelData.mode)
+                            console.log("Button pressed: ",modelData.name)
+                            console.log("Mode: ",modelData.mode)
                             backend.display_context.setNewMode(modelData.mode)
                             root1.currentMode = modelData.mode;
-                            //on active tout les bouttons d'abord
+                            // first activate all buttons
                             for (let i = 0; i < repeater.count; i++) {
                                 if(index === i) continue;
                                 let this_index = repeater.itemAt(i);
                                 this_index.btnEnabled = true;
                             }
-                            //puis on desactive le bouton actuel cliqué
+                            // then deactivate the currently clicked button
                             parent.btnEnabled = false;
                         }
                     }
@@ -130,8 +130,8 @@ Item {
         id: triggerModePopup
         selectedMode : Settings.triggerModeTriggerType
         onValidate: (mode) => {
-            Settings.triggerModeTriggerType = mode;// 0 = continu, 1 = single shot
-            console.log("New mode : ",mode)
+            Settings.triggerModeTriggerType = mode;// 0 = continuous, 1 = single shot
+            console.log("New mode: ",mode)
             parametresPopup.open()
         }
     }
