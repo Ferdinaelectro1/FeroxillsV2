@@ -31,7 +31,15 @@ GroupBox {
             property var availablePorts : SerialPortUtils.getAvailablePorts()
             Layout.fillWidth: true
             elements : portsDisplayList
-            currentElement : backend.sourceController.currentProviderSettings.portName
+            function findPortInfo(portName)  {
+                for (let i = 0; i < availablePorts.length; i++) {
+                    if(availablePorts[i].portName ===  portName) {
+                        return availablePorts[i].portName+" - "+availablePorts[i].description
+                    }
+                }
+                return null;
+            }
+            currentElement : findPortInfo(backend.sourceController.currentProviderSettings.portName)
             onCurrentIndexChanged : {
                 if(currentIndex >= 0 && currentIndex < availablePorts.length) {
                     const portSelectedName = availablePorts[currentIndex].systemLocation;
