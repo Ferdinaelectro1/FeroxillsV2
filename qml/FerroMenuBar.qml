@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls 6.5
 import QtQuick.Layouts
 import "components/"
+import Feroxills.ProviderType 1.0
 
 MenuBar {
     implicitHeight: 25
@@ -15,6 +16,33 @@ MenuBar {
     Menu {
         title: qsTr("File")
         delegate: FerroMenuItem {}
+        Menu {
+            title : qsTr("Change source")
+            delegate: FerroMenuItem {}
+            Action {
+                checkable : true
+                checked : backend.sourceController.currentProviderType === ProviderType.UART_SOURCE
+                text: qsTr("Serial (UART)");
+                onTriggered: {
+                    //change to UartSource
+                    checked = Qt.binding(function () {
+                        return backend.sourceController.currentProviderType === ProviderType.UART_SOURCE
+                    });
+                }
+            }
+            Action {
+                checkable : true
+                checked : backend.sourceController.currentProviderType === ProviderType.SOFTWARE_SOURCE
+                text: qsTr("Software");
+                onTriggered: {
+                    //change to SoftwareSource
+                    //rebind via C++ for validate check
+                    checked = Qt.binding(function () {
+                        return backend.sourceController.currentProviderType === ProviderType.SOFTWARE_SOURCE
+                    });
+                }
+            }
+        }
         Action {
             text: qsTr("Quit")
             onTriggered: Qt.quit()
