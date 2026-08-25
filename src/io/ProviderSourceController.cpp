@@ -37,10 +37,10 @@ void ProviderSourceController::switchTo(const ProviderType::Type new_type, const
         _current_provider = initializeProviderSourceController(new_type,temp_settings.get());
         if (!_current_provider) return;
         _current_provider_settings = std::move(temp_settings);
-        emit currentProviderSettingsChanged();
-        connectSettingsSignal();
         _current_provider_source_type = new_type;
         emit currentProviderTypeChanged(_current_provider_source_type);
+        emit currentProviderSettingsChanged();
+        connectSettingsSignal();
     } else {
         _pending_provider_source_type = new_type;
         _pending_provider_settings = std::unique_ptr<ProviderSettings>(new_settings->clone());
@@ -51,11 +51,11 @@ void ProviderSourceController::switchTo(const ProviderType::Type new_type, const
                 if (!_current_provider) return;
                 _current_provider_source_type = _pending_provider_source_type;
                 _current_provider_settings = std::move(_pending_provider_settings);
+                emit currentProviderTypeChanged(_current_provider_source_type);
                 emit currentProviderSettingsChanged();
                 connectSettingsSignal();
             }
             _stop_in_progress = false;
-            emit currentProviderTypeChanged(_current_provider_source_type);
         });
         _stop_in_progress = true;
         if (_current_provider) {
