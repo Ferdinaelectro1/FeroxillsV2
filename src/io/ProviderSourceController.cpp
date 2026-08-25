@@ -70,6 +70,19 @@ void ProviderSourceController::switchTo(const ProviderType::Type new_type, const
     }
 }
 
+void ProviderSourceController::switchToWithAutoSettings(const ProviderType::Type new_type) {
+    if (new_type == _current_provider_source_type) return;
+    if (_current_provider_settings) m_sources_settings_maps[_current_provider_source_type] = std::move(_current_provider_settings);
+    //if this source type settings already exists in the maps
+    const auto it = m_sources_settings_maps.find(new_type);
+    if (it != m_sources_settings_maps.end()) {
+        switchTo(new_type,it->second.get());
+        m_sources_settings_maps.erase(it);
+    } else {
+        switchTo(new_type,ProviderFactory::getDefaultProviderSettings(new_type).get());
+    }
+}
+
 ProviderType::Type ProviderSourceController::getCurrentProviderType() const {
     return  _current_provider_source_type;
 }

@@ -39,6 +39,13 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     connect(_timer,&QTimer::timeout,this,&Backend::onTimeOut); //timer d'affichage de chaque frame (on peut regler le fps ici)
     _timer->setInterval(50);
     _timer->start();
+    connect(_source_controller, &ProviderSourceController::currentProviderTypeChanged,
+    this, [this](ProviderType::Type) {
+        // Reset the display buffer on provider switch, otherwise the
+        // previous provider's last frame stays frozen on screen until
+        // the new provider emits its first samples.
+        _samplesRingBuf.fillAllWith(0);
+});
 }
 
 double Backend::getMaxVoltage() const {

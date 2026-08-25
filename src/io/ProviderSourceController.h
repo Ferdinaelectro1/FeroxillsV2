@@ -9,6 +9,7 @@
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <unordered_map>
 #include "ISampleProvider.h"
 #include  "ProviderSettings.h"
 #include   "ProviderType.h"
@@ -21,6 +22,7 @@ class ProviderSourceController final : public QObject {
 public:
      explicit  ProviderSourceController(ProviderType::Type  init_type, const ProviderSettings* init_settings, QObject *parent = nullptr);
      void switchTo(ProviderType::Type new_type, const ProviderSettings* new_settings);
+     Q_INVOKABLE void switchToWithAutoSettings(ProviderType::Type new_type);
      [[nodiscard]] ProviderType::Type getCurrentProviderType() const;
      [[nodiscard]] ProviderSettings *getCurrentProviderSettings() const;
      ~ProviderSourceController() override;
@@ -40,6 +42,7 @@ private:
      std::unique_ptr<ProviderSettings> _pending_provider_settings;
      ProviderType::Type _current_provider_source_type;
      std::unique_ptr<ProviderSettings> _current_provider_settings;
+     std::unordered_map<ProviderType::Type,std::unique_ptr<ProviderSettings>> m_sources_settings_maps;
      QThread* _current_provider_thread;
      bool _stop_in_progress;
      std::atomic<bool> _settingsUpdatePending{false};

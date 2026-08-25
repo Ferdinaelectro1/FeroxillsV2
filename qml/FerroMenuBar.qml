@@ -25,6 +25,7 @@ MenuBar {
                 text: qsTr("Serial (UART)");
                 onTriggered: {
                     //change to UartSource
+                    backend.sourceController.switchToWithAutoSettings(ProviderType.UART_SOURCE);
                     checked = Qt.binding(function () {
                         return backend.sourceController.currentProviderType === ProviderType.UART_SOURCE
                     });
@@ -36,6 +37,7 @@ MenuBar {
                 text: qsTr("Software");
                 onTriggered: {
                     //change to SoftwareSource
+                    backend.sourceController.switchToWithAutoSettings(ProviderType.SOFTWARE_SOURCE);
                     //rebind via C++ for validate check
                     checked = Qt.binding(function () {
                         return backend.sourceController.currentProviderType === ProviderType.SOFTWARE_SOURCE

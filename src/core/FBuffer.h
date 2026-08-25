@@ -16,6 +16,7 @@ public:
     [[nodiscard]] QVector<T> getRecentWindows(size_t win_size);
     void getWindowFromIndex(unsigned long index, T* out,size_t windowSize);
     void clear();
+    void fillAllWith(T value = 0);
 
 private:
     T m_data[capacity] = {0};
@@ -71,6 +72,13 @@ void FRingBuf<T,capacity>::clear() {
     m_read_index = 0;
     m_write_index = 0;
     m_size = 0;
+}
+
+template<typename T, size_t capacity>
+void FRingBuf<T,capacity>::fillAllWith(const T value) {
+    std::fill(std::begin(m_data), std::end(m_data), value);
+    m_read_index = 0;
+    m_write_index = 0;
 }
 
 /**
