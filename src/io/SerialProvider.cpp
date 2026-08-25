@@ -43,6 +43,7 @@ void SerialProvider::doStartAcquisition(const ProviderSettings* settings) {
 
 void SerialProvider::doStopAcquisition() {
     _serialPort->close();
+    emit providerStopped(ProviderState::SUCCESS);
 }
 
 void SerialProvider::doModifyAcquisitionSettings(const ProviderSettings *settings) {
