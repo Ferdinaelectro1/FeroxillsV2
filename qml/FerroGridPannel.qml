@@ -11,6 +11,7 @@ Item {
         color: "#0F0F13"
         border.color: "#2D2D33"
         anchors.fill: parent
+        clip: true
 
         readonly property real totalVerticalDivisionCount : 8
         readonly property real totalHorizontalDivisionCount : 10
@@ -110,9 +111,11 @@ Item {
             Connections {
                 target: viewModel
                 function onDisplayValuesChanged() {
+                    if (!viewModel || !viewModel.displayValues) return;
                     let pts = []
-                    let w = ch1Path.width
-                    let h = ch1Path.height
+                    let w = waveformArea.width
+                    let h = waveformArea.height
+                    if (w <= 0 || h <= 0) return;
 
                     // Denormalization of normalized values
                     for (let i = 0; i < viewModel.displayValues.length; i++) {
