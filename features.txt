@@ -1,0 +1,9 @@
+Allow the user to apply a data filter to their input signals
+
+Allow the user to manually define the calculation to be applied to their input signals
+
+Allow visualizing data from a file provider, for example
+
+Allow visualizing data from a server provider
+
+Allow visualizing data from a database provider, made into an animation if possible

@@ -8,7 +8,16 @@ pas encore de double canal
 - Implémenter la possibilté de double canaux
 - Implémenter la possibilité de décaler de façon horizontale un signal
 - Émettre un signal qui indique quand les valeurs du signal change en mode auto , afin de redessiner rapidement le signal  depuis le simulateur de signaux
-- Mettre le générateur de signaux dans un autre thread séparé du thread principale
+Fait - Mettre le générateur de signaux dans un autre thread séparé du thread principale
 - Supprimer le code inutile qui calcule la fréquence et la structure samplesParameter du code de l'analyser
 - Implémenter correctement le comportement du mode auto , pour éviter de faire des calcules à répétition à chaque frame en mode auto , mais le faire une seul fois au clic du mode auto
 - Implémenter la génération d'un signal FM
+Fait - Démarrer la documentation
+- Retourner une fenetre vide (contenant rien que des 0) quand le trigger n'a pas encore été trouvé en mode trigger.
+- PLoter tout le mode trigger dans tout l'écran
+- Les curseurs
+- Détecter automaiquement la grandeur adapté (ms , us , S dans qml et le use) (faire pour les tensions)
+- Afficher la valeur du trigger sur l'écran , aussi implémenter un curseur permettant de régler la position du trigger
+- Retourner les valeurs brutes dans les cas ou le trigger n'est pas trouvé en mode auto et triggger
+- Enlever le generateur de signal fake.
+- Exposer les sources controller au qml via le backend
