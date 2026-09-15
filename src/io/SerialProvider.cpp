@@ -96,7 +96,7 @@ void SerialProvider::connect_acquisitionSignal() {
                         const uint16_t sample = (static_cast<uint16_t>(_pendingMsb) << 3) | static_cast<uint16_t>(byte);
                         const double sample_voltage = static_cast<double>(sample) * _settings->getMaxVoltage() / _settings->getResolution();
                         _samples.push_back(sample_voltage);
-                        if (_samples.size() >= 511) {
+                        if (_samples.size() >= N_samples_per_packet) {
                             emit samplesAvailable(_samples);
                             _samples.clear();
                             qDebug() << "Signal sent ####";

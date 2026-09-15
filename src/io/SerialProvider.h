@@ -63,6 +63,7 @@ public:
     ~SerialProvider() override;
 
 private:
+    const uint16_t N_samples_per_packet = 12;
     enum class TrameState {
         SEARCH_MAGIC,
         WAIT_MSB,
