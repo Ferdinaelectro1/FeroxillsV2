@@ -80,3 +80,10 @@ CMakeLists.txt.user*
 .rcc/
 .uic/
 /build*/
+
+#ignore ide files
+.idea/
+.vscode/
+
+#IGNORE: ignore all files in the build directory
+**/*build*/
