@@ -34,11 +34,8 @@ int main(int argc, char *argv[])
     });
 
     Backend *backend = new Backend(&app);
-    FViewModel viewModel(FSettings::instance()->getCh1VoltDiv(),&app);
+    FViewModel viewModel(&app);
     QObject::connect(backend, &Backend::displaySamplesReady, &viewModel, &FViewModel::setWindow);
-    QObject::connect(FSettings::instance(),&FSettings::onCh1VoltDivChanged, &viewModel, [&]() {
-        viewModel.setVerticalScales(FSettings::instance()->getCh1VoltDiv());
-    });
     engine.rootContext()->setContextProperty("viewModel", &viewModel);
     engine.rootContext()->setContextProperty("backend", backend);
 

@@ -13,11 +13,9 @@ class FViewModel final : public  QObject {
       Q_PROPERTY(QVector<QPointF> displayValues READ displayValues NOTIFY displayValuesChanged);
 
 public:
-      explicit FViewModel(double verticalScale,
-                          QObject *parent = nullptr);
+      explicit FViewModel(QObject *parent = nullptr);
       [[nodiscard]] QVector<QPointF> displayValues() const;
       void setWindow(const QVector<double>& window);
-      void setVerticalScales(double verticalScale);
 
       signals:
       void displayValuesChanged();

@@ -6,11 +6,11 @@
 #include "src/core/FConstantes.h"
 #include "src/core/FSettings.h"
 
-FViewModel::FViewModel(const double verticalScale,
-                       QObject *parent) : QObject(parent),
-                                          _verticalScale(verticalScale)
+FViewModel::FViewModel(QObject *parent) : QObject(parent), _verticalScale(FSettings::instance()->getCh1VoltDiv())
 {
-
+    connect(FSettings::instance(),&FSettings::onCh1VoltDivChanged,this,[this]() {
+        _verticalScale = FSettings::instance()->getCh1VoltDiv();
+    });
 }
 
 QVector<QPointF> FViewModel::displayValues() const {
@@ -40,9 +40,6 @@ void FViewModel::setWindow(const QVector<double> &window) {
     emit displayValuesChanged();
 }
 
-void FViewModel::setVerticalScales(const double verticalScale) {
-    _verticalScale = verticalScale;
-}
 
 
 
