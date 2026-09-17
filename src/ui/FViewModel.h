@@ -16,7 +16,7 @@ public:
       explicit FViewModel(double verticalScale,
                           QObject *parent = nullptr);
       [[nodiscard]] QVector<QPointF> displayValues() const;
-      void setSamples(const QVector<double>& samples);
+      void setWindow(const QVector<double>& window);
       void setVerticalScales(double verticalScale);
 
       signals:
@@ -25,7 +25,9 @@ public:
 private:
       double _verticalScale;
       QVector<QPointF> _displayValues;
-      QVector<double> _samples;
+      QVector<double> _windows_display; //window that will display on the screen
+      qsizetype _size_of_window_display;
+      int _display_samples_start_index = 0;
 };
 
 #endif //FEROXILLS_FVIEWMODEL_H
