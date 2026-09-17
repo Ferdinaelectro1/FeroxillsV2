@@ -47,12 +47,10 @@ private:
     DisplayContext _display_context;
     bool _run = true;
     SamplesAnalyser _analyser;
-    unsigned long _sample_needed;
 
 public slots:
     void onTimeOut();
     void dataAvailable(const QVector<double>& data);
-    void onTimeDivChanged()  ;
 };
 
 #endif //FEROXILLS_BACKEND_H

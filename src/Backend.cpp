@@ -29,10 +29,8 @@ Backend::Backend(QObject *parent) : QObject(parent),_maxVoltage(0),_display_cont
     s.set_phase(0);
     s.set_type(SignalType::SINUS);
     _source_controller = new ProviderSourceController(ProviderType::SOFTWARE_SOURCE,&s,this);
-    _sample_needed = FSettings::instance()->getSamplesNeeded();
-    _displaySamples.resize(_sample_needed, 0.0);
+    _displaySamples.resize(Feroxills::Constants::MAX_WINDOWS_SIZE, 0.0);
     connect(_source_controller,&ProviderSourceController::samplesAvailable,this,&Backend::dataAvailable);
-    connect(FSettings::instance(),&FSettings::onTimeDivChanged,this,&Backend::onTimeDivChanged);
     /*Re-emit the signal coming from the event bus in the backend so the trigger parameters can be retrieved from QML*/
     connect(EventBus::getInstance(),&EventBus::TriggerModeDisplayInvoked,this,&Backend::triggerModeDisplayInvoked);
     _timer = new QTimer(this);
@@ -78,19 +76,6 @@ void Backend::dataAvailable(const QVector<double>& data) {
     setMaxVoltage(_samples);
 }
 
-void Backend::onTimeDivChanged() {
-    _sample_needed = static_cast<unsigned long>((FSettings::instance()->getTimeDiv() * Feroxills::Constants::HORIZONTAL_DIVISIONS) / Feroxills::Constants::SAMPLING_PERIOD);
-    FSettings::instance()->setSamplesNeeded(_sample_needed);
-    _displaySamples.resize(_sample_needed, 0.0);
-    const  double intervalOfAcquisition = Feroxills::Constants::SAMPLING_PERIOD * static_cast<double>(_sample_needed);
-    qDebug() << "Samples need = " << _sample_needed << " et intervalOfAcquisition = " << intervalOfAcquisition*1000 << " et TimeDiv = "<<FSettings::instance()->getTimeDiv();
-    if (auto *sw = dynamic_cast<SoftwareProviderSettings *>(_source_controller->getCurrentProviderSettings())) {
-        sw->set_interval_ms(static_cast<int>(intervalOfAcquisition*1000));
-    } else {
-        qWarning() << "We try to modify parameter on source who don't have this parameter";
-    }
-}
-
 void Backend::onTimeOut() {
     static bool analyse = false;
     static unsigned long count = 0;
@@ -107,7 +92,7 @@ void Backend::onTimeOut() {
         }
         // Send the data to the display-processing system to decide how to render it
         // using the circular buffer
-        _display_context.processDisplaySamples(&_samplesRingBuf,_displaySamples.data(),_sample_needed);
+        _display_context.processDisplaySamples(&_samplesRingBuf,_displaySamples.data(),Feroxills::Constants::MAX_WINDOWS_SIZE);
         emit  displaySamplesReady(_displaySamples);
     }
 }

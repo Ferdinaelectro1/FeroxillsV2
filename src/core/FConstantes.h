@@ -31,6 +31,8 @@ namespace Feroxills::Constants {
     static constexpr unsigned int NUMBER_OF_PERIOD_PRINT_IN_AUTO = 2;
     static constexpr double SCALE_HYSTERESIS = 0.2; // 20%
     static constexpr  unsigned long RING_BUFFER_SIZE = 20000;
+    static constexpr unsigned long MAX_WINDOWS_SIZE = 7000; //Maximum number of points contained within a window
+    static constexpr unsigned long MIN_WIDOWS_SIZE = 4; //Minimum number of points contained within a window
 }
 
 #endif //FEROXILLS_FCONSTANTES_H

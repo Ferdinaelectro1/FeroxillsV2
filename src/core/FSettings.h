@@ -21,11 +21,9 @@ public:
     FSettings &operator=(const FSettings &&) = delete;
     [[nodiscard]] double getTimeDiv() const;
     [[nodiscard]] double getCh1VoltDiv() const;
-    [[nodiscard]] unsigned long getSamplesNeeded() const;
     [[nodiscard]] int getTriggerModeTriggerType() const;
     void setTimeDiv(double timeDiv);
     void setCh1VoltDiv(double ch1VoltDiv);
-    void setSamplesNeeded(unsigned long samplesNeeded);
     void setTriggerModeTriggerType(int triggerMode); // 0 = continuous, 1 = single shot
     Q_INVOKABLE void incrementCh1VoltDiv();
     Q_INVOKABLE void decrementCh1VoltDiv();
@@ -42,7 +40,6 @@ private:
     double _timeDiv;
     double _ch1VoltDiv;
     QSettings _localSettings;
-    unsigned long _sample_needed;
     int _triggerMode_triggerType;
     unsigned long _current_vertical_scale_pos = 0;
     unsigned long _current_horizontal_scale_pos = 0;

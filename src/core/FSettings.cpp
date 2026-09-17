@@ -17,7 +17,6 @@ static ssize_t getScalePos(const double scale, const float *scaleBuffer, const s
 FSettings::FSettings() : _localSettings("feroxills.org","Feroxills") {
     _timeDiv = _localSettings.value("timeDiv",0.001).toDouble();
     _ch1VoltDiv = _localSettings.value("ch1VoltDiv",4).toDouble();
-    _sample_needed = static_cast<unsigned long>( _localSettings.value("samplesNeeded",441).toULongLong());
     _triggerMode_triggerType = _localSettings.value("triggerMode_triggerType",0).toInt();
 }
 
@@ -32,10 +31,6 @@ double FSettings::getTimeDiv() const {
 
 double FSettings::getCh1VoltDiv() const {
     return  _ch1VoltDiv;
-}
-
-unsigned long FSettings::getSamplesNeeded() const {
-    return _sample_needed;
 }
 
 int FSettings::getTriggerModeTriggerType() const {
@@ -55,13 +50,6 @@ void FSettings::setCh1VoltDiv(const double ch1VoltDiv) {
         _ch1VoltDiv = ch1VoltDiv;
         emit onCh1VoltDivChanged();
         _localSettings.setValue("ch1VoltDiv",ch1VoltDiv);
-    }
-}
-
-void FSettings::setSamplesNeeded(const unsigned long samplesNeeded) {
-    if (samplesNeeded != _sample_needed) {
-        _sample_needed = samplesNeeded;
-        _localSettings.setValue("samplesNeeded",static_cast<qulonglong>(samplesNeeded));
     }
 }
 
