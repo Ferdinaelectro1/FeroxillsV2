@@ -41,6 +41,7 @@ Item {
             }
 
             FerroScaleCanva {
+                id: timedivScale
                 color: "#FF0000"
                 height: parent.height
                 width: 170
@@ -67,6 +68,19 @@ Item {
                 }
                 onClickedLess : {
                     Settings.decrementTimeDiv();
+                }
+                Connections {
+                    target: Settings
+                    function onLimit_scale_decrement() {
+                        timedivScale.enabledDecrementButton = false;
+                    }
+                    function onLimit_scale_increment() {
+                        timedivScale.enabledIncrementButton = false;
+                    }
+                    function  onUnlimit_all_scale() {
+                        timedivScale.enabledDecrementButton = true;
+                        timedivScale.enabledIncrementButton = true;
+                    }
                 }
             }
         }

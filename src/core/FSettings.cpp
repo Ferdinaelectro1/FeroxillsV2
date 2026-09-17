@@ -38,8 +38,12 @@ int FSettings::getTriggerModeTriggerType() const {
 }
 
 void FSettings::setTimeDiv(const double timeDiv) {
-    if (timeDiv != _timeDiv) {
-        _timeDiv = timeDiv;
+    const double clamped = std::clamp(timeDiv,Feroxills::Constants::MIN_HORIZONTAL_SCALE, Feroxills::Constants::MAX_HORIZONTAL_SCALE);
+    if (clamped == Feroxills::Constants::MIN_HORIZONTAL_SCALE) emit limit_scale_decrement();
+    else if (clamped == Feroxills::Constants::MAX_HORIZONTAL_SCALE) emit limit_scale_increment();
+    else emit unlimit_all_scale();
+    if (clamped != _timeDiv) {
+        _timeDiv = clamped;
         emit onTimeDivChanged();
         _localSettings.setValue("timeDiv",timeDiv);
     }

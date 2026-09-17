@@ -34,6 +34,9 @@ public:
     void onTimeDivChanged();
     void onCh1VoltDivChanged();
     void onTriggerMode_triggerTypeChanged();
+    void limit_scale_increment();
+    void limit_scale_decrement();
+    void unlimit_all_scale();
 
 private:
     FSettings();

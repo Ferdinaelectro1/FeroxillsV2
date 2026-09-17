@@ -9,6 +9,8 @@ Item {
     property string firstText  : ""
     property string secondText : ""
     property real shapeHeight: 60
+    property bool enabledIncrementButton : true
+    property bool enabledDecrementButton : true
     signal clickedLess()
     signal clickedMore()
 
@@ -31,6 +33,7 @@ Item {
                     height: parent.height
                     width: 20
                     Button {
+                        enabled : root.enabledDecrementButton
                         anchors.fill: parent
                         contentItem: Text {
                             anchors.fill: parent
@@ -95,6 +98,7 @@ Item {
                     height: parent.height
                     width: 20
                     Button {
+                        enabled: root.enabledIncrementButton
                         anchors.fill: parent
                         contentItem: Text {
                             anchors.fill: parent

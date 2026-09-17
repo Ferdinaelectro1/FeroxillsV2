@@ -5,6 +5,8 @@
 #ifndef FEROXILLS_FCONSTANTES_H
 #define FEROXILLS_FCONSTANTES_H
 
+static float getAdaptedScale(float value);
+
 namespace Feroxills::Constants {
     static constexpr unsigned int HORIZONTAL_DIVISIONS = 10;
     static constexpr unsigned int VERTICAL_DIVISIONS = 8;
@@ -26,6 +28,7 @@ namespace Feroxills::Constants {
         1e-1f, 2e-1f, 5e-1f,
         1.0f,  2.0f,  5.0f
     };
+    static constexpr qsizetype HORIZONTAL_SCALES_SIZE = 30;
     static constexpr unsigned long SAMPLING_FREQUENCY = 44100;
     static constexpr double SAMPLING_PERIOD = 1.0 / SAMPLING_FREQUENCY;
     static constexpr unsigned int NUMBER_OF_PERIOD_PRINT_IN_AUTO = 2;
@@ -33,6 +36,33 @@ namespace Feroxills::Constants {
     static constexpr  unsigned long RING_BUFFER_SIZE = 20000;
     static constexpr unsigned long MAX_WINDOWS_SIZE = 7000; //Maximum number of points contained within a window
     static constexpr unsigned long MIN_WIDOWS_SIZE = 4; //Minimum number of points contained within a window
+    static  const double MAX_HORIZONTAL_SCALE = getAdaptedScale((SAMPLING_PERIOD * MAX_WINDOWS_SIZE) / HORIZONTAL_DIVISIONS); //Maximum selected scale
+    static  const double MIN_HORIZONTAL_SCALE = getAdaptedScale((SAMPLING_PERIOD * MIN_WIDOWS_SIZE) / HORIZONTAL_DIVISIONS);//Minimum selected scale
+}
+
+/**
+ * Returns the largest scale in the array that is <= value.
+ * If value is smaller than the smallest scale, returns the smallest one.
+ * If value is larger than the largest scale, returns the largest one.
+ */
+static float getAdaptedScale(const float value)
+{
+    // Edge case: value too small -> use the smallest available scale
+    if (value <= Feroxills::Constants::HORIZONTAL_SCALES[0])
+        return Feroxills::Constants::HORIZONTAL_SCALES[0];
+    // Edge case: value too large -> use the largest available scale
+    if (value >= Feroxills::Constants::HORIZONTAL_SCALES[Feroxills::Constants::HORIZONTAL_SCALES_SIZE - 1])
+        return Feroxills::Constants::HORIZONTAL_SCALES[Feroxills::Constants::HORIZONTAL_SCALES_SIZE - 1];
+    // Find the largest scale <= value
+    float result = Feroxills::Constants::HORIZONTAL_SCALES[0];
+    for (size_t i = 0; i < Feroxills::Constants::HORIZONTAL_SCALES_SIZE; ++i)
+    {
+        if (Feroxills::Constants::HORIZONTAL_SCALES[i] <= value)
+            result = Feroxills::Constants::HORIZONTAL_SCALES[i];
+        else
+            break; // array is sorted ascending, we can stop once we go past value
+    }
+    return result;
 }
 
 #endif //FEROXILLS_FCONSTANTES_H
