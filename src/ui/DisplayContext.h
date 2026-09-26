@@ -48,9 +48,9 @@ public:
     }
 
 
-    void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples, size_t display_win_size) const {
+    void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples, const size_t window_size) const {
         if (_current_mode) {
-            _current_mode->processDisplaySamples(ringBuf, displaySamples, display_win_size);
+            _current_mode->processDisplaySamples(ringBuf, displaySamples, window_size);
         } else {
             qWarning() << "No processing system found";
         }

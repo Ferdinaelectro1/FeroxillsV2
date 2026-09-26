@@ -9,7 +9,7 @@
 
 class ContinuMode final : public  FDisplayMode {
     public:
-      void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples, size_t display_win_size) override;
+      void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *window, size_t window_size) override;
       [[nodiscard]] DisplayMode  getModeType() const  override {
           return CONTINU;
       }

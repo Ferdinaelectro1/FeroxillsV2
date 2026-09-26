@@ -4,7 +4,7 @@
 
 #include "Continu.h"
 
-void ContinuMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples,const size_t display_win_size) {
+void ContinuMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *window,const size_t window_size) {
     ringBuf->advanceRead(5); // advance by 5 elements
-    ringBuf->getWindow(displaySamples,display_win_size); // copy the new display_win_size data from the ring buffer to the display buffer
+    ringBuf->getWindow(window,window_size); // copy the new display_win_size data from the ring buffer to the display buffer
 }

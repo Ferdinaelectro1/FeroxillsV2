@@ -13,7 +13,7 @@ class FDisplayMode : public QObject {
     Q_OBJECT
     public:
       ~FDisplayMode() override = default;
-      virtual void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples, size_t display_win_size) = 0;
+      virtual void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamples, size_t window_size) = 0;
     enum DisplayMode {
         AUTO,
         CONTINU,

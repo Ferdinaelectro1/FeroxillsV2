@@ -28,12 +28,12 @@ void AutoMode::applyAutoScale (const QVector<double>& snapshot) {
     FSettings::instance()->setCh1VoltDiv(suggetvPerDiv);
 }
 
-void AutoMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *displaySamplesBuff,const size_t display_win_size) {
-    if (ringBuf->size() < 2000 + display_win_size) return;
+void AutoMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *window,const size_t window_size) {
+    if (ringBuf->size() < 2000 + window_size) return;
     // store 2000 + 512 samples from the ring buffer to use later for display
     // do not use the ring buffer directly because analysis may still push data
     // while the trigger index becomes invalid
-    const QVector<double> snapshot = ringBuf->getRecentWindows(2000 + display_win_size);
+    const QVector<double> snapshot = ringBuf->getRecentWindows(2000 + window_size);
     const QVector<double> researchBuffer = snapshot.mid(0,2000);
     const auto [min, max] = SamplesAnalyser::getMinMaxVoltage(researchBuffer);
     const auto trigger = (min + max) / 2;
@@ -41,14 +41,14 @@ void AutoMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING
     if (firstRisingPos.has_value()) {
         const auto idx = firstRisingPos.value();
         // Verify there is enough space after the trigger position
-        if (idx + static_cast<int>(display_win_size) <= snapshot.size()) {
-            for (unsigned long i = 0; i < display_win_size; ++i) {
-                displaySamplesBuff[i] = snapshot[idx + i];
+        if (idx + static_cast<int>(window_size) <= snapshot.size()) {
+            for (unsigned long i = 0; i < window_size; ++i) {
+                window[i] = snapshot[idx + i];
             }
         }
     }else {
-        for (int i= 0; i < display_win_size; i++) {
-            displaySamplesBuff[i] = snapshot[snapshot.size() - (display_win_size - i)];
+        for (int i= 0; i < window_size; i++) {
+            window[i] = snapshot[snapshot.size() - (window_size - i)];
         }
     }
     applyAutoScale(snapshot);

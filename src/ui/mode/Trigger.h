@@ -18,7 +18,7 @@ class TriggerMode final : public  FDisplayMode {
     Q_OBJECT
 public:
     TriggerMode();
-    void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf,double *displaySamples, size_t display_win_size) override;
+    void processDisplaySamples(FRingBuf<double,Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf,double *window, size_t window_size) override;
     [[nodiscard]] DisplayMode  getModeType() const  override {
         return TRIGGER;
     }
@@ -29,7 +29,7 @@ private:
     std::optional<double> _triggerLevel;
     bool _trigger_is_detected = false;
     TriggerType _trigger_type;
-    QVector<double> _oldDisplaySamples = {0};
+    QVector<double> _oldWindow = {0};
 };
 
 
