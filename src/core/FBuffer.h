@@ -153,9 +153,9 @@ bool FRingBuf<T,capacity>::tryGetWindowSinceTrigger(const uint64_t pushCountAtTr
     const uint64_t available = total - pushCountAtTrigger+1;
     //qDebug() << "available" << available;
     if (available < window_size) {
-        return false; // pas assez de données, tout est lu dans le MEME lock, donc fiable
+        return false; // Not enough data; everything is read within the SAME lock, so it is reliable.
     }
-    const QVector<T> recent = getRecentWindows(available); // "available" figé, cohérent avec "total"
+    const QVector<T> recent = getRecentWindows(available); // "available" (fixed), consistent with "total"
     outWindow = recent.mid(0, window_size);
     return true;
 }
