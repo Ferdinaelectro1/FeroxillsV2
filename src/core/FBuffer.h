@@ -17,12 +17,18 @@ public:
     void getWindowFromIndex(unsigned long index, T* out,size_t windowSize);
     void clear();
     void fillAllWith(T value = 0);
+    [[nodiscard]] uint64_t totalPushed() const; ///< returns total number of elements pushed since app start
+    // Returns the n most recent elements AND the total-pushed counter,
+    // both read atomically under the same lock — guarantees they're consistent.
+    QVector<T> getRecentWindowsWithCount(size_t n, uint64_t &outTotalPushed) const;
+    bool tryGetWindowSinceTrigger(uint64_t pushCountAtTrigger, size_t window_size, QVector<T> &outWindow) const;
 
 private:
     T m_data[capacity] = {0};
     unsigned long m_read_index;
     unsigned long m_write_index;
     unsigned long m_size;
+    uint64_t m_number_of_data_all_pushed = 0;
 };
 
 template<typename T, size_t capacity>
@@ -45,6 +51,7 @@ void FRingBuf<T,capacity>::push(T newValue) {
     if(m_size < capacity){
         ++ m_size;
     }
+    m_number_of_data_all_pushed++;
 }
 
 template<typename T, size_t capacity>
@@ -122,4 +129,9 @@ void FRingBuf<T,capacity>::getWindowFromIndex(const unsigned long index, T* out,
     for (unsigned long i = 0; i < windowSize; ++i) {
         out[i] = m_data[i + index];
     }
+}
+
+template<typename T, size_t capacity>
+uint64_t FRingBuf<T,capacity>::totalPushed() const {
+    return m_number_of_data_all_pushed;
 }
