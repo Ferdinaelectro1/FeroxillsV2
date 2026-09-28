@@ -1,6 +1,7 @@
 #pragma once
 #include <QVector>
 #include <QDebug>
+#include <QMutex>
 
 template<typename T,size_t capacity>
 class FRingBuf {
@@ -13,7 +14,7 @@ public:
     //T read();
     void advanceRead(size_t n); // advance the window by the specified step
     void getWindow(T* out,size_t windowSize);
-    [[nodiscard]] QVector<T> getRecentWindows(size_t win_size);
+    [[nodiscard]] QVector<T> getRecentWindows(size_t win_size) const;
     void getWindowFromIndex(unsigned long index, T* out,size_t windowSize);
     void clear();
     void fillAllWith(T value = 0);
@@ -28,6 +29,7 @@ private:
     unsigned long m_read_index;
     unsigned long m_write_index;
     unsigned long m_size;
+    mutable QMutex m_mutex;
     uint64_t m_number_of_data_all_pushed = 0;
 };
 
@@ -45,6 +47,7 @@ unsigned long FRingBuf<T,capacity>::size() const {
 
 template<typename T, size_t capacity>
 void FRingBuf<T,capacity>::push(T newValue) {
+    QMutexLocker locker(&m_mutex);
     m_data[m_write_index] = newValue;
     // optimization trick: reset the write index to 0 when there is no remaining space
     m_write_index = (m_write_index + 1) % capacity;
@@ -95,7 +98,7 @@ void FRingBuf<T,capacity>::fillAllWith(const T value) {
  * so the analyser can inspect recent samples instead of stale ones
  */
 template<typename T, size_t capacity>
-QVector<T> FRingBuf<T,capacity>::getRecentWindows(size_t win_size) {
+QVector<T> FRingBuf<T,capacity>::getRecentWindows(size_t win_size) const {
     QVector<T> out;
     if (win_size == 0) return  out;
     if (win_size > m_size) win_size = m_size; // limit the requested window size to the analyser
@@ -134,4 +137,25 @@ void FRingBuf<T,capacity>::getWindowFromIndex(const unsigned long index, T* out,
 template<typename T, size_t capacity>
 uint64_t FRingBuf<T,capacity>::totalPushed() const {
     return m_number_of_data_all_pushed;
+}
+
+template<typename T, size_t capacity>
+QVector<T> FRingBuf<T,capacity>::getRecentWindowsWithCount(size_t n, uint64_t &outTotalPushed) const {
+    QMutexLocker locker(&m_mutex);
+    outTotalPushed = m_number_of_data_all_pushed;
+    return getRecentWindows(n);
+}
+
+template<typename T, size_t capacity>
+bool FRingBuf<T,capacity>::tryGetWindowSinceTrigger(const uint64_t pushCountAtTrigger, size_t window_size, QVector<T> &outWindow) const {
+    QMutexLocker locker(&m_mutex);
+    const uint64_t total = m_number_of_data_all_pushed;
+    const uint64_t available = total - pushCountAtTrigger+1;
+    //qDebug() << "available" << available;
+    if (available < window_size) {
+        return false; // pas assez de données, tout est lu dans le MEME lock, donc fiable
+    }
+    const QVector<T> recent = getRecentWindows(available); // "available" figé, cohérent avec "total"
+    outWindow = recent.mid(0, window_size);
+    return true;
 }
