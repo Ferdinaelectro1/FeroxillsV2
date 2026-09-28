@@ -18,6 +18,8 @@ private:
     void applyAutoScale(const QVector<double>& snapshot);
     bool _scaled = false;
     float _currentHorizontalScale = 0.0;
+    bool _holdoffActive = true;
+    uint64_t _pushCountAtTrigger = 0;
 };
 
 

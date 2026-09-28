@@ -30,26 +30,48 @@ void AutoMode::applyAutoScale (const QVector<double>& snapshot) {
 
 void AutoMode::processDisplaySamples(FRingBuf<double, Feroxills::Constants::RING_BUFFER_SIZE> *ringBuf, double *window,const size_t window_size) {
     if (ringBuf->size() < 2000 + window_size) return;
-    // store 2000 + 512 samples from the ring buffer to use later for display
-    // do not use the ring buffer directly because analysis may still push data
-    // while the trigger index becomes invalid
-    const QVector<double> snapshot = ringBuf->getRecentWindows(2000 + window_size);
-    const QVector<double> researchBuffer = snapshot.mid(0,2000);
-    const auto [min, max] = SamplesAnalyser::getMinMaxVoltage(researchBuffer);
-    const auto trigger = (min + max) / 2;
-    auto firstRisingPos =  SamplesAnalyser::getFirstRisingPos(researchBuffer,trigger);
-    if (firstRisingPos.has_value()) {
-        const auto idx = firstRisingPos.value();
-        // Verify there is enough space after the trigger position
-        if (idx + static_cast<int>(window_size) <= snapshot.size()) {
-            for (unsigned long i = 0; i < window_size; ++i) {
-                window[i] = snapshot[idx + i];
+    constexpr qsizetype size_of_researchBuffer_in_recent_window = 2000;
+
+    if (_holdoffActive) {
+        // "search" state: looking for a new trigger
+        uint64_t pushCountAtSnapshot = 0;
+        const QVector<double> snapshot = ringBuf->getRecentWindowsWithCount(2000 + window_size, pushCountAtSnapshot);
+        const auto [min, max] = SamplesAnalyser::getMinMaxVoltage(snapshot);
+        const auto trigger = (min + max) / 2;
+        const QVector<double> researchBuffer = snapshot.mid((snapshot.size() -1) - size_of_researchBuffer_in_recent_window, size_of_researchBuffer_in_recent_window);
+        const auto firstRisingPos = SamplesAnalyser::getFirstRisingPos(researchBuffer, trigger);
+
+        if (firstRisingPos.has_value()) {
+            const auto idx = firstRisingPos.value();
+            // account for the samples already elapsed since the trigger, within the small research window
+            _pushCountAtTrigger = pushCountAtSnapshot - (size_of_researchBuffer_in_recent_window - idx);
+            _holdoffActive = false;
+        } else {
+            // no trigger found: fall back to roll mode (most recent samples, un-synchronized)
+            const auto offset = static_cast<qsizetype>(snapshot.size() - window_size);
+            for (size_t i = 0; i < window_size; i++) {
+                window[i] = snapshot[offset + static_cast<qsizetype>(i)];
             }
+            applyAutoScale(snapshot);
         }
-    }else {
-        for (int i= 0; i < window_size; i++) {
-            window[i] = snapshot[snapshot.size() - (window_size - i)];
+    } else {
+        // "filling" state: ignore any new trigger candidate, just count elapsed samples since the accepted trigger
+        uint64_t currentTotalPushed = 0;
+        currentTotalPushed = ringBuf->totalPushed();
+        const size_t currentCount = currentTotalPushed - _pushCountAtTrigger;
+        if (currentCount < window_size) {
+            return; // valid_count untouched: caller keeps previous stable frame as-is
         }
+
+        uint64_t pushCountAtRead = 0;
+        QVector<double> fullWindow;
+        if (!ringBuf->tryGetWindowSinceTrigger(_pushCountAtTrigger, window_size, fullWindow)) {
+            return; // Not enough data yet; keeping the previous display.
+        }
+        _holdoffActive = true;
+        for (size_t i = 0; i < window_size; i++) {
+            window[i] = fullWindow[static_cast<qsizetype>(i)];
+        }
+        applyAutoScale(fullWindow);
     }
-    applyAutoScale(snapshot);
 }
