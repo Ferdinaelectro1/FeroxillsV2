@@ -31,6 +31,8 @@ private:
     unsigned long m_size;
     mutable QMutex m_mutex;
     uint64_t m_number_of_data_all_pushed = 0;
+
+    [[nodiscard]] QVector<T> getRecentWindows_locked(size_t win_size) const;
 };
 
 template<typename T, size_t capacity>
@@ -98,7 +100,13 @@ void FRingBuf<T,capacity>::fillAllWith(const T value) {
  * so the analyser can inspect recent samples instead of stale ones
  */
 template<typename T, size_t capacity>
-QVector<T> FRingBuf<T,capacity>::getRecentWindows(size_t win_size) const {
+QVector<T> FRingBuf<T,capacity>::getRecentWindows(const size_t win_size) const {
+    QMutexLocker locker(&m_mutex);
+    return getRecentWindows_locked(win_size);
+}
+
+template<typename T, size_t capacity>
+QVector<T> FRingBuf<T,capacity>::getRecentWindows_locked(size_t win_size) const {
     QVector<T> out;
     if (win_size == 0) return  out;
     if (win_size > m_size) win_size = m_size; // limit the requested window size to the analyser
@@ -143,7 +151,7 @@ template<typename T, size_t capacity>
 QVector<T> FRingBuf<T,capacity>::getRecentWindowsWithCount(size_t n, uint64_t &outTotalPushed) const {
     QMutexLocker locker(&m_mutex);
     outTotalPushed = m_number_of_data_all_pushed;
-    return getRecentWindows(n);
+    return getRecentWindows_locked(n);
 }
 
 template<typename T, size_t capacity>
@@ -155,7 +163,7 @@ bool FRingBuf<T,capacity>::tryGetWindowSinceTrigger(const uint64_t pushCountAtTr
     if (available < window_size) {
         return false; // Not enough data; everything is read within the SAME lock, so it is reliable.
     }
-    const QVector<T> recent = getRecentWindows(available); // "available" (fixed), consistent with "total"
+    const QVector<T> recent = getRecentWindows_locked(available); // "available" (fixed), consistent with "total"
     outWindow = recent.mid(0, window_size);
     return true;
 }
